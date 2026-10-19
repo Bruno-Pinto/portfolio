@@ -80,10 +80,10 @@ export function Portfolio({ locale }: { locale: Locale }) {
           <div className="portrait-wrap">
             <div className="portrait">
               <Image
-                src="/images/portrait.jpg"
+                src="/images/portrait-new.jpg"
                 alt="Bruno Pinto da Silva"
-                width={203}
-                height={203}
+                width={720}
+                height={720}
                 priority
                 className="portrait-image"
               />
