@@ -1661,3 +1661,57 @@ nav a[aria-current="location"] {
     grid-template-columns: 1fr;
   }
 }
+
+/* Timeline rail and square milestones connect the existing role cards. */
+.timeline {
+  --timeline-inset: 36px;
+  --timeline-rail: 6px;
+  padding-left: var(--timeline-inset);
+  gap: 24px;
+}
+.job::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 2;
+  left: calc(var(--timeline-rail) - var(--timeline-inset) - 5px);
+  top: 32px;
+  width: 10px;
+  height: 10px;
+  border: 1px solid #8eb2c0;
+  background: #101b22;
+}
+.job:first-child::before {
+  border-color: var(--color-accent);
+  background: var(--color-accent);
+}
+.job::after {
+  content: "";
+  position: absolute;
+  left: calc(var(--timeline-rail) - var(--timeline-inset));
+  top: 37px;
+  width: 1px;
+  height: calc(100% + 24px);
+  background: #567886;
+}
+.job:first-child::after {
+  background: linear-gradient(var(--color-accent), #567886);
+}
+.job:last-child::after {
+  display: none;
+}
+.job-meta::before {
+  content: "";
+  position: absolute;
+  top: 37px;
+  left: calc(var(--timeline-rail) - var(--timeline-inset) + 5px);
+  width: calc(var(--timeline-inset) - var(--timeline-rail) - 5px);
+  height: 1px;
+  background: #567886;
+}
+@media (max-width: 700px) {
+  .timeline {
+    --timeline-inset: 24px;
+    --timeline-rail: 5px;
+  }
+}
