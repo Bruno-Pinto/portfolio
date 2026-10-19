@@ -51,6 +51,7 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
   );
   const frame = useRef<HTMLDivElement>(null);
   const dock = useRef<HTMLButtonElement>(null);
+  const details = useRef<HTMLElement>(null);
   const sources = useRef<(HTMLButtonElement | null)[]>([]);
   const pending = useRef<{
     rect: DOMRect;
@@ -193,6 +194,21 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
     return () => preference.removeEventListener("change", finishIfReduced);
   }, [selected]);
 
+  useEffect(() => {
+    if (
+      phase !== "ready" ||
+      selected === null ||
+      !window.matchMedia("(max-width: 850px)").matches
+    )
+      return;
+    details.current?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "instant"
+        : "smooth",
+      block: "start",
+    });
+  }, [phase, selected]);
+
   const project = selected === null ? null : projects[selected];
   return (
     <div
@@ -269,6 +285,7 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
           <section
             className="scanner-details"
             id="scanner-details"
+            ref={details}
             tabIndex={0}
             aria-label={t.details}
             aria-busy={project !== null && phase !== "ready"}

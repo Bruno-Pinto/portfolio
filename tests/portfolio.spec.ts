@@ -498,3 +498,50 @@ test("narrow screens keep scanner details in the page flow and cards within the 
     }
   }
 });
+
+test("mobile scanner scrolls to revealed details after scanning", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(
+    !isMobile,
+    "Only the stacked mobile scanner should scroll to details.",
+  );
+  for (const reducedMotion of ["no-preference", "reduce"] as const) {
+    await page.emulateMedia({ reducedMotion });
+    for (const route of ["/", "/de/"]) {
+      await page.goto(route);
+      await page.locator(".project-deck button[data-project-id=php]").click();
+      const details = page.locator(".scanner-details");
+      if (reducedMotion === "no-preference") {
+        await expect(page.locator(".scanner-pad")).toHaveAttribute(
+          "data-phase",
+          "scanning",
+        );
+        expect((await details.boundingBox())!.y).toBeGreaterThan(300);
+      }
+      await expect(details).toHaveAttribute("aria-busy", "false");
+      await expect
+        .poll(async () => Math.round((await details.boundingBox())!.y))
+        .toBe(
+          await page.evaluate(() =>
+            parseFloat(
+              getComputedStyle(document.documentElement).scrollPaddingTop,
+            ),
+          ),
+        );
+      const header = await page.locator(".site-header").boundingBox();
+      expect((await details.boundingBox())!.y).toBeGreaterThanOrEqual(
+        header!.y + header!.height,
+      );
+      await expect(page.locator(".scanner-reveal h3")).toBeInViewport();
+      // Clearing the scanner does not scroll back to the now-empty details.
+      await page.locator(".docked-token").click();
+      await expect(page.locator(".scanner-pad")).toHaveAttribute(
+        "data-phase",
+        "idle",
+      );
+      expect((await details.boundingBox())!.y).toBeGreaterThan(300);
+    }
+  }
+});
