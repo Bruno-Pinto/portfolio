@@ -37,10 +37,6 @@ function CardFace({ project }: { project: ScannerProject }) {
           <span key={tag}>{tag}</span>
         ))}
       </span>
-      <span className="token-bottom" aria-hidden="true">
-        <span>ID / {project.number}</span>
-        <span>↗</span>
-      </span>
     </>
   );
 }

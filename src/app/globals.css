@@ -1046,15 +1046,6 @@ nav a[aria-current="location"] {
   padding: 3px 5px;
   color: #c6dde5;
 }
-.token-bottom {
-  display: flex;
-  justify-content: space-between;
-  border-top: 1px solid #38515c;
-  margin-top: 16px;
-  padding-top: 10px;
-  font: 0.6rem var(--font-mono);
-  color: #9eb8c5;
-}
 .docked-token {
   z-index: 20;
 }
@@ -1215,7 +1206,7 @@ nav a[aria-current="location"] {
 /* Every location uses the same card geometry and typography. */
 .project-scanner {
   --project-card-width: min(260px, calc(100vw - 84px));
-  --project-card-height: 480px;
+  --project-card-height: 420px;
 }
 .project-scanner .project-token,
 .project-scanner .project-placeholder {
@@ -1359,10 +1350,6 @@ nav a[aria-current="location"] {
   padding: 2px 4px;
   background: #182d37;
   border-color: #304d5b;
-}
-.project-scanner .token-bottom {
-  margin-top: 10px;
-  padding-top: 8px;
 }
 .project-scanner .project-placeholder {
   border-color: #385a69;
@@ -1655,9 +1642,6 @@ nav a[aria-current="location"] {
   font-size: 0.7rem;
   line-height: 1.4;
 }
-.project-scanner .token-bottom {
-  font-size: 0.65rem;
-}
 .scanner-details {
   background: #0d171d;
 }
@@ -1688,7 +1672,7 @@ nav a[aria-current="location"] {
 @media (max-width: 700px) {
   .project-scanner {
     --project-card-width: min(260px, calc(100vw - 88px));
-    --project-card-height: 480px;
+    --project-card-height: 420px;
   }
   .project-deck {
     grid-template-columns: minmax(0, 1fr);
@@ -1960,7 +1944,7 @@ nav a[aria-current="location"] {
   flex-shrink: 0;
 }
 
-/* Trading-card frame: name plate, artwork, description panel and collector footer. */
+/* Trading-card frame: name plate, artwork and compact description panel. */
 .project-scanner .project-token {
   isolation: isolate;
   background: #14232c;
@@ -1987,17 +1971,17 @@ nav a[aria-current="location"] {
   gap: 10px;
 }
 .token-top > span:first-child {
-  min-width: 28px;
-  padding: 2px 4px;
-  border: 1px solid #47717f;
+  min-width: 0;
+  padding: 0;
+  border: 0;
   font-size: 0.875rem;
   line-height: 1.4;
   text-align: center;
 }
 .project-scanner .token-title {
   margin: 8px 0 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #44616d;
+  padding-bottom: 0;
+  border-bottom: 0;
   font-size: 1.15rem;
   line-height: 1.3;
   letter-spacing: -0.025em;
@@ -2024,11 +2008,6 @@ nav a[aria-current="location"] {
 }
 .project-scanner .token-tags span {
   background: #152a34;
-}
-.project-scanner .token-bottom {
-  margin-top: 10px;
-  padding-top: 8px;
-  border-top-color: #49616b;
 }
 @media (hover: hover) and (pointer: fine) {
   .project-deck .project-token:hover {
