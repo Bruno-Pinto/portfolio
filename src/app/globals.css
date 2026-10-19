@@ -1949,21 +1949,11 @@ nav a[aria-current="location"] {
   isolation: isolate;
   background: #14232c;
   border: 1px solid #68838f;
-  box-shadow:
-    0 3px 6px #00000040,
-    inset 0 0 0 4px #0b141a;
+  box-shadow: 0 3px 8px #aabac414;
   transition:
     translate 180ms ease-out,
     box-shadow 180ms ease-out,
     border-color 180ms ease-out;
-}
-.project-token::before {
-  content: "";
-  position: absolute;
-  inset: 5px;
-  border: 1px solid #304b58;
-  pointer-events: none;
-  z-index: -1;
 }
 .project-scanner .token-top {
   align-items: flex-start;
@@ -2015,9 +2005,8 @@ nav a[aria-current="location"] {
     border-color: var(--color-accent);
     background: #14232c;
     box-shadow:
-      0 24px 32px #00000080,
-      0 8px 12px #00000060,
-      inset 0 0 0 4px #0b141a;
+      0 18px 28px #b9c8d138,
+      0 5px 10px #e1e9ee24;
   }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
