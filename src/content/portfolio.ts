@@ -14,7 +14,7 @@ export const content = {
     work: "Selected work",
     workTitle: "Projects",
     workIntro:
-      "A Java racing game, PHP development and applications built for clients.",
+      "Professional web applications first, followed by Java team and personal projects.",
     details: "Project details",
     contributionTitle: "My contribution",
     projects: [
@@ -24,12 +24,13 @@ export const content = {
         text: "Architecture, migration and development of an intranet web service at the University of Zurich.",
         tags: ["PHP", "SQL", "GitLab CI/CD"],
         contributions: [
-          "Designed, migrated and extended the intranet web service",
+          "Migrated and extended the intranet web service",
+          "Refactored PHP code and SQL database queries",
           "Integrated GitLab for version control, CI/CD and deployments",
-          "Designed and implemented a central ticketing system",
         ],
         detail:
-          "As a student assistant at the University of Zurich’s Institute of Medical Microbiology, I worked on the architecture, migration and further development of an intranet web service. This included PHP refactoring, SQL database queries and a portal with LDAP / Active Directory integration. I integrated GitLab for version control, CI/CD and deployment processes, designed and implemented a central ticketing system, and maintained technical documentation.",
+          "At the University of Zurich’s Institute of Medical Microbiology, I worked on the architecture, migration and development of a PHP intranet service. This included SQL database queries, LDAP / Active Directory integration and GitLab-based version control, CI/CD and deployment processes.",
+        id: "php",
       },
       {
         title: "Applications and a marketplace",
@@ -43,6 +44,21 @@ export const content = {
         ],
         detail:
           "As Co-Founder and CTO at Rocketlaunch, I developed client applications using Bubble.io and XANO and coordinated the technical team. I planned and delivered technical projects, with responsibility for budgets and schedules, evaluated new technologies and improved development processes. Separately, at Kork Tech AG, I developed and launched a two-sided marketplace using Bubble.io.",
+        id: "products",
+      },
+      {
+        id: "itsm",
+        title: "Central ticketing system",
+        category: "Professional / ITSM",
+        text: "Designed and implemented a central ticketing system at the University of Zurich.",
+        tags: ["ITSM", "Documentation"],
+        contributions: [
+          "Designed and implemented the ticketing system",
+          "Continued developing the system",
+          "Created and maintained technical documentation",
+        ],
+        detail:
+          "Alongside the intranet work, I designed and implemented a central ticketing system at the Institute of Medical Microbiology and continued developing it. I maintained technical documentation to support knowledge transfer and ongoing operation.",
       },
     ],
     experience: "Experience",
@@ -57,6 +73,8 @@ export const content = {
           "Integrated GitLab for version control, CI/CD and deployments.",
           "Designed and implemented a central ticketing system and maintained technical documentation.",
         ],
+        area: "Web development",
+        tags: ["PHP", "SQL", "GitLab CI/CD"],
       },
       {
         company: "IKAMED Institute AG",
@@ -65,6 +83,8 @@ export const content = {
         points: [
           "Resolved hardware and software issues, configured computers and servers, and maintained IT infrastructure.",
         ],
+        area: "IT support",
+        tags: ["Hardware", "Software"],
       },
       {
         company: "Rocketlaunch",
@@ -74,6 +94,8 @@ export const content = {
           "Developed client applications with Bubble.io and XANO and coordinated the technical team.",
           "Planned and delivered technical projects with budget and schedule responsibility, evaluated technologies and improved development processes.",
         ],
+        area: "Product development",
+        tags: ["Bubble.io", "XANO"],
       },
       {
         company: "Kork Tech AG",
@@ -82,6 +104,8 @@ export const content = {
         points: [
           "Developed and launched a two-sided marketplace with Bubble.io and supported marketing activities.",
         ],
+        area: "Application development",
+        tags: ["Bubble.io"],
       },
     ],
     about: "About me",
@@ -91,39 +115,57 @@ export const content = {
     skillsTitle: "Technical skills",
     skills: [
       {
-        title: "Java",
-        text: "Java · JavaFX · JUnit",
-        evidence:
-          "Used in ZHAW team projects, including SpinWheels. Worked on skins, statistics and interface fixes.",
-      },
-      {
         title: "PHP and databases",
         text: "PHP · SQL · LDAP",
         evidence:
           "Worked on an intranet service’s architecture, migration and PHP code, including SQL queries and directory integration.",
+        id: "php",
+        symbol: "</>",
+        context: "University of Zurich",
       },
       {
-        title: "Frontend — currently learning",
-        text: "TypeScript · React · Next.js · Tailwind CSS",
-        evidence: "Currently learning these tools by building this portfolio.",
-      },
-      {
-        title: "Application development",
-        text: "Bubble.io · XANO",
+        title: "Java",
+        text: "Java · JavaFX · JUnit",
         evidence:
-          "Built client applications at Rocketlaunch and a two-sided marketplace at Kork Tech.",
+          "Used in ZHAW team projects, including SpinWheels. Worked on skins, statistics and interface fixes.",
+        id: "java",
+        symbol: "{ }",
+        context: "ZHAW and personal projects",
       },
       {
         title: "Development tools",
         text: "Git · GitLab · CI/CD · GitHub · Gradle · Jira",
         evidence:
           "Integrated GitLab for version control, CI/CD and deployments at the University of Zurich. Used GitHub, Gradle and Jira in development projects.",
+        id: "tools",
+        symbol: "git",
+        context: "Professional and team projects",
+      },
+      {
+        title: "Application development",
+        text: "Bubble.io · XANO",
+        evidence:
+          "Built client applications at Rocketlaunch and a two-sided marketplace at Kork Tech.",
+        id: "products",
+        symbol: "[ ]",
+        context: "Rocketlaunch and Kork Tech",
+      },
+      {
+        title: "Frontend — currently learning",
+        text: "TypeScript · React · Next.js · Tailwind CSS",
+        evidence: "Currently learning these tools by building this portfolio.",
+        id: "frontend",
+        symbol: "TS",
+        context: "This portfolio",
       },
       {
         title: "Systems and support",
         text: "Linux · Windows Server · Active Directory · ITSM",
         evidence:
           "Designed and implemented a central ticketing system, wrote technical documentation, and worked on server maintenance and user permissions.",
+        id: "systems",
+        symbol: ">_",
+        context: "IT roles",
       },
     ],
     languages:
@@ -165,7 +207,7 @@ export const content = {
     work: "Ausgewählte Projekte",
     workTitle: "Projekte",
     workIntro:
-      "Ein Java-Rennspiel, PHP-Entwicklung und Anwendungen für Kunden.",
+      "Zuerst berufliche Webanwendungen, danach Java-Teamprojekte und eigene Projekte.",
     details: "Projektdetails",
     contributionTitle: "Mein Beitrag",
     projects: [
@@ -175,12 +217,13 @@ export const content = {
         text: "Architektur, Migration und Weiterentwicklung eines Intranet-Webservices an der Universität Zürich.",
         tags: ["PHP", "SQL", "GitLab CI/CD"],
         contributions: [
-          "Intranet-Webservice konzipiert, migriert und weiterentwickelt",
+          "Intranet-Webservice migriert und weiterentwickelt",
+          "PHP-Code und SQL-Datenbankabfragen überarbeitet",
           "GitLab für Versionsverwaltung, CI/CD und Deployments integriert",
-          "Zentrales Ticketsystem konzipiert und implementiert",
         ],
         detail:
-          "Als studentische Hilfskraft am Institut für Medizinische Mikrobiologie der Universität Zürich arbeitete ich an der Architektur, Migration und Weiterentwicklung eines Intranet-Webservices. Dazu gehörten PHP-Refactoring, SQL-Datenbankabfragen und ein Portal mit LDAP-/Active-Directory-Anbindung. Ich integrierte GitLab für Versionsverwaltung, CI/CD- und Deployment-Prozesse, konzipierte und implementierte ein zentrales Ticketsystem und pflegte technische Dokumentationen.",
+          "Am Institut für Medizinische Mikrobiologie der Universität Zürich arbeitete ich an Architektur, Migration und Weiterentwicklung eines PHP-Intranet-Webservices. Dazu gehörten SQL-Datenbankabfragen, LDAP-/Active-Directory-Anbindung sowie GitLab für Versionsverwaltung, CI/CD- und Deployment-Prozesse.",
+        id: "php",
       },
       {
         title: "Anwendungen und ein Marktplatz",
@@ -194,6 +237,21 @@ export const content = {
         ],
         detail:
           "Als Mitgründer und CTO bei Rocketlaunch entwickelte ich Kundenanwendungen mit Bubble.io und XANO und koordinierte das technische Team. Ich plante und realisierte technische Projekte mit Budget- und Terminverantwortung, evaluierte neue Technologien und verbesserte Entwicklungsprozesse. Bei Kork Tech AG entwickelte und lancierte ich unabhängig davon einen zweiseitigen Marktplatz mit Bubble.io.",
+        id: "products",
+      },
+      {
+        id: "itsm",
+        title: "Zentrales Ticketsystem",
+        category: "Beruflich / ITSM",
+        text: "Konzeption und Implementierung eines zentralen Ticketsystems an der Universität Zürich.",
+        tags: ["ITSM", "Dokumentation"],
+        contributions: [
+          "Ticketsystem konzipiert und implementiert",
+          "System kontinuierlich weiterentwickelt",
+          "Technische Dokumentationen erstellt und gepflegt",
+        ],
+        detail:
+          "Neben der Intranet-Entwicklung konzipierte und implementierte ich am Institut für Medizinische Mikrobiologie ein zentrales Ticketsystem und entwickelte es weiter. Ich pflegte technische Dokumentationen für Wissenstransfer und laufenden Betrieb.",
       },
     ],
     experience: "Erfahrung",
@@ -208,6 +266,8 @@ export const content = {
           "Integration von GitLab für Versionsverwaltung, CI/CD und Deployments.",
           "Konzeption und Implementierung eines zentralen Ticketsystems sowie Pflege technischer Dokumentationen.",
         ],
+        area: "Webentwicklung",
+        tags: ["PHP", "SQL", "GitLab CI/CD"],
       },
       {
         company: "IKAMED Institute AG",
@@ -216,6 +276,8 @@ export const content = {
         points: [
           "Behebung von Hard- und Softwareproblemen, Einrichtung von Computern und Servern sowie Wartung der IT-Infrastruktur.",
         ],
+        area: "IT-Support",
+        tags: ["Hardware", "Software"],
       },
       {
         company: "Rocketlaunch",
@@ -225,6 +287,8 @@ export const content = {
           "Entwicklung von Kundenanwendungen mit Bubble.io und XANO und Koordination des technischen Teams.",
           "Planung und Umsetzung technischer Projekte mit Budget- und Terminverantwortung, Evaluation neuer Technologien und Verbesserung der Entwicklungsprozesse.",
         ],
+        area: "Produktentwicklung",
+        tags: ["Bubble.io", "XANO"],
       },
       {
         company: "Kork Tech AG",
@@ -233,6 +297,8 @@ export const content = {
         points: [
           "Entwicklung und Einführung eines zweiseitigen Marktplatzes mit Bubble.io sowie Unterstützung im Marketing.",
         ],
+        area: "Anwendungsentwicklung",
+        tags: ["Bubble.io"],
       },
     ],
     about: "Über mich",
@@ -242,39 +308,57 @@ export const content = {
     skillsTitle: "Technische Kenntnisse",
     skills: [
       {
-        title: "Java",
-        text: "Java · JavaFX · JUnit",
-        evidence:
-          "In ZHAW-Teamprojekten eingesetzt, unter anderem in SpinWheels. Arbeit an Skins, Statistiken und Oberflächenkorrekturen.",
-      },
-      {
         title: "PHP und Datenbanken",
         text: "PHP · SQL · LDAP",
         evidence:
           "Arbeit an Architektur, Migration und PHP-Code eines Intranet-Webservices, einschliesslich SQL-Abfragen und Verzeichnisanbindung.",
+        id: "php",
+        symbol: "</>",
+        context: "Universität Zürich",
       },
       {
-        title: "Frontend — lerne ich gerade",
-        text: "TypeScript · React · Next.js · Tailwind CSS",
-        evidence: "Diese Werkzeuge lerne ich beim Aufbau dieses Portfolios.",
-      },
-      {
-        title: "Anwendungsentwicklung",
-        text: "Bubble.io · XANO",
+        title: "Java",
+        text: "Java · JavaFX · JUnit",
         evidence:
-          "Kundenanwendungen bei Rocketlaunch und einen zweiseitigen Marktplatz bei Kork Tech entwickelt.",
+          "In ZHAW-Teamprojekten eingesetzt, unter anderem in SpinWheels. Arbeit an Skins, Statistiken und Oberflächenkorrekturen.",
+        id: "java",
+        symbol: "{ }",
+        context: "ZHAW und eigene Projekte",
       },
       {
         title: "Entwicklungswerkzeuge",
         text: "Git · GitLab · CI/CD · GitHub · Gradle · Jira",
         evidence:
           "GitLab für Versionsverwaltung, CI/CD und Deployments an der Universität Zürich integriert. GitHub, Gradle und Jira in Entwicklungsprojekten eingesetzt.",
+        id: "tools",
+        symbol: "git",
+        context: "Berufliche Arbeit und Teamprojekte",
+      },
+      {
+        title: "Anwendungsentwicklung",
+        text: "Bubble.io · XANO",
+        evidence:
+          "Kundenanwendungen bei Rocketlaunch und einen zweiseitigen Marktplatz bei Kork Tech entwickelt.",
+        id: "products",
+        symbol: "[ ]",
+        context: "Rocketlaunch und Kork Tech",
+      },
+      {
+        title: "Frontend — lerne ich gerade",
+        text: "TypeScript · React · Next.js · Tailwind CSS",
+        evidence: "Diese Werkzeuge lerne ich beim Aufbau dieses Portfolios.",
+        id: "frontend",
+        symbol: "TS",
+        context: "Dieses Portfolio",
       },
       {
         title: "Systeme und Support",
         text: "Linux · Windows Server · Active Directory · ITSM",
         evidence:
           "Zentrales Ticketsystem konzipiert und implementiert, technische Dokumentationen erstellt und an Serverwartung und Benutzerrechten gearbeitet.",
+        id: "systems",
+        symbol: ">_",
+        context: "IT-Tätigkeiten",
       },
     ],
     languages:

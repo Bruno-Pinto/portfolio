@@ -45,3 +45,5 @@ English and German summaries live in src/content/personal-projects.ts. No metric
 ## Card graphics
 
 The project-card SVGs are decorative illustrations created for the portfolio, not screenshots or depictions of private system architecture. They share one visual style and remain identical in the scanner and deck.
+
+The PHP intranet and central ticketing system are separate project cards. Their scope follows the University of Zurich reference: intranet architecture/migration/development and GitLab workflows belong to the PHP card; ticketing-system design, implementation, continued development and documentation belong to ITSM. No ticketing product or programming language is assumed.

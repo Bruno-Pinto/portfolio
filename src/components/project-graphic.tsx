@@ -79,6 +79,37 @@ export function ProjectGraphic({ id }: { id: string }) {
             <rect x="95" y="7" width="26" height="14" fill="#00ffff" />
             <path d="M102 10V18M114 10V18" stroke="#0b1920" strokeWidth="3" />
           </>
+        ) : id === "itsm" ? (
+          <>
+            {[0, 1, 2].map((row) => (
+              <g key={row}>
+                <rect
+                  x="36"
+                  y={8 + row * 25}
+                  width="152"
+                  height="20"
+                  stroke="#416474"
+                />
+                <rect
+                  x="44"
+                  y={14 + row * 25}
+                  width="7"
+                  height="7"
+                  fill={row === 0 ? "#00ffff" : "#527887"}
+                />
+                <path
+                  d={"M62 " + (18 + row * 25) + "H142"}
+                  stroke="#759aa7"
+                  strokeWidth="2"
+                />
+                <path
+                  d={"M161 " + (16 + row * 25) + "l4 4 8-9"}
+                  stroke="#00ffff"
+                  strokeWidth="2"
+                />
+              </g>
+            ))}
+          </>
         ) : id === "php" ? (
           <>
             <rect x="22" y="12" width="180" height="62" stroke="#345361" />

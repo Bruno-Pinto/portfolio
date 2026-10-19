@@ -124,13 +124,21 @@ export function Portfolio({ locale }: { locale: Locale }) {
             <div className="timeline">
               {t.jobs.map((j) => (
                 <article className="job" key={j.company}>
-                  <p className="job-date">{j.date}</p>
+                  <div className="job-meta">
+                    <p className="job-area">{j.area}</p>
+                    <p className="job-date">{j.date}</p>
+                  </div>
                   <div>
                     <h3>{j.company}</h3>
                     <p className="job-role">{j.role}</p>
                     <ul className="job-points">
                       {j.points.map((point) => (
                         <li key={point}>{point}</li>
+                      ))}
+                    </ul>
+                    <ul className="job-tags">
+                      {j.tags.map((tag) => (
+                        <li key={tag}>{tag}</li>
                       ))}
                     </ul>
                   </div>
@@ -168,18 +176,21 @@ export function Portfolio({ locale }: { locale: Locale }) {
           <div className="skills-section">
             <h3 className="skills-heading">{t.skillsTitle}</h3>
             <div className="skills">
-              {t.skills.map((s, i) => (
-                <article className="skill-card" key={s.title}>
-                  <span className="skill-number" aria-hidden="true">
-                    0{i + 1}
+              {t.skills.map((s) => (
+                <article className={"skill-card skill-" + s.id} key={s.id}>
+                  <span className="skill-icon" aria-hidden="true">
+                    {s.symbol}
                   </span>
-                  <h4>{s.title}</h4>
-                  <ul className="skill-tags">
-                    {s.text.split(" · ").map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                  <p className="muted">{s.evidence}</p>
+                  <div className="skill-body">
+                    <p className="skill-context">{s.context}</p>
+                    <h4>{s.title}</h4>
+                    <ul className="skill-tags">
+                      {s.text.split(" · ").map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                    <p className="muted">{s.evidence}</p>
+                  </div>
                 </article>
               ))}
             </div>

@@ -199,6 +199,7 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
                   key={project.id}
                   ref={dock}
                   className="project-token docked-token"
+                  data-project-id={project.id}
                   onClick={() => choose(selected!)}
                   aria-label={t.return + ": " + project.title}
                 >
@@ -282,6 +283,7 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
               className={
                 selected === i ? "project-placeholder" : "project-token"
               }
+              data-project-id={p.id}
               onClick={() => choose(i)}
               aria-pressed={selected === i}
               aria-controls="scanner-details"

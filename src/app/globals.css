@@ -1499,3 +1499,165 @@ nav a[aria-current="location"] {
     padding-inline: 20px;
   }
 }
+
+/* Experience: separate roles into readable entries without changing date order. */
+.timeline {
+  border-left: 0;
+  padding-left: 0;
+  display: grid;
+  gap: 16px;
+}
+.job {
+  padding: 28px;
+  grid-template-columns: 205px minmax(0, 1fr);
+  gap: 32px;
+  background: #101b22;
+  border: 1px solid #314550;
+}
+.job:not(:last-child) {
+  border-bottom: 1px solid #314550;
+}
+.job::before {
+  display: none;
+}
+.job:first-child {
+  border-left: 3px solid var(--color-accent);
+  background: #11232b;
+}
+.job-area {
+  font: 0.7rem var(--font-mono);
+  color: #c0d8e2;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+.job:first-child .job-area {
+  color: var(--color-accent);
+}
+.job-date {
+  line-height: 1.8;
+  max-width: 180px;
+}
+.job h3 {
+  font-size: 1.3rem;
+  max-width: 700px;
+}
+.job-role {
+  color: #e4eef2;
+  margin: 12px 0 16px;
+}
+.job-tags {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 20px 0 0;
+}
+.job-tags li {
+  font: 0.65rem var(--font-mono);
+  color: #bed5df;
+  padding: 5px 9px;
+  background: #1b303b;
+  border: 1px solid #355260;
+}
+
+/* Skills: development first, with evidence and the context of use. */
+.skills {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.skill-card {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr);
+  gap: 20px;
+  padding: 28px;
+  background: #101b22;
+  border-color: #314550;
+}
+.skill-php,
+.skill-java {
+  background: #11242c;
+  border-top: 2px solid #528392;
+}
+.skill-php {
+  border-top-color: var(--color-accent);
+}
+.skill-icon {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #416170;
+  color: #b9e5ef;
+  background: #17313d;
+  font: 1rem var(--font-mono);
+}
+.skill-php .skill-icon,
+.skill-java .skill-icon {
+  color: var(--color-accent);
+}
+.skill-context {
+  font: 0.65rem var(--font-mono) !important;
+  color: #9cb7c3;
+  margin-bottom: 10px;
+}
+.skill-card h4 {
+  font-size: 1.1rem;
+  padding-right: 0;
+}
+.skill-tags {
+  margin-block: 16px;
+}
+.skill-body {
+  min-width: 0;
+}
+.skill-frontend {
+  border-style: dashed;
+}
+@media (max-width: 850px) {
+  .job {
+    grid-template-columns: 160px minmax(0, 1fr);
+    gap: 24px;
+    padding: 24px;
+  }
+  .skill-card {
+    padding: 22px;
+    grid-template-columns: 36px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .skill-icon {
+    width: 36px;
+    height: 36px;
+    font-size: 0.85rem;
+  }
+}
+@media (max-width: 700px) {
+  .job {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding: 24px 20px;
+  }
+  .job-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+  }
+  .job-area {
+    margin: 0;
+    font-size: 0.65rem;
+  }
+  .job-date {
+    max-width: none;
+    font-size: 0.65rem;
+  }
+  .job h3 {
+    font-size: 1.2rem;
+  }
+  .skills {
+    grid-template-columns: 1fr;
+  }
+}

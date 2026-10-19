@@ -5,35 +5,40 @@ import { personalProjects } from "@/content/personal-projects";
 export function getProjects(locale: Locale) {
   const t = content[locale],
     spin = spinwheels[locale];
+  const professional = t.projects.map((p) => ({
+    id: p.id,
+    title: p.title,
+    category: p.category,
+    summary: p.text,
+    description: p.text,
+    tags: p.tags,
+    overviewTitle: t.contributionTitle,
+    overview: p.contributions,
+    contributions: [] as string[],
+    details: [p.detail],
+  }));
+  const racing = {
+    id: "spinwheels",
+    title: spin.title,
+    category: spin.label,
+    summary: spin.subtitle,
+    description: spin.description,
+    tags: ["Java 21", "JavaFX", "Gradle", "JUnit"],
+    overviewTitle: spin.featuresTitle,
+    overview: spin.features,
+    contributions: [] as string[],
+    details: spin.detail,
+  };
   return [
-    {
-      id: "spinwheels",
-      number: "01",
-      title: spin.title,
-      category: spin.label,
-      summary: spin.subtitle,
-      description: spin.description,
-      tags: ["Java 21", "JavaFX", "Gradle", "JUnit"],
-      overviewTitle: spin.featuresTitle,
-      overview: spin.features,
-      contributions: [] as string[],
-      details: spin.detail,
-    },
-    ...t.projects.map((p, i) => ({
-      id: i === 0 ? "php" : "products",
-      number: "0" + (i + 2),
-      title: p.title,
-      category: p.category,
-      summary: p.text,
-      description: p.text,
-      tags: p.tags,
-      overviewTitle: t.contributionTitle,
-      overview: p.contributions,
-      contributions: [] as string[],
-      details: [p.detail],
-    })),
+    professional[0],
+    professional[1],
+    racing,
+    professional[2],
     ...personalProjects[locale],
-  ];
+  ].map((project, i) => ({
+    ...project,
+    number: String(i + 1).padStart(2, "0"),
+  }));
 }
 export type ScannerProject = ReturnType<typeof getProjects>[number];
 export const scannerText = {

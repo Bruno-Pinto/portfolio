@@ -23,7 +23,7 @@ test("project detail is accessible and page fits viewport", async ({
   page,
 }) => {
   await page.goto("/");
-  await page.locator(".project-deck button").nth(1).click();
+  await page.locator(".project-deck button[data-project-id=php]").click();
   await expect(page.locator(".scanner-details")).toContainText(
     "SQL database queries",
   );
@@ -146,7 +146,7 @@ test("experience is chronological and skills include examples", async ({
       "Rocketlaunch",
       "Kork Tech AG",
     ]);
-    await expect(page.locator(".project-deck button")).toHaveCount(5);
+    await expect(page.locator(".project-deck button")).toHaveCount(6);
     await expect(page.locator(".project-scanner img")).toHaveCount(0);
     await expect(page.locator(".skill-card")).toHaveCount(6);
     await expect(
@@ -209,19 +209,19 @@ test("cards move into scanner, switch and return with keyboard support", async (
       await expect(page.locator(".docked-token")).toHaveCount(1);
       await expect(page.locator(".scanner-details h3")).toHaveText(
         i === 0
-          ? "SpinWheels"
+          ? route === "/"
+            ? "PHP intranet development"
+            : "Weiterentwicklung eines PHP-Intranets"
           : i === 1
             ? route === "/"
-              ? "PHP intranet development"
-              : "Weiterentwicklung eines PHP-Intranets"
-            : route === "/"
               ? "Applications and a marketplace"
-              : "Anwendungen und ein Marktplatz",
+              : "Anwendungen und ein Marktplatz"
+            : "SpinWheels",
       );
       await expect(page.locator(".scanner-status")).toHaveText(
         route === "/" ? "Scan complete" : "Scan abgeschlossen",
       );
-      if (i === 0)
+      if (i === 2)
         await expect(page.locator(".scanner-details")).toContainText(
           route === "/" ? "breadth-first search" : "Breitensuche",
         );
@@ -241,7 +241,9 @@ test("reduced motion shows project immediately without animation", async ({
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
-  await page.locator(".project-deck button").first().click();
+  await page
+    .locator(".project-deck button[data-project-id=spinwheels]")
+    .click();
   await expect(page.locator(".scanner-status")).toHaveText("Scan complete");
   expect(
     await page
@@ -257,7 +259,9 @@ test("red scan sweeps down and back before details are revealed", async ({
   page,
 }) => {
   await page.goto("/");
-  await page.locator(".project-deck button").first().click();
+  await page
+    .locator(".project-deck button[data-project-id=spinwheels]")
+    .click();
   const pad = page.locator(".scanner-pad");
   await expect(pad).toHaveAttribute("data-phase", "scanning");
   await expect(page.getByRole("progressbar")).toBeVisible();
@@ -299,7 +303,9 @@ test("enabling reduced motion during scanning reveals details immediately", asyn
   page,
 }) => {
   await page.goto("/");
-  await page.locator(".project-deck button").first().click();
+  await page
+    .locator(".project-deck button[data-project-id=spinwheels]")
+    .click();
   await expect(page.locator(".scanner-pad")).toHaveAttribute(
     "data-phase",
     "scanning",
@@ -322,7 +328,9 @@ test("replacement animates the outgoing card and preserves card dimensions", asy
   const dock = await page.locator(".docked-token").boundingBox();
   expect(dock!.width).toBeCloseTo(before!.width, 0);
   expect(dock!.height).toBeCloseTo(before!.height, 0);
-  await page.locator(".project-deck button").nth(3).click();
+  await page
+    .locator(".project-deck button[data-project-id=mission-life]")
+    .click();
   expect(
     await first.evaluate((el) =>
       el.getAnimations().some((animation) => animation.playState === "running"),
@@ -339,11 +347,11 @@ test("Mission projects have localized details and matching card appearance", asy
   for (const route of ["/", "/de/"]) {
     await page.goto(route);
     const deck = page.locator(".project-deck button");
-    await expect(deck).toHaveCount(5);
+    await expect(deck).toHaveCount(6);
     expect(
       (await page.locator(".scanner-layout").boundingBox())!.height,
     ).toBeGreaterThanOrEqual(560);
-    for (const index of [3, 4]) {
+    for (const index of [4, 5]) {
       const face = await deck.nth(index).evaluate((el) => ({
         width: el.clientWidth,
         height: el.clientHeight,
@@ -351,7 +359,7 @@ test("Mission projects have localized details and matching card appearance", asy
       }));
       await deck.nth(index).click();
       await expect(page.locator(".scanner-reveal h3")).toHaveText(
-        index === 3 ? "Mission-Life" : "Mission-Chess",
+        index === 4 ? "Mission-Life" : "Mission-Chess",
       );
       const scanned = await page.locator(".docked-token").evaluate((el) => ({
         width: el.clientWidth,
@@ -360,9 +368,49 @@ test("Mission projects have localized details and matching card appearance", asy
       }));
       expect(scanned).toEqual(face);
       await expect(page.locator(".scanner-reveal")).toContainText(
-        index === 3 ? "JavaFX" : "Swing",
+        index === 4 ? "JavaFX" : "Swing",
       );
     }
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
+});
+
+test("professional projects lead and PHP and ITSM have separate details", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    expect(
+      await page
+        .locator(".project-deck button")
+        .evaluateAll((cards) =>
+          cards.map((card) => card.getAttribute("data-project-id")),
+        ),
+    ).toEqual([
+      "php",
+      "products",
+      "spinwheels",
+      "itsm",
+      "mission-life",
+      "mission-chess",
+    ]);
+    await page.locator(".project-deck button[data-project-id=php]").click();
+    await expect(page.locator(".scanner-reveal")).toContainText("GitLab");
+    await expect(page.locator(".scanner-reveal")).not.toContainText(
+      route === "/" ? "ticketing" : "Ticketsystem",
+    );
+    await page.locator(".project-deck button[data-project-id=itsm]").click();
+    await expect(page.locator(".scanner-reveal h3")).toHaveText(
+      route === "/" ? "Central ticketing system" : "Zentrales Ticketsystem",
+    );
+    await expect(page.locator(".docked-token .token-tags")).not.toContainText(
+      "PHP",
+    );
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
