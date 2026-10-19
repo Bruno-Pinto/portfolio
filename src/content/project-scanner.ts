@@ -16,7 +16,7 @@ export function getProjects(locale: Locale) {
       tags: ["Java 21", "JavaFX", "Gradle", "JUnit"],
       overviewTitle: spin.featuresTitle,
       overview: spin.features,
-      contributions: spin.contributions,
+      contributions: [] as string[],
       details: spin.detail,
     },
     ...t.projects.map((p, i) => ({
