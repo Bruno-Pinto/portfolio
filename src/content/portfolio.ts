@@ -6,14 +6,12 @@ export const content = {
     role: "Software Developer",
     student: "Computer Science student at ZHAW",
     location: "Zurich, Switzerland",
-    intro: "From product ideas to existing codebases.",
     description:
       "I develop digital products, work on PHP applications and study Computer Science at ZHAW. My experience connects product development with an understanding of the systems software runs on.",
     explore: "Explore my work",
     contact: "Get in touch",
-    portrait: "Portrait coming soon",
     work: "Selected work",
-    workTitle: "Code with context.",
+    workTitle: "Selected work. Real contributions.",
     workIntro:
       "Product development, application modernization and projects from my studies.",
     details: "Explore the project",
@@ -34,16 +32,7 @@ export const content = {
         detail:
           "At Rocketlaunch, I co-founded the company and led development of digital products for international clients using Bubble.io and XANO. I managed teams and established development processes. At Kork Tech AG, I developed and launched a two-sided marketplace using Bubble.io.",
       },
-      {
-        title: "Learning through building",
-        category: "Academic / Java",
-        text: "Team projects at ZHAW: a racing game, a console text editor and Tic-Tac-Toe.",
-        tags: ["Java", "JavaFX", "Team projects"],
-        detail:
-          "During my Computer Science studies at ZHAW, I worked in teams of four on Java projects: Tic-Tac-Toe, a console-based text editor and a racing game with a JavaFX graphical interface.",
-      },
     ],
-    spin: "Also in my project collection: SpinWheels. A detailed case study will follow once its scope, my contribution and technical details are documented.",
     experience: "Experience",
     experienceTitle: "Products, people & systems.",
     jobs: [
@@ -121,14 +110,12 @@ export const content = {
     role: "Softwareentwickler",
     student: "Informatikstudent an der ZHAW",
     location: "Zürich, Schweiz",
-    intro: "Von Produktideen zu bestehenden Codebasen.",
     description:
       "Ich entwickle digitale Produkte, arbeite an PHP-Anwendungen und studiere Informatik an der ZHAW. Meine Erfahrung verbindet Produktentwicklung mit einem Verständnis für die Systeme, auf denen Software läuft.",
     explore: "Projekte entdecken",
     contact: "Kontakt aufnehmen",
-    portrait: "Porträt folgt",
     work: "Ausgewählte Projekte",
-    workTitle: "Code mit Kontext.",
+    workTitle: "Projekte mit eigenem Beitrag.",
     workIntro:
       "Produktentwicklung, Anwendungsmodernisierung und Projekte aus meinem Studium.",
     details: "Projekt entdecken",
@@ -149,16 +136,7 @@ export const content = {
         detail:
           "Bei Rocketlaunch war ich Mitgründer und leitete die Entwicklung digitaler Produkte für internationale Kunden mit Bubble.io und XANO. Ich betreute Teams und etablierte Entwicklungsprozesse. Bei Kork Tech AG entwickelte und lancierte ich einen zweiseitigen Marktplatz mit Bubble.io.",
       },
-      {
-        title: "Lernen durch Entwickeln",
-        category: "Studium / Java",
-        text: "Teamprojekte an der ZHAW: ein Rennspiel, ein Konsolen-Texteditor und Tic-Tac-Toe.",
-        tags: ["Java", "JavaFX", "Teamprojekte"],
-        detail:
-          "Im Informatikstudium an der ZHAW arbeitete ich in Viererteams an Java-Projekten: Tic-Tac-Toe, einem konsolenbasierten Texteditor und einem Rennspiel mit grafischer JavaFX-Oberfläche.",
-      },
     ],
-    spin: "Ebenfalls in meiner Projektsammlung: SpinWheels. Eine ausführliche Projektbeschreibung folgt, sobald Umfang, mein Beitrag und technische Details dokumentiert sind.",
     experience: "Erfahrung",
     experienceTitle: "Produkte, Menschen & Systeme.",
     jobs: [

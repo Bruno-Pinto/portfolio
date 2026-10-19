@@ -1,6 +1,9 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- Language routes use separate root layouts and intentionally load complete localized documents. */
 import { content, type Locale } from "@/content/portfolio";
 import { SearchLab } from "@/components/search-lab";
+import Image from "next/image";
+import { FeaturedProject } from "@/components/featured-project";
+import { spinwheels } from "@/content/spinwheels";
 const anchors = ["work", "experience", "about", "contact"];
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = content[locale];
@@ -49,18 +52,19 @@ export function Portfolio({ locale }: { locale: Locale }) {
       </header>
       <main id="main">
         <section className="hero container" aria-labelledby="hero-title">
-          <div>
+          <div className="hero-copy">
             <p className="eyebrow">
               <span className="status-dot" />
               {t.location}
             </p>
-            <p className="hero-name">Bruno Pinto da Silva</p>
             <h1 id="hero-title">
-              {t.role}
-              <span className="accent">.</span>
+              <span className="hero-firstname">
+                Bruno Pinto<span className="accent">.</span>
+              </span>
+              <span className="hero-role">{t.role}</span>
             </h1>
             <p className="student">{t.student}</p>
-            <p className="hero-intro">{t.intro}</p>
+
             <p className="muted hero-description">{t.description}</p>
             <div className="actions">
               <a className="button primary" href="#work">
@@ -72,39 +76,49 @@ export function Portfolio({ locale }: { locale: Locale }) {
             </div>
           </div>
           <div className="portrait-wrap">
-            <div className="portrait" role="img" aria-label={t.portrait}>
-              <span className="portrait-cross top-left" aria-hidden="true">
+            <div className="portrait">
+              <Image
+                src="/images/portrait.jpg"
+                alt="Bruno Pinto da Silva"
+                width={203}
+                height={203}
+                priority
+                className="portrait-image"
+              />
+              <span className="portrait-marker" aria-hidden="true">
                 +
               </span>
-              <span className="portrait-initials" aria-hidden="true">
-                BP<span>DS</span>
-              </span>
-              <span className="portrait-cross bottom-right" aria-hidden="true">
-                +
-              </span>
-              <p>{t.portrait}</p>
             </div>
             <div className="portrait-caption">
-              <span>BRUNO_PINTO</span>
-              <span aria-hidden="true">FIG. 01 / CH</span>
+              <span>BRUNO PINTO DA SILVA</span>
+              <span>ZHAW / CH</span>
             </div>
           </div>
         </section>
-        <div className="tech-strip">
-          <div className="container">
-            {["Java", "PHP", "SQL", "Bubble.io", "XANO", "Git"].map((x) => (
-              <span key={x}>{x}</span>
-            ))}
-          </div>
+        <div className="hero-wayfinding container">
+          <a href="#work">
+            <span>01</span>
+            {t.work}
+            <span aria-hidden="true">↓</span>
+          </a>
+          <p>
+            {t.student} / {t.location}
+          </p>
         </div>
         <section
           className="container section"
           id="work"
           aria-labelledby="work-title"
         >
-          <p className="eyebrow">01 / {t.work}</p>
-          <h2 id="work-title">{t.workTitle}</h2>
-          <p className="section-intro muted">{t.workIntro}</p>
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">01 / {t.work}</p>
+              <h2 id="work-title">{t.workTitle}</h2>
+            </div>
+            <p className="section-intro muted">{t.workIntro}</p>
+          </div>
+          <FeaturedProject locale={locale} />
+          <h3 className="supporting-heading">{spinwheels[locale].more}</h3>
           <div className="projects">
             {t.projects.map((p, i) => (
               <article className="project" key={p.title}>
@@ -131,7 +145,6 @@ export function Portfolio({ locale }: { locale: Locale }) {
               </article>
             ))}
           </div>
-          <p className="project-note muted">{t.spin}</p>
         </section>
         <section
           className="section experience-section"
@@ -178,13 +191,20 @@ export function Portfolio({ locale }: { locale: Locale }) {
           <p className="languages muted">{t.languages}</p>
         </section>
         <section
-          className="container section lab-section"
-          aria-labelledby="lab-title"
+          className="container lab-section"
+          aria-labelledby="lab-heading"
         >
-          <p className="eyebrow">04 / {t.lab}</p>
-          <h2 id="lab-title">{t.labTitle}</h2>
-          <p className="section-intro muted">{t.labText}</p>
-          <SearchLab text={t} />
+          <details className="lab-disclosure">
+            <summary id="lab-heading">
+              <span className="eyebrow">04 / {t.lab}</span>
+              <span>{t.labTitle}</span>
+              <span aria-hidden="true">+</span>
+            </summary>
+            <div className="lab-content">
+              <p className="section-intro muted">{t.labText}</p>
+              <SearchLab text={t} />
+            </div>
+          </details>
         </section>
         <section
           className="contact-section section"

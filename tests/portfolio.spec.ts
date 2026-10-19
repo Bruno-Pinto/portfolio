@@ -23,7 +23,7 @@ test("project detail is accessible and page fits viewport", async ({
   page,
 }) => {
   await page.goto("/");
-  const details = page.locator("details").first();
+  const details = page.locator(".project details").first();
   await details.locator("summary").click();
   await expect(details).toHaveAttribute("open", "");
   await expect(details).toContainText("SQL database queries");
@@ -38,6 +38,7 @@ test("project detail is accessible and page fits viewport", async ({
 });
 test("binary search finds every target and resets", async ({ page }) => {
   await page.goto("/");
+  await page.locator(".lab-disclosure > summary").click();
   for (let target = 1; target <= 16; target++) {
     await page.getByLabel("Number to find").selectOption(String(target));
     for (let step = 0; step < 5; step++) {
@@ -61,4 +62,37 @@ test("keyboard skip link reaches main content", async ({ page }) => {
   ).toBeFocused();
   await page.keyboard.press("Enter");
   await expect(page).toHaveURL(/#main$/);
+});
+
+test("featured work and portrait load in both languages without overflow", async ({
+  page,
+}) => {
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    await expect(
+      page.getByRole("heading", { name: "SpinWheels", exact: true }),
+    ).toBeVisible();
+    const portrait = page.getByRole("img", {
+      name: "Bruno Pinto da Silva",
+      exact: true,
+    });
+    await expect(portrait).toBeVisible();
+    expect(
+      await portrait.evaluate(
+        (img) =>
+          img instanceof HTMLImageElement &&
+          img.complete &&
+          img.naturalWidth > 0,
+      ),
+    ).toBe(true);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await expect(page.locator(".lab-disclosure")).not.toHaveAttribute(
+      "open",
+      "",
+    );
+  }
 });
