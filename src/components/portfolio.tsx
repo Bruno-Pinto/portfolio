@@ -4,6 +4,7 @@ import Image from "next/image";
 import { SiteHeader } from "@/components/site-header";
 import { LinkedInIcon } from "@/components/linkedin-icon";
 import { GitHubIcon } from "@/components/github-icon";
+import { EmailIcon, DownloadIcon } from "@/components/link-icons";
 import { getProjects } from "@/content/project-scanner";
 import { ProjectScanner } from "@/components/project-scanner";
 import { SectionNav } from "@/components/section-nav";
@@ -74,7 +75,9 @@ export function Portfolio({ locale }: { locale: Locale }) {
               </a>
             </div>
             <div className="hero-links">
-              <a href="mailto:bpintodasilva@gmail.com">{t.emailLabel}</a>
+              <a className="social-link" href="mailto:bpintodasilva@gmail.com">
+                <EmailIcon /> {t.emailLabel}
+              </a>
               <span aria-hidden="true">/</span>
               <a
                 href="https://www.linkedin.com/in/bruno-pinto-da-silva/"
@@ -92,8 +95,8 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 <GitHubIcon /> GitHub
               </a>
               <span aria-hidden="true">/</span>
-              <a href={t.cvHref} download>
-                {t.cv}
+              <a className="social-link" href={t.cvHref} download>
+                <DownloadIcon /> {t.cv}
               </a>
             </div>
           </div>
@@ -245,8 +248,12 @@ export function Portfolio({ locale }: { locale: Locale }) {
             <p className="eyebrow">04 / {t.nav[3]}</p>
             <h2 id="contact-title">{t.contactTitle}</h2>
             <p className="section-intro muted">{t.contactText}</p>
-            <a className="contact-email" href="mailto:bpintodasilva@gmail.com">
-              bpintodasilva@gmail.com ↗
+            <a
+              className="contact-email social-link"
+              href="mailto:bpintodasilva@gmail.com"
+            >
+              <EmailIcon />
+              <span>bpintodasilva@gmail.com ↗</span>
             </a>
             <div className="cv-note">
               <a
@@ -263,11 +270,21 @@ export function Portfolio({ locale }: { locale: Locale }) {
               >
                 <GitHubIcon /> GitHub
               </a>
-              <a href="/cv/bruno-pinto-cv-en.pdf" download hrefLang="en">
-                {t.cvEnglish} ↓
+              <a
+                className="social-link"
+                href="/cv/bruno-pinto-cv-en.pdf"
+                download
+                hrefLang="en"
+              >
+                <DownloadIcon /> {t.cvEnglish}
               </a>
-              <a href="/cv/bruno-pinto-cv-de.pdf" download hrefLang="de">
-                {t.cvGerman} ↓
+              <a
+                className="social-link"
+                href="/cv/bruno-pinto-cv-de.pdf"
+                download
+                hrefLang="de"
+              >
+                <DownloadIcon /> {t.cvGerman}
               </a>
               <span className="muted">{t.cvNote}</span>
             </div>
