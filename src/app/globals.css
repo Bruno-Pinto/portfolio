@@ -245,7 +245,7 @@ nav a {
 }
 .portrait-wrap {
   width: 100%;
-  max-width: 203px;
+  max-width: 260px;
   justify-self: center;
   position: relative;
 }
@@ -789,7 +789,7 @@ nav a[aria-current="location"] {
     font-size: 0.85rem;
   }
   .portrait-wrap {
-    max-width: 160px;
+    max-width: 200px;
     justify-self: start;
   }
   .portrait {
