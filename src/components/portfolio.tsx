@@ -82,6 +82,10 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 <LinkedInIcon /> LinkedIn
               </a>
               <span aria-hidden="true">/</span>
+              <a href="https://github.com/Bruno-Pinto" rel="me">
+                GitHub
+              </a>
+              <span aria-hidden="true">/</span>
               <a href={t.cvHref} download>
                 {t.cv}
               </a>
@@ -244,6 +248,9 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 className="social-link"
               >
                 <LinkedInIcon /> LinkedIn
+              </a>
+              <a href="https://github.com/Bruno-Pinto" rel="me">
+                GitHub
               </a>
               <a href="/cv/bruno-pinto-cv-en.pdf" download hrefLang="en">
                 {t.cvEnglish} ↓

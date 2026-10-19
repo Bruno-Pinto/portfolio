@@ -17,6 +17,7 @@ import {
 import type { Locale } from "@/content/portfolio";
 
 import { ProjectGraphic } from "@/components/project-graphic";
+import { ProjectSourceLink } from "@/components/project-source-link";
 
 const SCAN_DURATION_MS = 800;
 
@@ -295,6 +296,11 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
                 <p className="eyebrow">{project.category}</p>
                 <h3>{project.title}</h3>
                 <p className="muted">{project.description}</p>
+                <ProjectSourceLink
+                  url={project.repositoryUrl}
+                  title={project.title}
+                  locale={locale}
+                />
                 <h4>{project.overviewTitle}</h4>
                 <ul>
                   {project.overview.map((item) => (
@@ -367,6 +373,11 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
             <article key={p.id}>
               <h3>{p.title}</h3>
               <p>{p.description}</p>
+              <ProjectSourceLink
+                url={p.repositoryUrl}
+                title={p.title}
+                locale={locale}
+              />
               {p.details.map((text) => (
                 <p key={text}>{text}</p>
               ))}

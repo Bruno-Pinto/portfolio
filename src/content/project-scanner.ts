@@ -2,6 +2,12 @@ import { content, type Locale } from "@/content/portfolio";
 import { spinwheels } from "@/content/spinwheels";
 import { personalProjects } from "@/content/personal-projects";
 
+const repositories: Record<string, string> = {
+  "mission-life": "https://github.com/Bruno-Pinto/Mission-Life",
+  "mission-chess": "https://github.com/Bruno-Pinto/Mission-Chess",
+  portfolio: "https://github.com/Bruno-Pinto/portfolio",
+};
+
 export function getProjects(locale: Locale) {
   const t = content[locale],
     spin = spinwheels[locale];
@@ -37,6 +43,7 @@ export function getProjects(locale: Locale) {
     ...personalProjects[locale],
   ].map((project, i) => ({
     ...project,
+    repositoryUrl: repositories[project.id] ?? null,
     number: String(i + 1).padStart(2, "0"),
   }));
 }

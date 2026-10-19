@@ -1782,3 +1782,14 @@ nav a[aria-current="location"] {
     transition: none;
   }
 }
+
+.project-source-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-block: 16px 4px;
+  color: var(--color-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-size: 0.875rem;
+}
