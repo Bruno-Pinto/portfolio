@@ -1,6 +1,8 @@
 export function EmailIcon() {
   return (
     <svg
+      width={16}
+      height={16}
       className="link-icon"
       viewBox="0 0 24 24"
       fill="none"
@@ -17,6 +19,8 @@ export function EmailIcon() {
 export function DownloadIcon() {
   return (
     <svg
+      width={16}
+      height={16}
       className="link-icon"
       viewBox="0 0 24 24"
       fill="none"

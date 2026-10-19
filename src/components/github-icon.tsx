@@ -2,6 +2,8 @@
 export function GitHubIcon() {
   return (
     <svg
+      width={16}
+      height={16}
       className="github-icon"
       viewBox="0 0 16 16"
       fill="currentColor"

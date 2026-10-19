@@ -220,7 +220,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
             <div className="skills">
               {t.skills.map((s) => (
                 <article className={"skill-card skill-" + s.id} key={s.id}>
-                  <div className="skill-body">
+                  <div className="skill-body" style={{ gridColumn: "1 / -1" }}>
                     <p className="skill-context">{s.context}</p>
                     <h4>{s.title}</h4>
                     <ul

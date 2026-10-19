@@ -1,6 +1,8 @@
 export function LinkedInIcon() {
   return (
     <svg
+      width={16}
+      height={16}
       className="linkedin-icon"
       viewBox="0 0 24 24"
       fill="currentColor"

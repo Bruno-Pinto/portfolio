@@ -746,3 +746,53 @@ test("skills prioritize development and open project evidence in either view", a
     ).toBe(true);
   }
 });
+
+test("skills fill their cards with legacy grid styles and icons keep intrinsic dimensions", async ({
+  page,
+}) => {
+  for (const width of [320, 1280]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const route of ["/", "/de/"]) {
+      await page.goto(route);
+      // Reproduce the old two-column card rule seen in the reported screenshot.
+      await page.addStyleTag({
+        content:
+          ".skill-card { display: grid !important; grid-template-columns: 36px minmax(0, 1fr) !important; }",
+      });
+      const widths = await page.locator(".skill-card").evaluateAll((cards) =>
+        cards.map((card) => {
+          const style = getComputedStyle(card);
+          return {
+            available:
+              card.clientWidth -
+              parseFloat(style.paddingLeft) -
+              parseFloat(style.paddingRight),
+            content: card.querySelector(".skill-body")!.getBoundingClientRect()
+              .width,
+          };
+        }),
+      );
+      for (const size of widths)
+        expect(size.content).toBeGreaterThanOrEqual(size.available - 1);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+      // SVG defaults must remain small if a stylesheet is unavailable.
+      await page.evaluate(() => {
+        for (const sheet of document.styleSheets) sheet.disabled = true;
+      });
+      const sizes = await page
+        .locator(".hero-links svg, .contact-section svg")
+        .evaluateAll((icons) =>
+          icons.map((icon) => ({
+            width: icon.getBoundingClientRect().width,
+            height: icon.getBoundingClientRect().height,
+          })),
+        );
+      expect(sizes.length).toBeGreaterThanOrEqual(8);
+      for (const size of sizes) expect(size).toEqual({ width: 16, height: 16 });
+    }
+  }
+});

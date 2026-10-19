@@ -1446,9 +1446,6 @@ nav a[aria-current="location"] {
   gap: 18px;
 }
 .skill-card {
-  display: grid;
-  grid-template-columns: 46px minmax(0, 1fr);
-  gap: 20px;
   padding: 28px;
   background: #101b22;
   border-color: #314550;
@@ -1489,6 +1486,7 @@ nav a[aria-current="location"] {
   margin-block: 16px;
 }
 .skill-body {
+  grid-column: 1 / -1;
   min-width: 0;
 }
 .skill-frontend {
@@ -1502,8 +1500,6 @@ nav a[aria-current="location"] {
   }
   .skill-card {
     padding: 22px;
-    grid-template-columns: 36px minmax(0, 1fr);
-    gap: 14px;
   }
   .skill-icon {
     width: 36px;
@@ -1894,8 +1890,6 @@ nav a[aria-current="location"] {
 }
 .skill-card {
   padding: 20px;
-  gap: 14px;
-  grid-template-columns: 36px minmax(0, 1fr);
 }
 .skill-icon {
   width: 36px;
