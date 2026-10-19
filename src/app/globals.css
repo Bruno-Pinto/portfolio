@@ -1768,3 +1768,17 @@ nav a[aria-current="location"] {
     margin-bottom: 4px;
   }
 }
+
+@media (max-width: 700px) {
+  .site-header {
+    transition: transform 180ms ease-out;
+  }
+  .site-header[data-scroll-hidden="true"]:not(:has(:focus-visible)) {
+    transform: translateY(-100%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header {
+    transition: none;
+  }
+}

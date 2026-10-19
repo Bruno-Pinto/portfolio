@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- Language routes use separate root layouts and intentionally load complete localized documents. */
 import { content, type Locale } from "@/content/portfolio";
 import Image from "next/image";
+import { SiteHeader } from "@/components/site-header";
 import { LinkedInIcon } from "@/components/linkedin-icon";
 import { getProjects } from "@/content/project-scanner";
 import { ProjectScanner } from "@/components/project-scanner";
@@ -13,7 +14,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
       <a className="skip-link" href="#main">
         {t.skip}
       </a>
-      <header className="site-header" id="top">
+      <SiteHeader>
         <div className="header-inner">
           <a className="wordmark" href="#top" aria-label="Bruno Pinto da Silva">
             <span>[</span> BP<span> / ]</span>
@@ -45,7 +46,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
             </a>
           </div>
         </div>
-      </header>
+      </SiteHeader>
       <main id="main">
         <section className="hero container" aria-labelledby="hero-title">
           <div className="hero-copy">

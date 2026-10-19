@@ -81,19 +81,21 @@ test("featured work and portrait load in both languages without overflow", async
   }
 });
 
-test("header stays visible and anchor headings stay below it", async ({
+test("header stays accessible and anchor headings stay below it", async ({
   page,
+  isMobile,
 }) => {
   await page.goto("/");
   await page.getByRole("link", { name: "Experience", exact: true }).click();
   await expect(page).toHaveURL(/#experience$/);
-  await expect
-    .poll(async () =>
-      page
-        .locator(".site-header")
-        .evaluate((el) => Math.round(el.getBoundingClientRect().top)),
-    )
-    .toBe(0);
+  if (!isMobile)
+    await expect
+      .poll(async () =>
+        page
+          .locator(".site-header")
+          .evaluate((el) => Math.round(el.getBoundingClientRect().top)),
+      )
+      .toBe(0);
   await expect
     .poll(async () =>
       page
@@ -543,5 +545,50 @@ test("mobile scanner scrolls to revealed details after scanning", async ({
       );
       expect((await details.boundingBox())!.y).toBeGreaterThan(300);
     }
+  }
+});
+
+test("mobile header hides scrolling down and returns scrolling up or using the keyboard", async ({
+  page,
+  isMobile,
+}) => {
+  await page.goto("/");
+  const header = page.locator(".site-header");
+  await page.evaluate(() => window.scrollTo({ top: 900, behavior: "instant" }));
+  if (isMobile) {
+    await expect
+      .poll(async () =>
+        Math.round(
+          (await header.boundingBox())!.y +
+            (await header.boundingBox())!.height,
+        ),
+      )
+      .toBeLessThanOrEqual(0);
+    await page.evaluate(() =>
+      window.scrollTo({ top: 600, behavior: "instant" }),
+    );
+    await expect
+      .poll(async () => Math.round((await header.boundingBox())!.y))
+      .toBe(0);
+    await page.evaluate(() =>
+      window.scrollTo({ top: 1000, behavior: "instant" }),
+    );
+    await expect(header).toHaveAttribute("data-scroll-hidden", "true");
+    await page.keyboard.press("Tab");
+    await page.locator(".wordmark").focus();
+    await expect
+      .poll(async () => Math.round((await header.boundingBox())!.y))
+      .toBe(0);
+    await page
+      .locator(".wordmark")
+      .evaluate((el) => (el as HTMLElement).blur());
+    await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
+    await expect
+      .poll(async () => Math.round((await header.boundingBox())!.y))
+      .toBe(0);
+  } else {
+    await expect
+      .poll(async () => Math.round((await header.boundingBox())!.y))
+      .toBe(0);
   }
 });
