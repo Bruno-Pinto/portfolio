@@ -41,3 +41,7 @@ Both repositories were inspected read-only. Their code was not changed or execut
 - Mission-Chess: Chess.java manages local turns, selection and movement; GamePanel.java draws the board and highlights moves with Swing/Java2D; the pieces package contains the shared Piece class and six piece subclasses. Presented as a prototype, without claiming a complete rules engine, AI opponent or online play.
 
 English and German summaries live in src/content/personal-projects.ts. No metrics or test results for these applications are claimed.
+
+## Card graphics
+
+The project-card SVGs are decorative illustrations created for the portfolio, not screenshots or depictions of private system architecture. They share one visual style and remain identical in the scanner and deck.

@@ -15,6 +15,8 @@ import {
 } from "@/content/project-scanner";
 import type { Locale } from "@/content/portfolio";
 
+import { ProjectGraphic } from "@/components/project-graphic";
+
 const SCAN_DURATION_MS = 800;
 
 function CardFace({ project }: { project: ScannerProject }) {
@@ -24,8 +26,8 @@ function CardFace({ project }: { project: ScannerProject }) {
         <span>{project.number}</span>
         <span>{project.category}</span>
       </span>
+      <ProjectGraphic id={project.id} />
       <span className="token-title">{project.title}</span>
-      <span className="token-summary">{project.summary}</span>
       <span className="token-tags">
         {project.tags.map((tag) => (
           <span key={tag}>{tag}</span>
