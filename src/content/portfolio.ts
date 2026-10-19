@@ -138,58 +138,67 @@ export const content = {
     skillsTitle: "Technical skills",
     skills: [
       {
-        title: "PHP and databases",
-        text: "PHP · SQL · LDAP",
-        evidence:
-          "PHP 7-to-8 migration, shared database access and directory integration in a professional intranet project.",
-        id: "php",
-        symbol: "</>",
-        context: "University of Zurich",
+        id: "development",
+        title: "Software development",
+        context: "Professional work and Java projects",
+        tools: ["PHP", "SQL", "Java", "JavaFX", "JUnit"],
+        evidence: [
+          {
+            text: "Migrated a PHP intranet from version 7 to 8, unified its project structure and centralized database access.",
+            projectId: "php",
+          },
+          {
+            text: "Built Java applications in university and personal projects, using object-oriented models and JUnit tests.",
+            projectId: "spinwheels",
+          },
+        ],
       },
       {
-        title: "Java",
-        text: "Java · JavaFX · JUnit",
-        evidence:
-          "JavaFX applications, object-oriented modelling and JUnit tests in university and personal projects.",
-        id: "java",
-        symbol: "{ }",
-        context: "ZHAW and personal projects",
-      },
-      {
-        title: "Development tools",
-        text: "Git · GitLab · CI/CD · GitHub · Gradle · Jira",
-        evidence:
-          "GitLab CI/CD in professional work; GitHub and Gradle in team and personal projects.",
-        id: "tools",
-        symbol: "git",
-        context: "Professional and team projects",
-      },
-      {
-        title: "Bubble.io and XANO",
-        text: "Bubble.io · XANO",
-        evidence:
-          "Built client applications at Rocketlaunch and a two-sided marketplace at Kork Tech.",
-        id: "products",
-        symbol: "[ ]",
-        context: "Rocketlaunch and Kork Tech",
-      },
-      {
-        title: "Web frontend",
-        text: "TypeScript · React · Next.js · Tailwind CSS",
-        evidence:
-          "Building localized components, accessible interactions and responsive layouts.",
         id: "frontend",
-        symbol: "TS",
+        title: "Web frontend",
         context: "Currently learning · This portfolio",
+        tools: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
+        evidence: [
+          {
+            text: "Learning these tools through this bilingual portfolio, including responsive layouts, keyboard-accessible interactions and browser tests.",
+            projectId: "portfolio",
+          },
+        ],
       },
       {
-        title: "Systems and support",
-        text: "Linux · Windows Server · Active Directory · ITSM",
-        evidence:
-          "Server maintenance, user permissions and technical documentation in IT roles.",
-        id: "systems",
-        symbol: ">_",
-        context: "IT roles",
+        id: "workflow",
+        title: "Development workflow",
+        context: "Professional work and team projects",
+        tools: ["Git", "GitLab CI/CD", "GitHub", "Gradle"],
+        evidence: [
+          {
+            text: "Integrated GitLab version control, CI/CD and deployments in professional work. Used GitHub and Gradle in team and personal projects.",
+            projectId: "php",
+          },
+        ],
+      },
+      {
+        id: "additional",
+        title: "Additional experience",
+        context: "Product development and IT roles",
+        tools: [
+          "Bubble.io",
+          "XANO",
+          "Linux",
+          "Windows Server",
+          "Active Directory",
+          "ITSM",
+        ],
+        evidence: [
+          {
+            text: "Built client applications with Bubble.io and XANO at Rocketlaunch, and a Bubble.io marketplace at Kork Tech.",
+            projectId: "products",
+          },
+          {
+            text: "Worked on server maintenance, user permissions, technical documentation and a central ticketing system.",
+            projectId: "itsm",
+          },
+        ],
       },
     ],
     languages:
@@ -348,58 +357,67 @@ export const content = {
     skillsTitle: "Technische Kenntnisse",
     skills: [
       {
-        title: "PHP und Datenbanken",
-        text: "PHP · SQL · LDAP",
-        evidence:
-          "PHP-7-auf-8-Migration, zentrale Datenbankzugriffe und Verzeichnisanbindung in einem beruflichen Intranet-Projekt.",
-        id: "php",
-        symbol: "</>",
-        context: "Universität Zürich",
+        id: "development",
+        title: "Softwareentwicklung",
+        context: "Berufliche Arbeit und Java-Projekte",
+        tools: ["PHP", "SQL", "Java", "JavaFX", "JUnit"],
+        evidence: [
+          {
+            text: "Ein PHP-Intranet von Version 7 auf 8 migriert, die Projektstruktur vereinheitlicht und Datenbankzugriffe zentralisiert.",
+            projectId: "php",
+          },
+          {
+            text: "Java-Anwendungen in Hochschulprojekten und eigenen Projekten entwickelt, mit objektorientierten Modellen und JUnit-Tests.",
+            projectId: "spinwheels",
+          },
+        ],
       },
       {
-        title: "Java",
-        text: "Java · JavaFX · JUnit",
-        evidence:
-          "JavaFX-Anwendungen, objektorientierte Modellierung und JUnit-Tests in Hochschulprojekten und eigenen Anwendungen.",
-        id: "java",
-        symbol: "{ }",
-        context: "ZHAW und eigene Projekte",
-      },
-      {
-        title: "Entwicklungswerkzeuge",
-        text: "Git · GitLab · CI/CD · GitHub · Gradle · Jira",
-        evidence:
-          "GitLab CI/CD im Beruf; GitHub und Gradle in Teamprojekten und eigenen Anwendungen.",
-        id: "tools",
-        symbol: "git",
-        context: "Berufliche Arbeit und Teamprojekte",
-      },
-      {
-        title: "Bubble.io und XANO",
-        text: "Bubble.io · XANO",
-        evidence:
-          "Kundenanwendungen bei Rocketlaunch und einen zweiseitigen Marktplatz bei Kork Tech entwickelt.",
-        id: "products",
-        symbol: "[ ]",
-        context: "Rocketlaunch und Kork Tech",
-      },
-      {
-        title: "Web-Frontend",
-        text: "TypeScript · React · Next.js · Tailwind CSS",
-        evidence:
-          "Aufbau lokalisierter Komponenten, zugänglicher Interaktionen und responsiver Layouts.",
         id: "frontend",
-        symbol: "TS",
+        title: "Web-Frontend",
         context: "Diese Werkzeuge lerne ich gerade · Dieses Portfolio",
+        tools: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
+        evidence: [
+          {
+            text: "Diese Werkzeuge lerne ich beim Aufbau dieses zweisprachigen Portfolios, einschliesslich responsiver Layouts, Tastaturbedienung und Browsertests.",
+            projectId: "portfolio",
+          },
+        ],
       },
       {
-        title: "Systeme und Support",
-        text: "Linux · Windows Server · Active Directory · ITSM",
-        evidence:
-          "Serverwartung, Benutzerrechte und technische Dokumentation in IT-Tätigkeiten.",
-        id: "systems",
-        symbol: ">_",
-        context: "IT-Tätigkeiten",
+        id: "workflow",
+        title: "Entwicklungsablauf",
+        context: "Berufliche Arbeit und Teamprojekte",
+        tools: ["Git", "GitLab CI/CD", "GitHub", "Gradle"],
+        evidence: [
+          {
+            text: "GitLab für Versionsverwaltung, CI/CD und Deployments im Beruf integriert. GitHub und Gradle in Teamprojekten und eigenen Projekten eingesetzt.",
+            projectId: "php",
+          },
+        ],
+      },
+      {
+        id: "additional",
+        title: "Weitere Erfahrung",
+        context: "Produktentwicklung und IT-Tätigkeiten",
+        tools: [
+          "Bubble.io",
+          "XANO",
+          "Linux",
+          "Windows Server",
+          "Active Directory",
+          "ITSM",
+        ],
+        evidence: [
+          {
+            text: "Kundenanwendungen mit Bubble.io und XANO bei Rocketlaunch und einen Bubble.io-Marktplatz bei Kork Tech entwickelt.",
+            projectId: "products",
+          },
+          {
+            text: "An Serverwartung, Benutzerrechten, technischer Dokumentation und einem zentralen Ticketsystem gearbeitet.",
+            projectId: "itsm",
+          },
+        ],
       },
     ],
     languages:

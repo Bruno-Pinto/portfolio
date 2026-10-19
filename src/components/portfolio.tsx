@@ -220,18 +220,37 @@ export function Portfolio({ locale }: { locale: Locale }) {
             <div className="skills">
               {t.skills.map((s) => (
                 <article className={"skill-card skill-" + s.id} key={s.id}>
-                  <span className="skill-icon" aria-hidden="true">
-                    {s.symbol}
-                  </span>
                   <div className="skill-body">
                     <p className="skill-context">{s.context}</p>
                     <h4>{s.title}</h4>
-                    <ul className="skill-tags">
-                      {s.text.split(" · ").map((item) => (
-                        <li key={item}>{item}</li>
+                    <ul
+                      className="skill-tags"
+                      aria-label={
+                        locale === "en" ? "Technologies" : "Technologien"
+                      }
+                    >
+                      {s.tools.map((tool) => (
+                        <li key={tool}>{tool}</li>
                       ))}
                     </ul>
-                    <p className="muted">{s.evidence}</p>
+                    <div className="skill-evidence">
+                      {s.evidence.map((item) => {
+                        const project = projects.find(
+                          (p) => p.id === item.projectId,
+                        );
+                        return (
+                          <div key={item.projectId}>
+                            <p className="muted">{item.text}</p>
+                            {project && (
+                              <a href="#work" data-project-target={project.id}>
+                                {project.title}{" "}
+                                <span aria-hidden="true">↗</span>
+                              </a>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
                   </div>
                 </article>
               ))}

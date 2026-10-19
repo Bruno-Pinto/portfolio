@@ -29,3 +29,5 @@ The hero now includes Java work and a concise job-opportunity statement without 
 Project cards use a trading-card hierarchy: category/number, name plate, framed illustration, description panel and technologies. Surfaces remain plain and corners sharp. On devices with a fine pointer, tray cards lift 10 pixels with a transitioning shadow; individual CSS translate keeps this separate from the scanner flight transform. Reduced motion disables lift and transitions. Scanner and tray use the same CardFace and dimensions.
 
 Card refinement: removed the collector footer, number outline and title divider. Shared card height is 420px, reducing unused description-panel space while retaining matching scanner/tray faces.
+
+Skills are grouped into software development, web frontend (explicitly currently learning), development workflow and additional experience. Larger plain technology names replace nested badges and icon tiles. Each evidence paragraph links to its related project and respects the current scanner/list view.

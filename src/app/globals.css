@@ -2044,3 +2044,55 @@ nav a[aria-current="location"] {
 .contact-email > span {
   min-width: 0;
 }
+
+/* Four evidence-led skill groups, with development given first emphasis. */
+.skills .skill-card {
+  display: block;
+  padding: 24px;
+  border-style: solid;
+}
+.skills .skill-development {
+  border-top: 2px solid var(--color-accent);
+  background: #10232b;
+}
+.skills .skill-frontend {
+  border-style: dashed;
+}
+.skills .skill-additional {
+  background: #0e191f;
+}
+.skills .skill-tags {
+  gap: 6px 14px;
+  margin-block: 14px 18px;
+}
+.skills .skill-tags li {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: #d8e4ea;
+  font: 1rem/1.5 var(--font-sans);
+}
+.skills .skill-card h4 {
+  font-size: 1.25rem;
+}
+.skill-evidence {
+  display: grid;
+  gap: 16px;
+}
+.skills .skill-evidence p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+.skill-evidence a {
+  display: inline-block;
+  margin-top: 6px;
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+@media (max-width: 700px) {
+  .skills .skill-card {
+    padding: 20px;
+  }
+}

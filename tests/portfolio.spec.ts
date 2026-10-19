@@ -128,7 +128,7 @@ test("experience is chronological and skills include examples", async ({
     ]);
     await expect(page.locator(".project-deck button")).toHaveCount(7);
     await expect(page.locator(".project-scanner img")).toHaveCount(0);
-    await expect(page.locator(".skill-card")).toHaveCount(6);
+    await expect(page.locator(".skill-card")).toHaveCount(4);
     await expect(
       page.locator(".skill-card").filter({ hasText: "TypeScript" }),
     ).toContainText(route === "/" ? "Currently learning" : "lerne ich");
@@ -692,4 +692,57 @@ test("switching to list view during a scan does not leave the scanner waiting", 
   await expect(page.locator(".project-list")).toBeVisible();
   await page.getByRole("button", { name: "Scanner view", exact: true }).click();
   await expect(page.locator(".scanner-reveal h3")).toHaveText("SpinWheels");
+});
+
+test("skills prioritize development and open project evidence in either view", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/de/"]) {
+    const english = route === "/";
+    await page.goto(route);
+    expect(await page.locator(".skill-card h4").allTextContents()).toEqual(
+      english
+        ? [
+            "Software development",
+            "Web frontend",
+            "Development workflow",
+            "Additional experience",
+          ]
+        : [
+            "Softwareentwicklung",
+            "Web-Frontend",
+            "Entwicklungsablauf",
+            "Weitere Erfahrung",
+          ],
+    );
+    await expect(page.locator(".skill-frontend")).toContainText(
+      english ? "Currently learning" : "lerne ich gerade",
+    );
+    await page.locator(".skill-development a[data-project-target=php]").click();
+    await expect(page.locator(".docked-token")).toHaveAttribute(
+      "data-project-id",
+      "php",
+    );
+    await expect(page.locator(".scanner-details")).toHaveAttribute(
+      "aria-busy",
+      "false",
+    );
+    await page
+      .getByRole("button", {
+        name: english ? "List view" : "Listenansicht",
+        exact: true,
+      })
+      .click();
+    await page.locator(".skill-frontend a").click();
+    const portfolio = page.locator('[data-list-project="portfolio"]');
+    await expect(portfolio).toBeFocused();
+    await expect(portfolio.locator("details")).toHaveAttribute("open", "");
+    await expect(page.locator(".scanner-frame")).toBeHidden();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
 });
