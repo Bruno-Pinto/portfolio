@@ -1,0 +1,21 @@
+# Allow only production build inputs into the Docker build context.
+**
+!Dockerfile
+!package.json
+!package-lock.json
+!next.config.ts
+!tsconfig.json
+!src/
+!src/**
+!public/
+!public/**
+!docker/
+!docker/nginx.conf
+
+# Never send secrets or local evidence, even inside allowed directories.
+**/.env*
+**/.git
+**/node_modules
+**/_private
+**/*.pem
+**/*.key

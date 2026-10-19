@@ -1,0 +1,21 @@
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: portfolio:local
+    restart: unless-stopped
+    ports:
+      - "${PORTFOLIO_BIND_IP:-0.0.0.0}:${PORTFOLIO_PORT:-3000}:8080"
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=16m,mode=1777
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"

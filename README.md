@@ -74,3 +74,7 @@ The scanner now contains six projects, including Mission-Life and Mission-Chess.
 Project cards now sit in a tray attached to the scanner. Each card includes a decorative SVG graphic drawn in src/components/project-graphic.tsx: a racing track, a code window, application panels, a cell pattern or a chessboard. These are illustrations, not application screenshots or internal architecture diagrams. Card descriptions remain in the scanner details panel, while the card faces emphasize title, graphic and technologies.
 
 Project order emphasizes development roles: PHP intranet, client applications and marketplace, SpinWheels, central ticketing system, Mission-Life and Mission-Chess. Work experience stays most recent first. Experience entries show role areas and relevant tools; skills lead with PHP and Java and show the context in which each was used.
+
+## Production packaging
+
+See [DEPLOYMENT.md](DEPLOYMENT.md) for the multi-stage Docker build, Compose commands and Nginx Proxy Manager setup. The runtime serves static files; local development is unchanged.
