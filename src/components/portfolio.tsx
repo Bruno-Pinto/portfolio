@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- Language routes use separate root layouts and intentionally load complete localized documents. */
 import { content, type Locale } from "@/content/portfolio";
 import Image from "next/image";
+import { LinkedInIcon } from "@/components/linkedin-icon";
 import { getProjects } from "@/content/project-scanner";
 import { ProjectScanner } from "@/components/project-scanner";
 import { SectionNav } from "@/components/section-nav";
@@ -75,8 +76,9 @@ export function Portfolio({ locale }: { locale: Locale }) {
               <a
                 href="https://www.linkedin.com/in/bruno-pinto-da-silva/"
                 rel="me"
+                className="social-link"
               >
-                LinkedIn
+                <LinkedInIcon /> LinkedIn
               </a>
               <span aria-hidden="true">/</span>
               <a href={t.cvHref} download>
@@ -126,6 +128,14 @@ export function Portfolio({ locale }: { locale: Locale }) {
               {t.jobs.map((j) => (
                 <article className="job" key={j.company}>
                   <div className="job-meta">
+                    <div className="job-logo" aria-hidden="true">
+                      <Image
+                        src={j.logo.src}
+                        width={j.logo.width}
+                        height={j.logo.height}
+                        alt=""
+                      />
+                    </div>
                     <p className="job-area">{j.area}</p>
                     <p className="job-date">{j.date}</p>
                   </div>
@@ -230,8 +240,9 @@ export function Portfolio({ locale }: { locale: Locale }) {
               <a
                 href="https://www.linkedin.com/in/bruno-pinto-da-silva/"
                 rel="me"
+                className="social-link"
               >
-                LinkedIn
+                <LinkedInIcon /> LinkedIn
               </a>
               <a href="/cv/bruno-pinto-cv-en.pdf" download hrefLang="en">
                 {t.cvEnglish} ↓

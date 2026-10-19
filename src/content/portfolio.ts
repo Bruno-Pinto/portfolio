@@ -76,6 +76,11 @@ export const content = {
         area: "Web development",
         tags: ["PHP", "SQL", "GitLab CI/CD"],
         projectIds: ["php", "itsm"],
+        logo: {
+          src: "/images/employers/uzh.svg",
+          width: 121,
+          height: 41,
+        },
       },
       {
         company: "IKAMED Institute AG",
@@ -87,6 +92,11 @@ export const content = {
         area: "IT support",
         tags: ["Hardware", "Software"],
         projectIds: [],
+        logo: {
+          src: "/images/employers/ikamed.jpg",
+          width: 64,
+          height: 64,
+        },
       },
       {
         company: "Rocketlaunch",
@@ -99,6 +109,11 @@ export const content = {
         area: "Product development",
         tags: ["Bubble.io", "XANO"],
         projectIds: ["products"],
+        logo: {
+          src: "/images/employers/rocket.jpg",
+          width: 64,
+          height: 64,
+        },
       },
       {
         company: "Kork Tech AG",
@@ -110,6 +125,11 @@ export const content = {
         area: "Application development",
         tags: ["Bubble.io"],
         projectIds: ["products"],
+        logo: {
+          src: "/images/employers/kork.jpg",
+          width: 64,
+          height: 64,
+        },
       },
     ],
     about: "About me",
@@ -262,6 +282,11 @@ export const content = {
         area: "Webentwicklung",
         tags: ["PHP", "SQL", "GitLab CI/CD"],
         projectIds: ["php", "itsm"],
+        logo: {
+          src: "/images/employers/uzh.svg",
+          width: 121,
+          height: 41,
+        },
       },
       {
         company: "IKAMED Institute AG",
@@ -273,6 +298,11 @@ export const content = {
         area: "IT-Support",
         tags: ["Hardware", "Software"],
         projectIds: [],
+        logo: {
+          src: "/images/employers/ikamed.jpg",
+          width: 64,
+          height: 64,
+        },
       },
       {
         company: "Rocketlaunch",
@@ -285,6 +315,11 @@ export const content = {
         area: "Produktentwicklung",
         tags: ["Bubble.io", "XANO"],
         projectIds: ["products"],
+        logo: {
+          src: "/images/employers/rocket.jpg",
+          width: 64,
+          height: 64,
+        },
       },
       {
         company: "Kork Tech AG",
@@ -296,6 +331,11 @@ export const content = {
         area: "Anwendungsentwicklung",
         tags: ["Bubble.io"],
         projectIds: ["products"],
+        logo: {
+          src: "/images/employers/kork.jpg",
+          width: 64,
+          height: 64,
+        },
       },
     ],
     about: "Über mich",
