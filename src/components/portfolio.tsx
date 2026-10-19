@@ -2,7 +2,7 @@
 import { content, type Locale } from "@/content/portfolio";
 import { SearchLab } from "@/components/search-lab";
 import Image from "next/image";
-import { FeaturedProject } from "@/components/featured-project";
+import { ProjectScanner } from "@/components/project-scanner";
 import { SectionNav } from "@/components/section-nav";
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = content[locale];
@@ -151,41 +151,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
             </div>
             <p className="section-intro muted">{t.workIntro}</p>
           </div>
-          <div className="project-grid">
-            <FeaturedProject locale={locale} />
-            {t.projects.map((p, i) => (
-              <article className="project" key={p.title}>
-                <div className="project-top">
-                  <span className="project-number" aria-hidden="true">
-                    0{i + 2}
-                  </span>
-                  <p className="eyebrow">{p.category}</p>
-                </div>
-                <h3>{p.title}</h3>
-                <p className="muted">{p.text}</p>
-                <ul className="tags">
-                  {p.tags.map((tag) => (
-                    <li key={tag}>{tag}</li>
-                  ))}
-                </ul>
-                <div className="contributions">
-                  <h4>{t.contributionTitle}</h4>
-                  <ul>
-                    {p.contributions.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-                <details>
-                  <summary>
-                    {t.details}
-                    <span aria-hidden="true"> +</span>
-                  </summary>
-                  <p className="project-detail">{p.detail}</p>
-                </details>
-              </article>
-            ))}
-          </div>
+          <ProjectScanner locale={locale} />
         </section>
         <section
           className="container section"
