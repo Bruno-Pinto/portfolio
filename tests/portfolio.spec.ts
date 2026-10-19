@@ -36,24 +36,6 @@ test("project detail is accessible and page fits viewport", async ({
     page.getByRole("link", { name: "bpintodasilva@gmail.com" }),
   ).toHaveAttribute("href", "mailto:bpintodasilva@gmail.com");
 });
-test("binary search finds every target and resets", async ({ page }) => {
-  await page.goto("/");
-  await page.locator(".lab-disclosure > summary").click();
-  for (let target = 1; target <= 16; target++) {
-    await page.getByLabel("Number to find").selectOption(String(target));
-    for (let step = 0; step < 5; step++) {
-      if (await page.getByRole("button", { name: "Next step" }).isDisabled())
-        break;
-      await page.getByRole("button", { name: "Next step" }).click();
-    }
-    await expect(page.locator(".lab-status")).toContainText(
-      "Found: " + target + ".",
-    );
-  }
-  await page.getByRole("button", { name: "Reset", exact: true }).click();
-  await expect(page.locator(".lab-status")).toContainText("Choose a number");
-  await expect(page.getByRole("button", { name: "Next step" })).toBeEnabled();
-});
 test("keyboard skip link reaches main content", async ({ page }) => {
   await page.goto("/");
   await page.keyboard.press("Tab");
@@ -96,10 +78,6 @@ test("featured work and portrait load in both languages without overflow", async
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true);
-    await expect(page.locator(".lab-disclosure")).not.toHaveAttribute(
-      "open",
-      "",
-    );
   }
 });
 
@@ -416,5 +394,34 @@ test("professional projects lead and PHP and ITSM have separate details", async 
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true);
+  }
+});
+
+test("approved CVs download as PDFs and binary search is removed", async ({
+  page,
+  request,
+}) => {
+  for (const locale of ["en", "de"]) {
+    await page.goto(locale === "en" ? "/" : "/de/");
+    await expect(page.locator(".hero-links a[download]")).toHaveAttribute(
+      "href",
+      "/cv/bruno-pinto-cv-" + locale + ".pdf",
+    );
+    for (const language of ["en", "de"]) {
+      const href = "/cv/bruno-pinto-cv-" + language + ".pdf";
+      const response = await request.get(href);
+      expect(response.ok()).toBe(true);
+      expect(response.headers()["content-type"]).toContain("application/pdf");
+      expect((await response.body()).subarray(0, 5).toString()).toBe("%PDF-");
+      const [download] = await Promise.all([
+        page.waitForEvent("download"),
+        page.locator('.cv-note a[href="' + href + '"]').click(),
+      ]);
+      expect(download.suggestedFilename()).toBe(
+        "bruno-pinto-cv-" + language + ".pdf",
+      );
+      expect(await download.failure()).toBeNull();
+    }
+    await expect(page.locator(".lab-section")).toHaveCount(0);
   }
 });

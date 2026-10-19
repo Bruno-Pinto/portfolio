@@ -8,10 +8,9 @@ Applied principles:
 - Put professional experience directly after the introduction; keep jobs most recent first.
 - Keep section order, navigation order and section numbers aligned.
 - Use short responsibility lists and bounded text widths.
-- Make contact and CV requests accessible from the introduction.
+- Make contact and CV downloads accessible from the introduction.
 - Keep project summaries visible in cards; selecting one moves it into the scanner and shows its details. The scanner has keyboard controls, reduced-motion support and static descriptions when JavaScript is disabled.
 - Mark the current section in navigation without adding a blocking interaction.
-- Keep the optional algorithm demo separate from normal navigation.
 - Use concrete experience instead of skill percentages, unverified claims or testimonials.
 - Avoid enlarging the low-resolution portrait. A higher-resolution original is still needed for larger use.
 

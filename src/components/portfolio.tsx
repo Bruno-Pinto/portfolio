@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- Language routes use separate root layouts and intentionally load complete localized documents. */
 import { content, type Locale } from "@/content/portfolio";
-import { SearchLab } from "@/components/search-lab";
 import Image from "next/image";
 import { ProjectScanner } from "@/components/project-scanner";
 import { SectionNav } from "@/components/section-nav";
@@ -71,14 +70,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
             <div className="hero-links">
               <a href="mailto:bpintodasilva@gmail.com">{t.emailLabel}</a>
               <span aria-hidden="true">/</span>
-              <a
-                href={
-                  "mailto:bpintodasilva@gmail.com?subject=" +
-                  encodeURIComponent(
-                    locale === "en" ? "CV request" : "Anfrage Lebenslauf",
-                  )
-                }
-              >
+              <a href={t.cvHref} download>
                 {t.cv}
               </a>
             </div>
@@ -198,43 +190,23 @@ export function Portfolio({ locale }: { locale: Locale }) {
           <p className="languages muted">{t.languages}</p>
         </section>
         <section
-          className="container lab-section"
-          aria-labelledby="lab-heading"
-        >
-          <details className="lab-disclosure">
-            <summary id="lab-heading">
-              <span className="eyebrow">04 / {t.lab}</span>
-              <span>{t.labTitle}</span>
-              <span aria-hidden="true">+</span>
-            </summary>
-            <div className="lab-content">
-              <p className="section-intro muted">{t.labText}</p>
-              <SearchLab text={t} />
-            </div>
-          </details>
-        </section>
-        <section
           className="contact-section section"
           id="contact"
           aria-labelledby="contact-title"
         >
           <div className="container">
-            <p className="eyebrow">05 / {t.nav[3]}</p>
+            <p className="eyebrow">04 / {t.nav[3]}</p>
             <h2 id="contact-title">{t.contactTitle}</h2>
             <p className="section-intro muted">{t.contactText}</p>
             <a className="contact-email" href="mailto:bpintodasilva@gmail.com">
               bpintodasilva@gmail.com ↗
             </a>
             <div className="cv-note">
-              <a
-                href={
-                  "mailto:bpintodasilva@gmail.com?subject=" +
-                  encodeURIComponent(
-                    locale === "en" ? "CV request" : "Anfrage Lebenslauf",
-                  )
-                }
-              >
-                {t.cv} ↗
+              <a href="/cv/bruno-pinto-cv-en.pdf" download hrefLang="en">
+                {t.cvEnglish} ↓
+              </a>
+              <a href="/cv/bruno-pinto-cv-de.pdf" download hrefLang="de">
+                {t.cvGerman} ↓
               </a>
               <span className="muted">{t.cvNote}</span>
             </div>

@@ -47,3 +47,7 @@ English and German summaries live in src/content/personal-projects.ts. No metric
 The project-card SVGs are decorative illustrations created for the portfolio, not screenshots or depictions of private system architecture. They share one visual style and remain identical in the scanner and deck.
 
 The PHP intranet and central ticketing system are separate project cards. Their scope follows the University of Zurich reference: intranet architecture/migration/development and GitLab workflows belong to the PHP card; ticketing-system design, implementation, continued development and documentation belong to ITSM. No ticketing product or programming language is assumed.
+
+## Approved public CV downloads
+
+The owner approved publishing both CVs after reviewing their contents. The PDFs were checked again: no postal address or phone number was found in the extracted content, and document metadata was reviewed. Identical copies of the supplied English and German files are tracked in public/cv; originals remain in the ignored _private folder. Employment-reference PDFs remain private. The PDFs have not been rewritten to match later website copy changes.
