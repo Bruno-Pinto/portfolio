@@ -72,6 +72,13 @@ export function Portfolio({ locale }: { locale: Locale }) {
             <div className="hero-links">
               <a href="mailto:bpintodasilva@gmail.com">{t.emailLabel}</a>
               <span aria-hidden="true">/</span>
+              <a
+                href="https://www.linkedin.com/in/bruno-pinto-da-silva/"
+                rel="me"
+              >
+                LinkedIn
+              </a>
+              <span aria-hidden="true">/</span>
               <a href={t.cvHref} download>
                 {t.cv}
               </a>
@@ -220,6 +227,12 @@ export function Portfolio({ locale }: { locale: Locale }) {
               bpintodasilva@gmail.com ↗
             </a>
             <div className="cv-note">
+              <a
+                href="https://www.linkedin.com/in/bruno-pinto-da-silva/"
+                rel="me"
+              >
+                LinkedIn
+              </a>
               <a href="/cv/bruno-pinto-cv-en.pdf" download hrefLang="en">
                 {t.cvEnglish} ↓
               </a>
