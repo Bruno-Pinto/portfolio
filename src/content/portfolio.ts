@@ -1,15 +1,16 @@
 export type Locale = "en" | "de";
 export const content = {
   en: {
-    nav: ["Work", "Experience", "About", "Contact"],
+    nav: ["Experience", "Projects", "About", "Contact"],
     skip: "Skip to content",
     role: "Software Developer",
     student: "Computer Science student at ZHAW",
     location: "Zurich, Switzerland",
     description:
-      "I study Computer Science at ZHAW. My work includes PHP web applications at the University of Zurich, client applications at Rocketlaunch and a Java racing game developed in a team.",
+      "I develop web applications with PHP and SQL. My experience includes intranet development at the University of Zurich and client applications at Rocketlaunch.",
     explore: "Explore my work",
     contact: "Get in touch",
+    emailLabel: "Email",
     work: "Selected work",
     workTitle: "Projects",
     workIntro:
@@ -51,25 +52,36 @@ export const content = {
         company: "University of Zurich · Institute of Medical Microbiology",
         role: "Student Assistant",
         date: "15 Oct 2025 — 14 Oct 2026",
-        text: "Worked on the architecture, migration and development of an intranet web service. Integrated GitLab for version control, CI/CD and deployments. Designed and implemented a central ticketing system and maintained technical documentation.",
+        points: [
+          "Worked on the architecture, migration and development of an intranet web service.",
+          "Integrated GitLab for version control, CI/CD and deployments.",
+          "Designed and implemented a central ticketing system and maintained technical documentation.",
+        ],
       },
       {
         company: "IKAMED Institute AG",
         role: "IT Hardware & Software Support",
         date: "Jul 2025 — Mar 2026",
-        text: "Resolved hardware and software issues, configured computers and servers, and maintained IT infrastructure.",
+        points: [
+          "Resolved hardware and software issues, configured computers and servers, and maintained IT infrastructure.",
+        ],
       },
       {
         company: "Rocketlaunch",
         role: "Co-Founder & CTO",
         date: "2022 — 2024",
-        text: "Developed client applications with Bubble.io and XANO and coordinated the technical team. Planned and delivered technical projects with budget and schedule responsibility, evaluated technologies and improved development processes.",
+        points: [
+          "Developed client applications with Bubble.io and XANO and coordinated the technical team.",
+          "Planned and delivered technical projects with budget and schedule responsibility, evaluated technologies and improved development processes.",
+        ],
       },
       {
         company: "Kork Tech AG",
         role: "Developer & Marketing",
         date: "2022 — 2023",
-        text: "Developed and launched a two-sided marketplace with Bubble.io and supported marketing activities.",
+        points: [
+          "Developed and launched a two-sided marketplace with Bubble.io and supported marketing activities.",
+        ],
       },
     ],
     about: "About me",
@@ -140,15 +152,16 @@ export const content = {
     top: "Back to top",
   },
   de: {
-    nav: ["Projekte", "Erfahrung", "Über mich", "Kontakt"],
+    nav: ["Erfahrung", "Projekte", "Über mich", "Kontakt"],
     skip: "Zum Inhalt springen",
     role: "Softwareentwickler",
     student: "Informatikstudent an der ZHAW",
     location: "Zürich, Schweiz",
     description:
-      "Ich studiere Informatik an der ZHAW. Zu meiner Arbeit gehören PHP-Webanwendungen an der Universität Zürich, Kundenanwendungen bei Rocketlaunch und ein im Team entwickeltes Java-Rennspiel.",
+      "Ich entwickle Webanwendungen mit PHP und SQL. Dazu gehören ein Intranet an der Universität Zürich und Kundenanwendungen bei Rocketlaunch.",
     explore: "Projekte entdecken",
     contact: "Kontakt aufnehmen",
+    emailLabel: "E-Mail",
     work: "Ausgewählte Projekte",
     workTitle: "Projekte",
     workIntro:
@@ -190,25 +203,36 @@ export const content = {
         company: "Universität Zürich · Institut für Medizinische Mikrobiologie",
         role: "Studentische Hilfskraft",
         date: "15. Okt. 2025 — 14. Okt. 2026",
-        text: "Architektur, Migration und Weiterentwicklung eines Intranet-Webservices. Integration von GitLab für Versionsverwaltung, CI/CD und Deployments. Konzeption und Implementierung eines zentralen Ticketsystems sowie Pflege technischer Dokumentationen.",
+        points: [
+          "Architektur, Migration und Weiterentwicklung eines Intranet-Webservices.",
+          "Integration von GitLab für Versionsverwaltung, CI/CD und Deployments.",
+          "Konzeption und Implementierung eines zentralen Ticketsystems sowie Pflege technischer Dokumentationen.",
+        ],
       },
       {
         company: "IKAMED Institute AG",
         role: "IT-Hard- und Software-Support",
         date: "Juli 2025 — März 2026",
-        text: "Behebung von Hard- und Softwareproblemen, Einrichtung von Computern und Servern sowie Wartung der IT-Infrastruktur.",
+        points: [
+          "Behebung von Hard- und Softwareproblemen, Einrichtung von Computern und Servern sowie Wartung der IT-Infrastruktur.",
+        ],
       },
       {
         company: "Rocketlaunch",
         role: "Co-Founder & CTO",
         date: "2022 — 2024",
-        text: "Entwicklung von Kundenanwendungen mit Bubble.io und XANO und Koordination des technischen Teams. Planung und Umsetzung technischer Projekte mit Budget- und Terminverantwortung, Evaluation neuer Technologien und Verbesserung der Entwicklungsprozesse.",
+        points: [
+          "Entwicklung von Kundenanwendungen mit Bubble.io und XANO und Koordination des technischen Teams.",
+          "Planung und Umsetzung technischer Projekte mit Budget- und Terminverantwortung, Evaluation neuer Technologien und Verbesserung der Entwicklungsprozesse.",
+        ],
       },
       {
         company: "Kork Tech AG",
         role: "Entwickler & Marketing",
         date: "2022 — 2023",
-        text: "Entwicklung und Einführung eines zweiseitigen Marktplatzes mit Bubble.io sowie Unterstützung im Marketing.",
+        points: [
+          "Entwicklung und Einführung eines zweiseitigen Marktplatzes mit Bubble.io sowie Unterstützung im Marketing.",
+        ],
       },
     ],
     about: "Über mich",

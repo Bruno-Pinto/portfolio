@@ -3,7 +3,7 @@ import { content, type Locale } from "@/content/portfolio";
 import { SearchLab } from "@/components/search-lab";
 import Image from "next/image";
 import { FeaturedProject } from "@/components/featured-project";
-const anchors = ["work", "experience", "about", "contact"];
+import { SectionNav } from "@/components/section-nav";
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = content[locale];
   return (
@@ -16,15 +16,10 @@ export function Portfolio({ locale }: { locale: Locale }) {
           <a className="wordmark" href="#top" aria-label="Bruno Pinto da Silva">
             <span>[</span> BP<span> / ]</span>
           </a>
-          <nav
-            aria-label={locale === "en" ? "Main navigation" : "Hauptnavigation"}
-          >
-            {t.nav.map((label, i) => (
-              <a key={label} href={"#" + anchors[i]}>
-                {label}
-              </a>
-            ))}
-          </nav>
+          <SectionNav
+            labels={t.nav}
+            label={locale === "en" ? "Main navigation" : "Hauptnavigation"}
+          />
           <div
             className="language-switch"
             aria-label={locale === "en" ? "Language" : "Sprache"}
@@ -73,6 +68,20 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 {t.contact}
               </a>
             </div>
+            <div className="hero-links">
+              <a href="mailto:bpintodasilva@gmail.com">{t.emailLabel}</a>
+              <span aria-hidden="true">/</span>
+              <a
+                href={
+                  "mailto:bpintodasilva@gmail.com?subject=" +
+                  encodeURIComponent(
+                    locale === "en" ? "CV request" : "Anfrage Lebenslauf",
+                  )
+                }
+              >
+                {t.cv}
+              </a>
+            </div>
           </div>
           <div className="portrait-wrap">
             <div className="portrait">
@@ -95,9 +104,9 @@ export function Portfolio({ locale }: { locale: Locale }) {
           </div>
         </section>
         <div className="hero-wayfinding container">
-          <a href="#work">
+          <a href="#experience">
             <span>01</span>
-            {t.work}
+            {t.experience}
             <span aria-hidden="true">↓</span>
           </a>
           <p>
@@ -105,13 +114,39 @@ export function Portfolio({ locale }: { locale: Locale }) {
           </p>
         </div>
         <section
+          className="section experience-section"
+          id="experience"
+          aria-labelledby="experience-title"
+        >
+          <div className="container">
+            <p className="eyebrow">01 / {t.experience}</p>
+            <h2 id="experience-title">{t.experienceTitle}</h2>
+            <div className="timeline">
+              {t.jobs.map((j) => (
+                <article className="job" key={j.company}>
+                  <p className="job-date">{j.date}</p>
+                  <div>
+                    <h3>{j.company}</h3>
+                    <p className="job-role">{j.role}</p>
+                    <ul className="job-points">
+                      {j.points.map((point) => (
+                        <li key={point}>{point}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section
           className="container section"
           id="work"
           aria-labelledby="work-title"
         >
           <div className="section-heading">
             <div>
-              <p className="eyebrow">01 / {t.work}</p>
+              <p className="eyebrow">02 / {t.work}</p>
               <h2 id="work-title">{t.workTitle}</h2>
             </div>
             <p className="section-intro muted">{t.workIntro}</p>
@@ -150,28 +185,6 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 </details>
               </article>
             ))}
-          </div>
-        </section>
-        <section
-          className="section experience-section"
-          id="experience"
-          aria-labelledby="experience-title"
-        >
-          <div className="container">
-            <p className="eyebrow">02 / {t.experience}</p>
-            <h2 id="experience-title">{t.experienceTitle}</h2>
-            <div className="timeline">
-              {t.jobs.map((j) => (
-                <article className="job" key={j.company}>
-                  <p className="job-date">{j.date}</p>
-                  <div>
-                    <h3>{j.company}</h3>
-                    <p className="job-role">{j.role}</p>
-                    <p className="muted">{j.text}</p>
-                  </div>
-                </article>
-              ))}
-            </div>
           </div>
         </section>
         <section

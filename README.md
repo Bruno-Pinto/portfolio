@@ -63,3 +63,5 @@ The local static preview is available at `http://127.0.0.1:4173`. It is a develo
 ## Visual hierarchy
 
 The header stays visible while scrolling. Projects use bordered cards, with SpinWheels highlighted. Experience is listed most recent first. Skills include the tools and concrete examples of where they were used. The interactive lab is collapsed by default.
+
+The page order is introduction, work experience, projects, education/skills, optional lab and contact. Navigation uses normal anchors; a small client component marks the current section while scrolling. The applied review principles are recorded in docs/design-decisions.md.

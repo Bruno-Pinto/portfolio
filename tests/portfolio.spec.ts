@@ -123,7 +123,7 @@ test("header stays visible and anchor headings stay below it", async ({
     )
     .toBeGreaterThanOrEqual(0);
   await expect(
-    page.getByRole("link", { name: "Work", exact: true }),
+    page.getByRole("link", { name: "Projects", exact: true }),
   ).toBeVisible();
 });
 test("experience is chronological and skills include examples", async ({
@@ -147,4 +147,45 @@ test("experience is chronological and skills include examples", async ({
       page.locator(".skill-card").filter({ hasText: "TypeScript" }),
     ).toContainText(route === "/" ? "Currently learning" : "lerne ich");
   }
+});
+
+test("experience comes before projects and navigation marks the current section", async ({
+  page,
+}) => {
+  await page.goto("/");
+  expect(
+    await page
+      .locator("#experience")
+      .evaluate((el) =>
+        Boolean(
+          el.compareDocumentPosition(document.getElementById("work")!) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+        ),
+      ),
+  ).toBe(true);
+  await expect(
+    page.getByRole("navigation").first().getByRole("link").first(),
+  ).toHaveText("Experience");
+  await page
+    .getByRole("navigation")
+    .first()
+    .getByRole("link", { name: "Experience", exact: true })
+    .click();
+  await expect(
+    page
+      .getByRole("navigation")
+      .first()
+      .getByRole("link", { name: "Experience", exact: true }),
+  ).toHaveAttribute("aria-current", "location");
+  await page
+    .getByRole("navigation")
+    .first()
+    .getByRole("link", { name: "Projects", exact: true })
+    .click();
+  await expect(
+    page
+      .getByRole("navigation")
+      .first()
+      .getByRole("link", { name: "Projects", exact: true }),
+  ).toHaveAttribute("aria-current", "location");
 });
