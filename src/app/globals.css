@@ -1215,7 +1215,7 @@ nav a[aria-current="location"] {
 /* Every location uses the same card geometry and typography. */
 .project-scanner {
   --project-card-width: min(260px, calc(100vw - 84px));
-  --project-card-height: calc(var(--project-card-width) * 1.3846153846);
+  --project-card-height: 480px;
 }
 .project-scanner .project-token,
 .project-scanner .project-placeholder {
@@ -1688,7 +1688,7 @@ nav a[aria-current="location"] {
 @media (max-width: 700px) {
   .project-scanner {
     --project-card-width: min(260px, calc(100vw - 88px));
-    --project-card-height: calc(var(--project-card-width) * 1.54);
+    --project-card-height: 480px;
   }
   .project-deck {
     grid-template-columns: minmax(0, 1fr);
@@ -1828,13 +1828,6 @@ nav a[aria-current="location"] {
   flex-direction: column;
   justify-content: flex-start;
 }
-.project-caption {
-  width: var(--project-card-width);
-  margin: 12px 0 0;
-  color: #c2ced4;
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
 .project-list-group + .project-list-group {
   margin-top: 36px;
 }
@@ -1956,5 +1949,13 @@ nav a[aria-current="location"] {
 .github-icon {
   width: 1rem;
   height: 1rem;
+  flex-shrink: 0;
+}
+
+.project-scanner .token-summary {
+  margin-top: 10px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #c2ced4;
   flex-shrink: 0;
 }

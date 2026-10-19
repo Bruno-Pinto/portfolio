@@ -31,6 +31,7 @@ function CardFace({ project }: { project: ScannerProject }) {
       </span>
       <ProjectGraphic id={project.id} />
       <span className="token-title">{project.title}</span>
+      <span className="token-summary">{project.summary}</span>
       <span className="token-tags">
         {project.tags.map((tag) => (
           <span key={tag}>{tag}</span>
@@ -403,7 +404,6 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
                 data-project-id={p.id}
                 onClick={() => choose(i)}
                 aria-pressed={selected === i}
-                aria-describedby={"project-summary-" + p.id}
                 aria-controls="scanner-details"
                 aria-label={
                   (selected === i ? t.return : t.select) + ": " + p.title
@@ -421,9 +421,6 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
                   <CardFace project={p} />
                 )}
               </button>
-              <p className="project-caption" id={"project-summary-" + p.id}>
-                {p.summary}
-              </p>
             </div>
           ))}
         </div>
