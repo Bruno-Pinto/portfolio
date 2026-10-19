@@ -29,8 +29,8 @@ function CardFace({ project }: { project: ScannerProject }) {
         <span>{project.number}</span>
         <span>{project.category}</span>
       </span>
-      <ProjectGraphic id={project.id} />
       <span className="token-title">{project.title}</span>
+      <ProjectGraphic id={project.id} />
       <span className="token-summary">{project.summary}</span>
       <span className="token-tags">
         {project.tags.map((tag) => (
