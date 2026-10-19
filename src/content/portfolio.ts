@@ -16,7 +16,7 @@ export const content = {
     workIntro:
       "A Java racing game, PHP development and applications built for clients.",
     details: "Project details",
-    contributionTitle: "My work",
+    contributionTitle: "My contribution",
     projects: [
       {
         title: "PHP intranet development",
@@ -167,7 +167,7 @@ export const content = {
     workIntro:
       "Ein Java-Rennspiel, PHP-Entwicklung und Anwendungen für Kunden.",
     details: "Projektdetails",
-    contributionTitle: "Meine Arbeit",
+    contributionTitle: "Mein Beitrag",
     projects: [
       {
         title: "Weiterentwicklung eines PHP-Intranets",

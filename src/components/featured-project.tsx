@@ -1,8 +1,9 @@
 import { spinwheels } from "@/content/spinwheels";
-import type { Locale } from "@/content/portfolio";
+import { content, type Locale } from "@/content/portfolio";
 
 export function FeaturedProject({ locale }: { locale: Locale }) {
   const t = spinwheels[locale];
+  const labels = content[locale];
   return (
     <article className="featured-project" aria-labelledby="spinwheels-title">
       <div className="project-top">
@@ -21,7 +22,7 @@ export function FeaturedProject({ locale }: { locale: Locale }) {
         <li>JUnit</li>
       </ul>
       <div className="contributions">
-        <h4>{t.contributionTitle}</h4>
+        <h4>{labels.contributionTitle}</h4>
         <ul>
           {t.contributions.map((item) => (
             <li key={item}>{item}</li>
@@ -30,7 +31,7 @@ export function FeaturedProject({ locale }: { locale: Locale }) {
       </div>
       <details className="featured-details">
         <summary>
-          {t.detailLabel}
+          {labels.details}
           <span aria-hidden="true"> +</span>
         </summary>
         <p className="project-detail">{t.detail}</p>

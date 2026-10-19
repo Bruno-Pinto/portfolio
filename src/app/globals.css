@@ -1104,3 +1104,30 @@ nav a[aria-current="location"] {
     padding-top: 48px;
   }
 }
+
+/* Stretch the native disclosure trigger across the card; no JavaScript needed. */
+.project-grid > article {
+  position: relative;
+  cursor: pointer;
+}
+.project-grid summary::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.project-grid summary:focus-visible {
+  outline: none;
+}
+.project-grid summary:focus-visible::after {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 5px;
+}
+.project-grid .project-detail {
+  position: relative;
+  z-index: 2;
+  cursor: text;
+}
+.project-grid details[open] summary > span:last-child {
+  transform: rotate(45deg);
+}

@@ -189,3 +189,30 @@ test("experience comes before projects and navigation marks the current section"
       .getByRole("link", { name: "Projects", exact: true }),
   ).toHaveAttribute("aria-current", "location");
 });
+
+test("whole project cards toggle details with pointer and keyboard", async ({
+  page,
+}) => {
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    const cards = page.locator(".project-grid > article");
+    for (let i = 0; i < 3; i++) {
+      const card = cards.nth(i);
+      const disclosure = card.locator("details");
+      await card.click({ position: { x: 30, y: 30 } });
+      await expect(disclosure).toHaveAttribute("open", "");
+      const summary = disclosure.locator("summary");
+      await summary.focus();
+      await summary.press("Space");
+      await expect(disclosure).not.toHaveAttribute("open", "");
+      await summary.press("Enter");
+      await expect(disclosure).toHaveAttribute("open", "");
+    }
+    await expect(page.locator(".project-grid .contributions h4")).toHaveText(
+      Array(3).fill(route === "/" ? "My contribution" : "Mein Beitrag"),
+    );
+    await expect(page.locator(".project-grid summary")).toHaveText(
+      Array(3).fill(route === "/" ? "Project details +" : "Projektdetails +"),
+    );
+  }
+});
