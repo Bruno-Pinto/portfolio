@@ -1949,7 +1949,7 @@ nav a[aria-current="location"] {
   isolation: isolate;
   background: #14232c;
   border: 1px solid #68838f;
-  box-shadow: 0 3px 8px #aabac414;
+  box-shadow: none;
   transition:
     translate 180ms ease-out,
     box-shadow 180ms ease-out,
@@ -2005,8 +2005,8 @@ nav a[aria-current="location"] {
     border-color: var(--color-accent);
     background: #14232c;
     box-shadow:
-      0 18px 28px #b9c8d138,
-      0 5px 10px #e1e9ee24;
+      0 18px 28px rgb(180 180 180 / 55%),
+      0 5px 10px rgb(210 210 210 / 35%);
   }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
@@ -2023,4 +2023,12 @@ nav a[aria-current="location"] {
   .project-scanner .project-token {
     transition: none;
   }
+}
+
+/* Explicitly suppress decorative inset frames from earlier card styles. */
+.project-scanner .project-token::before,
+.project-scanner .project-token::after {
+  content: none;
+  border: 0;
+  box-shadow: none;
 }
