@@ -1193,14 +1193,16 @@ nav a[aria-current="location"] {
   }
 }
 .scanner-reveal {
-  animation: scanner-reveal 0.16s ease-out both;
+  animation: scanner-reveal 0.18s ease-out both;
 }
 @keyframes scanner-reveal {
   from {
     opacity: 0;
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
   }
 }
 @media (prefers-reduced-motion: reduce) {
