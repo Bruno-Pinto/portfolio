@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  useCallback,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -59,28 +60,65 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
   const animation = useRef<Animation | null>(null);
   const outgoingAnimation = useRef<Animation | null>(null);
 
-  function choose(index: number) {
-    const returning = selected === index;
-    if (!returning)
-      frame.current?.scrollIntoView({ behavior: "instant", block: "start" });
-    const source = returning ? dock.current : sources.current[index];
-    const rect = source?.getBoundingClientRect();
-    const outgoing =
-      !returning && selected !== null && dock.current
-        ? { rect: dock.current.getBoundingClientRect(), index: selected }
-        : undefined;
-    animation.current?.cancel();
-    outgoingAnimation.current?.cancel();
-    pending.current = rect ? { rect, index, outgoing } : null;
-    setSelected(returning ? null : index);
-    setPhase(
-      returning
-        ? "idle"
-        : window.matchMedia("(prefers-reduced-motion: reduce)").matches
-          ? "ready"
-          : "moving",
-    );
-  }
+  const choose = useCallback(
+    (index: number, open = false) => {
+      if (open && selected === index) {
+        frame.current?.scrollIntoView({ behavior: "instant", block: "start" });
+        dock.current?.focus({ preventScroll: true });
+        return;
+      }
+      const returning = !open && selected === index;
+      if (!returning)
+        frame.current?.scrollIntoView({ behavior: "instant", block: "start" });
+      const source = returning ? dock.current : sources.current[index];
+      const rect = source?.getBoundingClientRect();
+      const outgoing =
+        !returning && selected !== null && dock.current
+          ? { rect: dock.current.getBoundingClientRect(), index: selected }
+          : undefined;
+      animation.current?.cancel();
+      outgoingAnimation.current?.cancel();
+      pending.current = rect ? { rect, index, outgoing } : null;
+      setSelected(returning ? null : index);
+      setPhase(
+        returning
+          ? "idle"
+          : window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "ready"
+            : "moving",
+      );
+    },
+    [selected],
+  );
+  useEffect(() => {
+    // Real section links still work without JavaScript.
+    function openRelatedProject(event: MouseEvent) {
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      )
+        return;
+      const link =
+        event.target instanceof Element
+          ? event.target.closest<HTMLAnchorElement>("a[data-project-target]")
+          : null;
+      if (!link) return;
+      const index = getProjects(locale).findIndex(
+        (project) => project.id === link.dataset.projectTarget,
+      );
+      if (index < 0) return;
+      event.preventDefault();
+      if (window.location.hash !== "#work")
+        window.history.pushState(null, "", "#work");
+      choose(index, true);
+    }
+    document.addEventListener("click", openRelatedProject);
+    return () => document.removeEventListener("click", openRelatedProject);
+  }, [choose, locale]);
   useLayoutEffect(() => {
     const move = pending.current;
     pending.current = null;

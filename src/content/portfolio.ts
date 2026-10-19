@@ -75,6 +75,7 @@ export const content = {
         ],
         area: "Web development",
         tags: ["PHP", "SQL", "GitLab CI/CD"],
+        projectIds: ["php", "itsm"],
       },
       {
         company: "IKAMED Institute AG",
@@ -85,6 +86,7 @@ export const content = {
         ],
         area: "IT support",
         tags: ["Hardware", "Software"],
+        projectIds: [],
       },
       {
         company: "Rocketlaunch",
@@ -96,6 +98,7 @@ export const content = {
         ],
         area: "Product development",
         tags: ["Bubble.io", "XANO"],
+        projectIds: ["products"],
       },
       {
         company: "Kork Tech AG",
@@ -106,6 +109,7 @@ export const content = {
         ],
         area: "Application development",
         tags: ["Bubble.io"],
+        projectIds: ["products"],
       },
     ],
     about: "About me",
@@ -180,6 +184,7 @@ export const content = {
     cvHref: "/cv/bruno-pinto-cv-en.pdf",
     cvEnglish: "English CV (PDF)",
     cvGerman: "German CV (PDF)",
+    relatedProjects: "Related projects",
   },
   de: {
     nav: ["Erfahrung", "Projekte", "Über mich", "Kontakt"],
@@ -256,6 +261,7 @@ export const content = {
         ],
         area: "Webentwicklung",
         tags: ["PHP", "SQL", "GitLab CI/CD"],
+        projectIds: ["php", "itsm"],
       },
       {
         company: "IKAMED Institute AG",
@@ -266,6 +272,7 @@ export const content = {
         ],
         area: "IT-Support",
         tags: ["Hardware", "Software"],
+        projectIds: [],
       },
       {
         company: "Rocketlaunch",
@@ -277,6 +284,7 @@ export const content = {
         ],
         area: "Produktentwicklung",
         tags: ["Bubble.io", "XANO"],
+        projectIds: ["products"],
       },
       {
         company: "Kork Tech AG",
@@ -287,6 +295,7 @@ export const content = {
         ],
         area: "Anwendungsentwicklung",
         tags: ["Bubble.io"],
+        projectIds: ["products"],
       },
     ],
     about: "Über mich",
@@ -361,6 +370,7 @@ export const content = {
     cvHref: "/cv/bruno-pinto-cv-de.pdf",
     cvEnglish: "Lebenslauf Englisch (PDF)",
     cvGerman: "Lebenslauf Deutsch (PDF)",
+    relatedProjects: "Zugehörige Projekte",
   },
 };
 export type PortfolioContent = typeof content.en;

@@ -425,3 +425,36 @@ test("approved CVs download as PDFs and binary search is removed", async ({
     await expect(page.locator(".lab-section")).toHaveCount(0);
   }
 });
+
+test("experience links open matching projects without toggling them closed", async ({
+  page,
+}) => {
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    const jobs = page.locator(".timeline .job");
+    await expect(jobs.nth(0).locator("[data-project-target]")).toHaveCount(2);
+    await expect(jobs.nth(1).locator("[data-project-target]")).toHaveCount(0);
+    for (const [job, id] of [
+      [0, "php"],
+      [0, "itsm"],
+      [2, "products"],
+      [3, "products"],
+    ] as const) {
+      const link = jobs.nth(job).locator('[data-project-target="' + id + '"]');
+      const title = (await link.innerText()).replace("↗", "").trim();
+      await link.focus();
+      await page.keyboard.press("Enter");
+      await expect(page.locator(".docked-token")).toHaveAttribute(
+        "data-project-id",
+        id,
+      );
+      await expect(page.locator(".scanner-details")).toHaveAttribute(
+        "aria-busy",
+        "false",
+      );
+      await expect(page.locator(".docked-token")).toBeFocused();
+      await expect(page.locator(".scanner-reveal h3")).toHaveText(title);
+      await expect(page).toHaveURL(/#work$/);
+    }
+  }
+});

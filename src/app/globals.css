@@ -1604,3 +1604,27 @@ nav a[aria-current="location"] {
     --timeline-rail: 5px;
   }
 }
+
+.job-projects {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.6rem 1.25rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #2b424c;
+  font-size: 0.875rem;
+}
+.job-projects > span {
+  flex-basis: 100%;
+  color: #a4b3ba;
+}
+.job-projects a {
+  color: #00ffff;
+  text-decoration: underline;
+  text-decoration-color: #35616a;
+  text-underline-offset: 0.3em;
+}
+.job-projects a:hover {
+  text-decoration-color: currentColor;
+}

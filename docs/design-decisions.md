@@ -15,3 +15,5 @@ Applied principles:
 - Avoid enlarging the low-resolution portrait. A higher-resolution original is still needed for larger use.
 
 The static export remains suitable for the user's own web server. Reference documents are not included in public assets.
+
+Experience entries link to their corresponding projects. Links reach the projects section without JavaScript. The scanner enhances them to select the matching card and move keyboard focus to it. Reopening a project keeps it open; modified clicks retain native browser behavior.

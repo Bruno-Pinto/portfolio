@@ -1,10 +1,12 @@
 /* eslint-disable @next/next/no-html-link-for-pages -- Language routes use separate root layouts and intentionally load complete localized documents. */
 import { content, type Locale } from "@/content/portfolio";
 import Image from "next/image";
+import { getProjects } from "@/content/project-scanner";
 import { ProjectScanner } from "@/components/project-scanner";
 import { SectionNav } from "@/components/section-nav";
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = content[locale];
+  const projects = getProjects(locale);
   return (
     <>
       <a className="skip-link" href="#main">
@@ -133,6 +135,22 @@ export function Portfolio({ locale }: { locale: Locale }) {
                         <li key={tag}>{tag}</li>
                       ))}
                     </ul>
+                    {j.projectIds.length > 0 && (
+                      <nav
+                        className="job-projects"
+                        aria-label={t.relatedProjects}
+                      >
+                        <span>{t.relatedProjects}</span>
+                        {j.projectIds.map((id) => {
+                          const project = projects.find((p) => p.id === id);
+                          return project ? (
+                            <a key={id} href="#work" data-project-target={id}>
+                              {project.title} <span aria-hidden="true">↗</span>
+                            </a>
+                          ) : null;
+                        })}
+                      </nav>
+                    )}
                   </div>
                 </article>
               ))}
