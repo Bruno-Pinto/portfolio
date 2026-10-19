@@ -1628,3 +1628,113 @@ nav a[aria-current="location"] {
 .job-projects a:hover {
   text-decoration-color: currentColor;
 }
+
+/* Quiet surfaces keep the project content ahead of the scanner decoration. */
+.scanner-pad {
+  background: #0e191f;
+}
+.project-slot {
+  padding: 8px 0;
+  border: 0;
+  background: none;
+}
+.project-deck {
+  background: #090f13;
+  gap: 24px 16px;
+}
+.project-scanner .project-token {
+  background: #111d24;
+}
+.project-scanner .token-top {
+  font-size: 0.65rem;
+  line-height: 1.5;
+}
+.project-scanner .token-tags span {
+  font-size: 0.7rem;
+  line-height: 1.4;
+}
+.project-scanner .token-bottom {
+  font-size: 0.65rem;
+}
+.scanner-details {
+  background: #0d171d;
+}
+.scanner-details p,
+.scanner-details li {
+  color: #c2ced4;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.scanner-details h4 {
+  font-size: 1rem;
+}
+.scanner-frame {
+  scroll-margin-top: 100px;
+}
+@media (max-width: 850px) {
+  .scanner-details {
+    height: auto;
+    min-height: 220px;
+    max-height: none;
+    overflow: visible;
+    padding: 24px;
+  }
+  .scanner-instructions {
+    padding-top: 0;
+  }
+}
+@media (max-width: 700px) {
+  .project-scanner {
+    --project-card-width: min(260px, calc(100vw - 88px));
+    --project-card-height: calc(var(--project-card-width) * 1.54);
+  }
+  .project-deck {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 16px;
+    gap: 16px;
+  }
+  .scanner-pad {
+    padding: 20px 16px;
+  }
+  .scanner-beam {
+    top: 20px;
+  }
+  .scanner-toolbar {
+    align-items: flex-start;
+    gap: 12px;
+  }
+  .scanner-feedback {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .scanner-status {
+    font-size: 0.75rem;
+  }
+  .scanner-details {
+    padding: 24px 20px;
+    overflow-wrap: anywhere;
+  }
+  .scanner-details h3 {
+    font-size: 1.75rem;
+    line-height: 1.2;
+    margin-block: 12px 20px;
+  }
+  .project-scanner .token-title {
+    font-size: 1.25rem;
+    line-height: 1.3;
+  }
+  .token-art {
+    height: 64px;
+  }
+  .project-scanner .token-top {
+    min-height: 36px;
+  }
+  .token-top > span:last-child {
+    letter-spacing: 0.02em;
+  }
+  .scanner-pad-caption {
+    max-width: var(--project-card-width);
+    margin: 16px auto 0;
+    font-size: 0.75rem;
+  }
+}

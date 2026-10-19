@@ -458,3 +458,43 @@ test("experience links open matching projects without toggling them closed", asy
     }
   }
 });
+
+test("narrow screens keep scanner details in the page flow and cards within the viewport", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const width of [320, 390, 768]) {
+    await page.setViewportSize({ width, height: 844 });
+    for (const route of ["/", "/de/"]) {
+      await page.goto(route);
+      await page
+        .locator(".project-deck button[data-project-id=products]")
+        .click();
+      const details = page.locator(".scanner-details");
+      await expect(details).toHaveAttribute("aria-busy", "false");
+      const metrics = await details.evaluate((el) => ({
+        height: el.clientHeight,
+        content: el.scrollHeight,
+        overflow: getComputedStyle(el).overflowY,
+        fontSize: parseFloat(
+          getComputedStyle(el.querySelector("p.muted")!).fontSize,
+        ),
+      }));
+      expect(metrics.overflow).toBe("visible");
+      expect(metrics.content).toBeLessThanOrEqual(metrics.height + 1);
+      expect(metrics.fontSize).toBeGreaterThanOrEqual(16);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+      for (const card of await page
+        .locator(".project-deck button,.docked-token")
+        .all()) {
+        const box = await card.boundingBox();
+        expect(box!.x).toBeGreaterThanOrEqual(0);
+        expect(box!.x + box!.width).toBeLessThanOrEqual(width);
+      }
+    }
+  }
+});
