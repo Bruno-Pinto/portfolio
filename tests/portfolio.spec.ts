@@ -252,3 +252,61 @@ test("reduced motion shows project immediately without animation", async ({
     "Movement strategies",
   );
 });
+
+test("red scan sweeps down and back before details are revealed", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.locator(".project-deck button").first().click();
+  const pad = page.locator(".scanner-pad");
+  await expect(pad).toHaveAttribute("data-phase", "scanning");
+  await expect(page.getByRole("progressbar")).toBeVisible();
+  await expect(page.locator(".scanner-details")).toHaveAttribute(
+    "aria-busy",
+    "true",
+  );
+  await expect(page.locator(".scanner-reveal")).toHaveCount(0);
+  const sweep = await page.locator(".scanner-beam").evaluate((el) => {
+    const animation = el.getAnimations()[0];
+    animation.pause();
+    const duration = Number(animation.effect!.getTiming().duration);
+    animation.currentTime = duration / 2;
+    const bottom = new DOMMatrix(getComputedStyle(el).transform).m42;
+    animation.currentTime = duration * 0.9;
+    const returning = new DOMMatrix(getComputedStyle(el).transform).m42;
+    const color = getComputedStyle(el).backgroundColor;
+    animation.play();
+    return { bottom, returning, color };
+  });
+  expect(sweep.bottom).toBeGreaterThan(250);
+  expect(sweep.returning).toBeLessThan(sweep.bottom);
+  expect(sweep.color).toBe("rgb(255, 64, 88)");
+  await expect(pad).toHaveAttribute("data-phase", "ready");
+  await expect(page.getByRole("progressbar")).toHaveAttribute(
+    "aria-valuenow",
+    "100",
+  );
+  await expect(page.locator(".scanner-details")).toHaveAttribute(
+    "aria-busy",
+    "false",
+  );
+  await expect(page.locator(".scanner-reveal")).toContainText(
+    "Movement strategies",
+  );
+});
+
+test("enabling reduced motion during scanning reveals details immediately", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.locator(".project-deck button").first().click();
+  await expect(page.locator(".scanner-pad")).toHaveAttribute(
+    "data-phase",
+    "scanning",
+  );
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect(page.locator(".scanner-status")).toHaveText("Scan complete");
+  await expect(page.locator(".scanner-reveal")).toContainText(
+    "Movement strategies",
+  );
+});

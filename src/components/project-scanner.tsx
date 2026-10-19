@@ -1,12 +1,21 @@
 "use client";
 
-import { useLayoutEffect, useRef, useState } from "react";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
+
 import {
   getProjects,
   scannerText,
   type ScannerProject,
 } from "@/content/project-scanner";
 import type { Locale } from "@/content/portfolio";
+
+const SCAN_DURATION_MS = 800;
 
 function CardFace({ project }: { project: ScannerProject }) {
   return (
@@ -42,10 +51,8 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
   const sources = useRef<(HTMLButtonElement | null)[]>([]);
   const pending = useRef<{ rect: DOMRect; index: number } | null>(null);
   const animation = useRef<Animation | null>(null);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   function choose(index: number) {
-    if (timer.current) clearTimeout(timer.current);
     animation.current?.cancel();
     const returning = selected === index;
     if (!returning)
@@ -89,30 +96,60 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
     flight.onfinish = () => {
       if (selected !== null) {
         setPhase("scanning");
-        timer.current = setTimeout(() => setPhase("ready"), 600);
       }
     };
     return () => {
       flight.cancel();
-      if (timer.current) clearTimeout(timer.current);
     };
+  }, [selected]);
+
+  useEffect(() => {
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    function finishIfReduced() {
+      if (preference.matches) {
+        animation.current?.cancel();
+        setPhase(selected === null ? "idle" : "ready");
+      }
+    }
+    preference.addEventListener("change", finishIfReduced);
+    return () => preference.removeEventListener("change", finishIfReduced);
   }, [selected]);
 
   const project = selected === null ? null : projects[selected];
   return (
-    <div className="project-scanner">
+    <div
+      className="project-scanner"
+      style={{ "--scan-duration": SCAN_DURATION_MS + "ms" } as CSSProperties}
+    >
       <div className="scanner-frame" ref={frame}>
         <div className="scanner-toolbar">
           <span className="eyebrow">{t.label}</span>
-          <span className="scanner-status" role="status">
-            {phase === "idle"
-              ? t.idle
-              : phase === "moving"
-                ? t.moving
-                : phase === "scanning"
-                  ? t.scanning
-                  : t.ready}
-          </span>
+          <div className="scanner-feedback" data-phase={phase}>
+            <span className="scanner-status" role="status">
+              {phase === "idle"
+                ? t.idle
+                : phase === "moving"
+                  ? t.moving
+                  : phase === "scanning"
+                    ? t.scanning
+                    : t.ready}
+            </span>
+            {project && (
+              <span
+                className="scanner-progress"
+                role="progressbar"
+                aria-label={t.scanning}
+                aria-valuemin={0}
+                aria-valuemax={100}
+                aria-valuenow={
+                  phase === "ready" ? 100 : phase === "moving" ? 0 : undefined
+                }
+                aria-valuetext={phase === "scanning" ? t.scanning : undefined}
+              >
+                <span />
+              </span>
+            )}
+          </div>
         </div>
         <div className="scanner-layout">
           <div className="scanner-pad" data-phase={phase}>
@@ -135,7 +172,14 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
                 </div>
               )}
             </div>
-            <span className="scanner-beam" aria-hidden="true" />
+            <span
+              className="scanner-beam"
+              aria-hidden="true"
+              onAnimationEnd={(event) => {
+                if (event.animationName === "scan-pass" && phase === "scanning")
+                  setPhase("ready");
+              }}
+            />
             <p className="scanner-pad-caption">
               {project ? t.return : t.deck}
               <span aria-hidden="true">↓</span>
@@ -146,9 +190,10 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
             id="scanner-details"
             tabIndex={0}
             aria-label={t.details}
+            aria-busy={project !== null && phase !== "ready"}
           >
-            {project ? (
-              <div key={project.id}>
+            {project && phase === "ready" ? (
+              <div key={project.id} className="scanner-reveal">
                 <p className="eyebrow">{project.category}</p>
                 <h3>{project.title}</h3>
                 <p className="muted">{project.description}</p>
@@ -177,8 +222,8 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
             ) : (
               <div className="scanner-instructions">
                 <span className="eyebrow">02 / {t.details}</span>
-                <h3>{t.deck}</h3>
-                <p className="muted">{t.instruction}</p>
+                <h3>{project ? project.title : t.deck}</h3>
+                <p className="muted">{project ? t.pending : t.instruction}</p>
               </div>
             )}
           </section>

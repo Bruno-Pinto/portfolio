@@ -1011,29 +1011,36 @@ nav a[aria-current="location"] {
   top: 28px;
   left: 28px;
   right: 28px;
-  height: 2px;
-  background: var(--color-accent);
-  box-shadow: 0 -12px 32px #00ffff50;
+  height: 5px;
+  background: #ff4058;
+  box-shadow:
+    0 0 10px #ff4058,
+    0 0 28px #ff405899,
+    0 12px 24px #ff40584d;
   pointer-events: none;
   z-index: 30;
 }
 .scanner-pad[data-phase="scanning"] .scanner-beam {
   display: block;
-  animation: scan-pass 0.6s linear both;
+  animation: scan-pass var(--scan-duration) ease-in-out both;
 }
 @keyframes scan-pass {
-  from {
+  0% {
     transform: translateY(0);
     opacity: 0;
   }
-  10% {
+  8% {
     opacity: 1;
   }
-  90% {
+  50% {
+    transform: translateY(275px);
     opacity: 1;
   }
-  to {
-    transform: translateY(280px);
+  92% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
     opacity: 0;
   }
 }
@@ -1263,4 +1270,60 @@ nav a[aria-current="location"] {
 }
 .scanner-frame {
   scroll-margin-top: 0;
+}
+
+.scanner-feedback {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.scanner-feedback[data-phase="scanning"] .scanner-status {
+  color: #ff7a8a;
+}
+.scanner-progress {
+  display: block;
+  width: 72px;
+  height: 5px;
+  background: #293d47;
+  overflow: hidden;
+}
+.scanner-progress > span {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: #ff4058;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+.scanner-feedback[data-phase="scanning"] .scanner-progress > span {
+  animation: scanner-fill var(--scan-duration) linear forwards;
+}
+.scanner-feedback[data-phase="ready"] .scanner-progress > span {
+  transform: scaleX(1);
+  background: var(--color-accent);
+}
+@keyframes scanner-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.scanner-reveal {
+  animation: scanner-reveal 0.16s ease-out both;
+}
+@keyframes scanner-reveal {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scanner-reveal,
+  .scanner-progress > span {
+    animation: none !important;
+  }
 }

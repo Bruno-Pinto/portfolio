@@ -46,6 +46,8 @@ export const scannerText = {
     loaded: "In scanner",
     moving: "Moving card",
     scanning: "Scanning",
+    pending:
+      "The scan is in progress. Project details appear when it finishes.",
     ready: "Scan complete",
     idle: "Ready for a project",
     deck: "Choose a project",
@@ -62,6 +64,7 @@ export const scannerText = {
     loaded: "Im Scanner",
     moving: "Karte wird bewegt",
     scanning: "Wird gescannt",
+    pending: "Der Scan läuft. Die Projektdetails erscheinen nach Abschluss.",
     ready: "Scan abgeschlossen",
     idle: "Bereit für ein Projekt",
     deck: "Projekt auswählen",
