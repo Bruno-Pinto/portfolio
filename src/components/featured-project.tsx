@@ -21,10 +21,10 @@ export function FeaturedProject({ locale }: { locale: Locale }) {
         <li>Gradle</li>
         <li>JUnit</li>
       </ul>
-      <div className="contributions">
-        <h4>{labels.contributionTitle}</h4>
+      <div className="contributions application-features">
+        <h4>{t.featuresTitle}</h4>
         <ul>
-          {t.contributions.map((item) => (
+          {t.features.map((item) => (
             <li key={item}>{item}</li>
           ))}
         </ul>
@@ -34,7 +34,17 @@ export function FeaturedProject({ locale }: { locale: Locale }) {
           {labels.details}
           <span aria-hidden="true"> +</span>
         </summary>
-        <p className="project-detail">{t.detail}</p>
+        <div className="project-detail">
+          {t.detail.map((paragraph) => (
+            <p key={paragraph}>{paragraph}</p>
+          ))}
+          <h4>{labels.contributionTitle}</h4>
+          <ul>
+            {t.contributions.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
       </details>
     </article>
   );

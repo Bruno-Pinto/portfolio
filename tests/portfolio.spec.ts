@@ -208,8 +208,10 @@ test("whole project cards toggle details with pointer and keyboard", async ({
       await summary.press("Enter");
       await expect(disclosure).toHaveAttribute("open", "");
     }
-    await expect(page.locator(".project-grid .contributions h4")).toHaveText(
-      Array(3).fill(route === "/" ? "My contribution" : "Mein Beitrag"),
+    await expect(
+      page.locator(".project-grid .project .contributions h4"),
+    ).toHaveText(
+      Array(2).fill(route === "/" ? "My contribution" : "Mein Beitrag"),
     );
     await expect(page.locator(".project-grid summary")).toHaveText(
       Array(3).fill(route === "/" ? "Project details +" : "Projektdetails +"),

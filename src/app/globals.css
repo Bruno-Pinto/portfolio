@@ -1131,3 +1131,14 @@ nav a[aria-current="location"] {
 .project-grid details[open] summary > span:last-child {
   transform: rotate(45deg);
 }
+.featured-details .project-detail > p + p {
+  margin-top: 16px;
+}
+.featured-details .project-detail > h4 {
+  margin-top: 20px;
+  color: var(--color-foreground);
+}
+.featured-details .project-detail > ul {
+  padding-left: 18px;
+  margin-top: 12px;
+}
