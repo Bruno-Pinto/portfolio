@@ -35,3 +35,27 @@ The build generates static files in `out/`. Browser journey tests will accompany
 `_private/` contains local source material and is excluded from Git. Do not copy original CVs into public assets without reviewing them for publication. Everything in `public/` becomes publicly accessible when deployed.
 
 Use verified project facts only. Do not commit secrets, personal addresses, internal infrastructure details or service configurations. Server access and production deployment require separate approval.
+
+## Current implementation
+
+- English at `/` and German at `/de/`, with separate HTML language attributes and localized metadata.
+- `src/content/portfolio.ts`: CV-grounded content and translations. SpinWheels details still need confirmation.
+- `src/components/portfolio.tsx`: shared page structure. Native disclosure elements expose project summaries without JavaScript.
+- `src/components/search-lab.tsx`: the client-side binary-search demonstration. React state tracks the search interval and midpoint.
+- `src/app/globals.css`: design tokens, responsive layouts, focus styles and reduced-motion support.
+- Route groups `(english)` and `(german)` organize different root layouts without appearing in URLs. Language links load complete documents intentionally.
+
+CV source files stay private; the contact section offers CVs on request until public-download versions are approved. The portrait remains a placeholder. No project metrics or technology claims have been invented.
+
+## Browser tests and preview
+
+```sh
+npx playwright install chromium
+npm run build
+npm test
+npm run preview
+```
+
+The local static preview is available at `http://127.0.0.1:4173`. It is a development/testing tool, not the production server. Browser tests start and stop it automatically and check desktop/mobile language navigation, project disclosures, keyboard navigation, and all 16 binary-search targets.
+
+`npm run format` formats source files; `npm run format:check` checks formatting. The current dependency audit reports five high-severity findings in the development lint dependency chain; `npm audit --omit=dev` reports none in production dependencies. Do not blindly apply the suggested major tooling downgrade.
