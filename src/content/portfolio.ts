@@ -7,7 +7,7 @@ export const content = {
     student: "Computer Science student at ZHAW",
     location: "Zurich, Switzerland",
     description:
-      "I study Computer Science at ZHAW and have worked on PHP applications, client projects and a Java racing game.",
+      "I study Computer Science at ZHAW. My work includes PHP web applications at the University of Zurich, client applications at Rocketlaunch and a Java racing game developed in a team.",
     explore: "Explore my work",
     contact: "Get in touch",
     work: "Selected work",
@@ -18,40 +18,40 @@ export const content = {
     contributionTitle: "My work",
     projects: [
       {
-        title: "Modernizing a PHP portal",
+        title: "PHP intranet development",
         category: "Professional / PHP",
-        text: "PHP maintenance and refactoring at the Institute of Medical Microbiology.",
-        tags: ["PHP", "SQL", "LDAP / Active Directory"],
+        text: "Architecture, migration and development of an intranet web service at the University of Zurich.",
+        tags: ["PHP", "SQL", "GitLab CI/CD"],
         contributions: [
-          "Restructured existing PHP code",
-          "Worked on SQL database queries",
-          "Maintained a portal with LDAP integration",
+          "Designed, migrated and extended the intranet web service",
+          "Integrated GitLab for version control, CI/CD and deployments",
+          "Designed and implemented a central ticketing system",
         ],
         detail:
-          "As a working student, I worked on modernization and structural refactoring of an existing PHP portal, including restructuring its codebase, SQL database queries and ongoing maintenance. The portal includes LDAP / Active Directory integration. Internal implementation details remain private.",
+          "As a student assistant at the University of Zurich’s Institute of Medical Microbiology, I worked on the architecture, migration and further development of an intranet web service. This included PHP refactoring, SQL database queries and a portal with LDAP / Active Directory integration. I integrated GitLab for version control, CI/CD and deployment processes, designed and implemented a central ticketing system, and maintained technical documentation.",
       },
       {
         title: "Applications and a marketplace",
         category: "Professional / Product development",
-        text: "Client products at Rocketlaunch and a two-sided marketplace at Kork Tech.",
+        text: "Client applications and technical project planning at Rocketlaunch; a two-sided marketplace at Kork Tech.",
         tags: ["Bubble.io", "XANO", "Product development"],
         contributions: [
           "Built client applications with Bubble.io and XANO",
           "Developed a two-sided marketplace",
-          "Supervised development teams",
+          "Planned technical projects and coordinated developers",
         ],
         detail:
-          "At Rocketlaunch, I co-founded the company and led development of digital products for international clients using Bubble.io and XANO. I managed teams and established development processes. At Kork Tech AG, I developed and launched a two-sided marketplace using Bubble.io.",
+          "As Co-Founder and CTO at Rocketlaunch, I developed client applications using Bubble.io and XANO and coordinated the technical team. I planned and delivered technical projects, with responsibility for budgets and schedules, evaluated new technologies and improved development processes. Separately, at Kork Tech AG, I developed and launched a two-sided marketplace using Bubble.io.",
       },
     ],
     experience: "Experience",
     experienceTitle: "Work experience",
     jobs: [
       {
-        company: "Institute of Medical Microbiology",
-        role: "IT Generalist · Working Student",
-        date: "Oct 2025 — Oct 2026",
-        text: "Modernized and refactored a PHP portal. Worked with SQL, Windows and Linux servers, permissions, ITSM and technical documentation.",
+        company: "University of Zurich · Institute of Medical Microbiology",
+        role: "Student Assistant",
+        date: "15 Oct 2025 — 14 Oct 2026",
+        text: "Worked on the architecture, migration and development of an intranet web service. Integrated GitLab for version control, CI/CD and deployments. Designed and implemented a central ticketing system and maintained technical documentation.",
       },
       {
         company: "IKAMED Institute AG",
@@ -63,7 +63,7 @@ export const content = {
         company: "Rocketlaunch",
         role: "Co-Founder & CTO",
         date: "2022 — 2024",
-        text: "Led development of digital products with Bubble.io and XANO, supervised teams and established development processes.",
+        text: "Developed client applications with Bubble.io and XANO and coordinated the technical team. Planned and delivered technical projects with budget and schedule responsibility, evaluated technologies and improved development processes.",
       },
       {
         company: "Kork Tech AG",
@@ -88,7 +88,7 @@ export const content = {
         title: "PHP and databases",
         text: "PHP · SQL · LDAP",
         evidence:
-          "Maintained and refactored an existing PHP portal, including database queries and directory integration.",
+          "Worked on an intranet service’s architecture, migration and PHP code, including SQL queries and directory integration.",
       },
       {
         title: "Frontend — currently learning",
@@ -103,15 +103,15 @@ export const content = {
       },
       {
         title: "Development tools",
-        text: "Git · GitHub · Gradle · Jira",
+        text: "Git · GitLab · CI/CD · GitHub · Gradle · Jira",
         evidence:
-          "Used for source control, team development, Java builds and task tracking.",
+          "Integrated GitLab for version control, CI/CD and deployments at the University of Zurich. Used GitHub, Gradle and Jira in development projects.",
       },
       {
         title: "Systems and support",
         text: "Linux · Windows Server · Active Directory · ITSM",
         evidence:
-          "Experience with server maintenance, user permissions and troubleshooting in IT roles.",
+          "Designed and implemented a central ticketing system, wrote technical documentation, and worked on server maintenance and user permissions.",
       },
     ],
     languages:
@@ -146,7 +146,7 @@ export const content = {
     student: "Informatikstudent an der ZHAW",
     location: "Zürich, Schweiz",
     description:
-      "Ich studiere Informatik an der ZHAW und habe an PHP-Anwendungen, Kundenprojekten und einem Java-Rennspiel gearbeitet.",
+      "Ich studiere Informatik an der ZHAW. Zu meiner Arbeit gehören PHP-Webanwendungen an der Universität Zürich, Kundenanwendungen bei Rocketlaunch und ein im Team entwickeltes Java-Rennspiel.",
     explore: "Projekte entdecken",
     contact: "Kontakt aufnehmen",
     work: "Ausgewählte Projekte",
@@ -157,40 +157,40 @@ export const content = {
     contributionTitle: "Meine Arbeit",
     projects: [
       {
-        title: "Modernisierung eines PHP-Portals",
+        title: "Weiterentwicklung eines PHP-Intranets",
         category: "Beruflich / PHP",
-        text: "PHP-Wartung und Refactoring am Institut für Medizinische Mikrobiologie.",
-        tags: ["PHP", "SQL", "LDAP / Active Directory"],
+        text: "Architektur, Migration und Weiterentwicklung eines Intranet-Webservices an der Universität Zürich.",
+        tags: ["PHP", "SQL", "GitLab CI/CD"],
         contributions: [
-          "Bestehenden PHP-Code umstrukturiert",
-          "An SQL-Datenbankabfragen gearbeitet",
-          "Ein Portal mit LDAP-Anbindung gewartet",
+          "Intranet-Webservice konzipiert, migriert und weiterentwickelt",
+          "GitLab für Versionsverwaltung, CI/CD und Deployments integriert",
+          "Zentrales Ticketsystem konzipiert und implementiert",
         ],
         detail:
-          "Als Werkstudent arbeitete ich an der Modernisierung und dem strukturellen Refactoring eines bestehenden PHP-Portals, einschliesslich der Codebasis, SQL-Datenbankabfragen und laufenden Wartung. Das Portal hat eine LDAP-/Active-Directory-Anbindung. Interne Implementierungsdetails bleiben vertraulich.",
+          "Als studentische Hilfskraft am Institut für Medizinische Mikrobiologie der Universität Zürich arbeitete ich an der Architektur, Migration und Weiterentwicklung eines Intranet-Webservices. Dazu gehörten PHP-Refactoring, SQL-Datenbankabfragen und ein Portal mit LDAP-/Active-Directory-Anbindung. Ich integrierte GitLab für Versionsverwaltung, CI/CD- und Deployment-Prozesse, konzipierte und implementierte ein zentrales Ticketsystem und pflegte technische Dokumentationen.",
       },
       {
         title: "Anwendungen und ein Marktplatz",
         category: "Beruflich / Produktentwicklung",
-        text: "Kundenprodukte bei Rocketlaunch und ein zweiseitiger Marktplatz bei Kork Tech.",
+        text: "Kundenanwendungen und technische Projektplanung bei Rocketlaunch; ein zweiseitiger Marktplatz bei Kork Tech.",
         tags: ["Bubble.io", "XANO", "Produktentwicklung"],
         contributions: [
           "Kundenanwendungen mit Bubble.io und XANO entwickelt",
           "Einen zweiseitigen Marktplatz entwickelt",
-          "Entwicklungsteams betreut",
+          "Technische Projekte geplant und Entwickler koordiniert",
         ],
         detail:
-          "Bei Rocketlaunch war ich Mitgründer und leitete die Entwicklung digitaler Produkte für internationale Kunden mit Bubble.io und XANO. Ich betreute Teams und etablierte Entwicklungsprozesse. Bei Kork Tech AG entwickelte und lancierte ich einen zweiseitigen Marktplatz mit Bubble.io.",
+          "Als Mitgründer und CTO bei Rocketlaunch entwickelte ich Kundenanwendungen mit Bubble.io und XANO und koordinierte das technische Team. Ich plante und realisierte technische Projekte mit Budget- und Terminverantwortung, evaluierte neue Technologien und verbesserte Entwicklungsprozesse. Bei Kork Tech AG entwickelte und lancierte ich unabhängig davon einen zweiseitigen Marktplatz mit Bubble.io.",
       },
     ],
     experience: "Erfahrung",
     experienceTitle: "Berufserfahrung",
     jobs: [
       {
-        company: "Institut für Medizinische Mikrobiologie",
-        role: "IT-Allrounder · Werkstudent",
-        date: "Okt. 2025 — Okt. 2026",
-        text: "Modernisierung und Refactoring eines PHP-Portals. Arbeit mit SQL, Windows- und Linux-Servern, Berechtigungen, ITSM und technischer Dokumentation.",
+        company: "Universität Zürich · Institut für Medizinische Mikrobiologie",
+        role: "Studentische Hilfskraft",
+        date: "15. Okt. 2025 — 14. Okt. 2026",
+        text: "Architektur, Migration und Weiterentwicklung eines Intranet-Webservices. Integration von GitLab für Versionsverwaltung, CI/CD und Deployments. Konzeption und Implementierung eines zentralen Ticketsystems sowie Pflege technischer Dokumentationen.",
       },
       {
         company: "IKAMED Institute AG",
@@ -202,7 +202,7 @@ export const content = {
         company: "Rocketlaunch",
         role: "Co-Founder & CTO",
         date: "2022 — 2024",
-        text: "Leitung der Entwicklung digitaler Produkte mit Bubble.io und XANO, Betreuung von Teams und Etablierung von Entwicklungsprozessen.",
+        text: "Entwicklung von Kundenanwendungen mit Bubble.io und XANO und Koordination des technischen Teams. Planung und Umsetzung technischer Projekte mit Budget- und Terminverantwortung, Evaluation neuer Technologien und Verbesserung der Entwicklungsprozesse.",
       },
       {
         company: "Kork Tech AG",
@@ -227,7 +227,7 @@ export const content = {
         title: "PHP und Datenbanken",
         text: "PHP · SQL · LDAP",
         evidence:
-          "Wartung und Refactoring eines bestehenden PHP-Portals, einschliesslich Datenbankabfragen und Verzeichnisanbindung.",
+          "Arbeit an Architektur, Migration und PHP-Code eines Intranet-Webservices, einschliesslich SQL-Abfragen und Verzeichnisanbindung.",
       },
       {
         title: "Frontend — lerne ich gerade",
@@ -242,15 +242,15 @@ export const content = {
       },
       {
         title: "Entwicklungswerkzeuge",
-        text: "Git · GitHub · Gradle · Jira",
+        text: "Git · GitLab · CI/CD · GitHub · Gradle · Jira",
         evidence:
-          "Für Versionsverwaltung, Teamarbeit, Java-Builds und Aufgabenplanung eingesetzt.",
+          "GitLab für Versionsverwaltung, CI/CD und Deployments an der Universität Zürich integriert. GitHub, Gradle und Jira in Entwicklungsprojekten eingesetzt.",
       },
       {
         title: "Systeme und Support",
         text: "Linux · Windows Server · Active Directory · ITSM",
         evidence:
-          "Erfahrung mit Serverwartung, Benutzerrechten und Fehlersuche in IT-Tätigkeiten.",
+          "Zentrales Ticketsystem konzipiert und implementiert, technische Dokumentationen erstellt und an Serverwartung und Benutzerrechten gearbeitet.",
       },
     ],
     languages:

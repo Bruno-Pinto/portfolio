@@ -134,8 +134,8 @@ test("experience is chronological and skills include examples", async ({
     const companies = await page.locator(".job h3").allTextContents();
     expect(companies).toEqual([
       route === "/"
-        ? "Institute of Medical Microbiology"
-        : "Institut für Medizinische Mikrobiologie",
+        ? "University of Zurich · Institute of Medical Microbiology"
+        : "Universität Zürich · Institut für Medizinische Mikrobiologie",
       "IKAMED Institute AG",
       "Rocketlaunch",
       "Kork Tech AG",
