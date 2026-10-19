@@ -78,3 +78,7 @@ Project order emphasizes development roles: PHP intranet, client applications an
 ## Production packaging
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for the multi-stage Docker build, Compose commands and Nginx Proxy Manager setup. The runtime serves static files; local development is unchanged.
+
+## Project views and public evidence
+
+The project section offers a scanner and a list view, using the same localized project data. List view shows summaries and features immediately, with expandable technical details. Public source links are provided for Mission-Life, Mission-Chess and this portfolio. The PHP intranet, SpinWheels and portfolio are featured first; professional source code and internal screens remain unpublished. See docs/design-decisions.md and docs/content-sources.md for scope and provenance.

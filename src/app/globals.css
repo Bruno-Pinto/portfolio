@@ -1793,3 +1793,168 @@ nav a[aria-current="location"] {
   text-underline-offset: 4px;
   font-size: 0.875rem;
 }
+
+/* Project browsing: keep an ordinary reading path beside the scanner. */
+.project-scanner [hidden] {
+  display: none !important;
+}
+.project-view-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+.project-view-controls button {
+  min-height: 44px;
+  padding: 10px 16px;
+  border: 1px solid #45606d;
+  background: #0d171d;
+  color: #c2ced4;
+  cursor: pointer;
+}
+.project-view-controls button[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background: #102329;
+}
+.project-view-controls p {
+  flex-basis: 100%;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  margin-top: 6px;
+}
+.project-slot {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.project-caption {
+  width: var(--project-card-width);
+  margin: 12px 0 0;
+  color: #c2ced4;
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+.project-list-group + .project-list-group {
+  margin-top: 36px;
+}
+.project-list-group > h3 {
+  margin-bottom: 16px;
+  font-size: 1.4rem;
+}
+.project-list-item {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.8fr) minmax(0, 2fr);
+  gap: 28px;
+  padding: 24px;
+  margin-bottom: 16px;
+  background: #0e1a21;
+  border: 1px solid #314955;
+  scroll-margin-top: 0;
+}
+.project-list-group:first-child .project-list-item {
+  border-left: 2px solid var(--color-accent);
+}
+.project-list-heading,
+.project-list-copy {
+  min-width: 0;
+}
+.project-list-heading .eyebrow {
+  font-size: 0.7rem;
+  color: #b1c9d2;
+}
+.project-list-heading h4 {
+  margin-block: 12px;
+  font-size: 1.3rem;
+  line-height: 1.35;
+}
+.project-list-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  list-style: none;
+  padding: 0;
+}
+.project-list-tags li {
+  padding: 3px 7px;
+  border: 1px solid #36515e;
+  color: #c2d5dd;
+  font-size: 0.75rem;
+}
+.project-list-copy {
+  max-width: 70ch;
+  color: #c2ced4;
+  font-size: 1rem;
+  line-height: 1.7;
+}
+.project-list-copy > ul {
+  padding-left: 20px;
+  margin-block: 16px;
+}
+.project-list-copy li + li {
+  margin-top: 6px;
+}
+.project-list-copy summary {
+  display: list-item;
+  min-height: 44px;
+  padding-block: 10px;
+  color: var(--color-foreground);
+  cursor: pointer;
+}
+.project-list-copy details p {
+  margin: 8px 0 16px;
+}
+.opportunity {
+  max-width: 52ch;
+  margin-top: 16px;
+  font-size: 0.9rem;
+  color: #c2ced4;
+}
+.education-summary {
+  margin-block: 20px 12px;
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+.skill-card {
+  padding: 20px;
+  gap: 14px;
+  grid-template-columns: 36px minmax(0, 1fr);
+}
+.skill-icon {
+  width: 36px;
+  height: 36px;
+  font-size: 0.85rem;
+}
+.skill-card .skill-tags {
+  margin-block: 12px;
+}
+.job-area,
+.job-date,
+.skill-context {
+  font-size: 0.75rem !important;
+}
+.portrait-image {
+  filter: brightness(1.12) saturate(0.85);
+}
+@media (max-width: 700px) {
+  .project-list-item {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 20px 16px;
+    gap: 16px;
+  }
+  .project-list-copy {
+    overflow-wrap: anywhere;
+  }
+  .job:not(:first-child) {
+    padding-block: 20px;
+  }
+  .job-projects > span {
+    font-size: 0.8rem;
+  }
+}
+
+.github-icon {
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+}

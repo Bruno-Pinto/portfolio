@@ -17,6 +17,7 @@ import {
 import type { Locale } from "@/content/portfolio";
 
 import { ProjectGraphic } from "@/components/project-graphic";
+import { ProjectList } from "@/components/project-list";
 import { ProjectSourceLink } from "@/components/project-source-link";
 
 const SCAN_DURATION_MS = 800;
@@ -46,6 +47,8 @@ function CardFace({ project }: { project: ScannerProject }) {
 export function ProjectScanner({ locale }: { locale: Locale }) {
   const projects = getProjects(locale),
     t = scannerText[locale];
+  const [view, setView] = useState<"scanner" | "list">("scanner");
+  const listView = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [phase, setPhase] = useState<"idle" | "moving" | "scanning" | "ready">(
     "idle",
@@ -116,11 +119,27 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
       event.preventDefault();
       if (window.location.hash !== "#work")
         window.history.pushState(null, "", "#work");
-      choose(index, true);
+      if (view === "list") {
+        const item = listView.current?.querySelector<HTMLElement>(
+          '[data-list-project="' + getProjects(locale)[index].id + '"]',
+        );
+        const detail = item?.querySelector("details");
+        if (detail) detail.open = true;
+        item?.focus({ preventScroll: true });
+        item?.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+            .matches
+            ? "instant"
+            : "smooth",
+          block: "start",
+        });
+      } else {
+        choose(index, true);
+      }
     }
     document.addEventListener("click", openRelatedProject);
     return () => document.removeEventListener("click", openRelatedProject);
-  }, [choose, locale]);
+  }, [choose, locale, view]);
   useLayoutEffect(() => {
     const move = pending.current;
     pending.current = null;
@@ -197,6 +216,7 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
 
   useEffect(() => {
     if (
+      view !== "scanner" ||
       phase !== "ready" ||
       selected === null ||
       !window.matchMedia("(max-width: 850px)").matches
@@ -208,7 +228,7 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
         : "smooth",
       block: "start",
     });
-  }, [phase, selected]);
+  }, [phase, selected, view]);
 
   const project = selected === null ? null : projects[selected];
   return (
@@ -216,156 +236,200 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
       className="project-scanner"
       style={{ "--scan-duration": SCAN_DURATION_MS + "ms" } as CSSProperties}
     >
-      <div className="scanner-frame" ref={frame}>
-        <div className="scanner-toolbar">
-          <span className="eyebrow">{t.label}</span>
-          <div className="scanner-feedback" data-phase={phase}>
-            <span className="scanner-status" role="status">
-              {phase === "idle"
-                ? t.idle
-                : phase === "moving"
-                  ? t.moving
-                  : phase === "scanning"
-                    ? t.scanning
-                    : t.ready}
-            </span>
-            {project && (
-              <span
-                className="scanner-progress"
-                role="progressbar"
-                aria-label={t.scanning}
-                aria-valuemin={0}
-                aria-valuemax={100}
-                aria-valuenow={
-                  phase === "ready" ? 100 : phase === "moving" ? 0 : undefined
-                }
-                aria-valuetext={phase === "scanning" ? t.scanning : undefined}
-              >
-                <span />
+      <div
+        className="project-view-controls"
+        role="group"
+        aria-label={locale === "en" ? "Project view" : "Projektansicht"}
+      >
+        <button
+          type="button"
+          aria-pressed={view === "scanner"}
+          aria-controls="project-scanner-view"
+          onClick={() => setView("scanner")}
+        >
+          {locale === "en" ? "Scanner view" : "Scanner-Ansicht"}
+        </button>
+        <button
+          type="button"
+          aria-pressed={view === "list"}
+          aria-controls="project-list-view"
+          onClick={() => {
+            animation.current?.cancel();
+            outgoingAnimation.current?.cancel();
+            if (selected !== null) setPhase("ready");
+            setView("list");
+          }}
+        >
+          {locale === "en" ? "List view" : "Listenansicht"}
+        </button>
+        <p>
+          {locale === "en"
+            ? "Browse directly in list view, or explore with the scanner."
+            : "Direkt in der Liste lesen oder mit dem Scanner entdecken."}
+        </p>
+      </div>
+      <div id="project-scanner-view" hidden={view !== "scanner"}>
+        <div className="scanner-frame" ref={frame}>
+          <div className="scanner-toolbar">
+            <span className="eyebrow">{t.label}</span>
+            <div className="scanner-feedback" data-phase={phase}>
+              <span className="scanner-status" role="status">
+                {phase === "idle"
+                  ? t.idle
+                  : phase === "moving"
+                    ? t.moving
+                    : phase === "scanning"
+                      ? t.scanning
+                      : t.ready}
               </span>
-            )}
-          </div>
-        </div>
-        <div className="scanner-layout">
-          <div className="scanner-pad" data-phase={phase}>
-            <div className="scanner-slot">
-              {project ? (
-                <button
-                  key={project.id}
-                  ref={dock}
-                  className="project-token docked-token"
-                  data-project-id={project.id}
-                  onClick={() => choose(selected!)}
-                  aria-label={t.return + ": " + project.title}
+              {project && (
+                <span
+                  className="scanner-progress"
+                  role="progressbar"
+                  aria-label={t.scanning}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                  aria-valuenow={
+                    phase === "ready" ? 100 : phase === "moving" ? 0 : undefined
+                  }
+                  aria-valuetext={phase === "scanning" ? t.scanning : undefined}
                 >
-                  <CardFace project={project} />
-                </button>
-              ) : (
-                <div className="scanner-empty">
-                  <span aria-hidden="true">+</span>
-                  <p>{t.empty}</p>
-                  <span aria-hidden="true">
-                    01 — {String(projects.length).padStart(2, "0")}
-                  </span>
-                </div>
+                  <span />
+                </span>
               )}
             </div>
-            <span
-              className="scanner-beam"
-              aria-hidden="true"
-              onAnimationEnd={(event) => {
-                if (event.animationName === "scan-pass" && phase === "scanning")
-                  setPhase("ready");
-              }}
-            />
-            <p className="scanner-pad-caption">
-              {project ? t.return : t.deck}
-              <span aria-hidden="true">↓</span>
-            </p>
           </div>
-          <section
-            className="scanner-details"
-            id="scanner-details"
-            ref={details}
-            tabIndex={0}
-            aria-label={t.details}
-            aria-busy={project !== null && phase !== "ready"}
-          >
-            {project && phase === "ready" ? (
-              <div key={project.id} className="scanner-reveal">
-                <p className="eyebrow">{project.category}</p>
-                <h3>{project.title}</h3>
-                <p className="muted">{project.description}</p>
-                <ProjectSourceLink
-                  url={project.repositoryUrl}
-                  title={project.title}
-                  locale={locale}
-                />
-                <h4>{project.overviewTitle}</h4>
-                <ul>
-                  {project.overview.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-                <div className="scanner-long-details">
-                  {project.details.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
-                  ))}
-                </div>
-                {project.contributions.length > 0 && (
-                  <>
-                    <h4>{t.contribution}</h4>
-                    <ul>
-                      {project.contributions.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </>
+          <div className="scanner-layout">
+            <div className="scanner-pad" data-phase={phase}>
+              <div className="scanner-slot">
+                {project ? (
+                  <button
+                    key={project.id}
+                    ref={dock}
+                    className="project-token docked-token"
+                    data-project-id={project.id}
+                    onClick={() => choose(selected!)}
+                    aria-label={t.return + ": " + project.title}
+                  >
+                    <CardFace project={project} />
+                  </button>
+                ) : (
+                  <div className="scanner-empty">
+                    <span aria-hidden="true">+</span>
+                    <p>{t.empty}</p>
+                    <span aria-hidden="true">
+                      01 — {String(projects.length).padStart(2, "0")}
+                    </span>
+                  </div>
                 )}
               </div>
-            ) : (
-              <div className="scanner-instructions">
-                <span className="eyebrow">02 / {t.details}</span>
-                <h3>{project ? project.title : t.deck}</h3>
-                <p className="muted">{project ? t.pending : t.instruction}</p>
-              </div>
-            )}
-          </section>
+              <span
+                className="scanner-beam"
+                aria-hidden="true"
+                onAnimationEnd={(event) => {
+                  if (
+                    event.animationName === "scan-pass" &&
+                    phase === "scanning"
+                  )
+                    setPhase("ready");
+                }}
+              />
+              <p className="scanner-pad-caption">
+                {project ? t.return : t.deck}
+                <span aria-hidden="true">↓</span>
+              </p>
+            </div>
+            <section
+              className="scanner-details"
+              id="scanner-details"
+              ref={details}
+              tabIndex={0}
+              aria-label={t.details}
+              aria-busy={project !== null && phase !== "ready"}
+            >
+              {project && phase === "ready" ? (
+                <div key={project.id} className="scanner-reveal">
+                  <p className="eyebrow">{project.category}</p>
+                  <h3>{project.title}</h3>
+                  <p className="muted">{project.description}</p>
+                  <ProjectSourceLink
+                    url={project.repositoryUrl}
+                    title={project.title}
+                    locale={locale}
+                  />
+                  <h4>{project.overviewTitle}</h4>
+                  <ul>
+                    {project.overview.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  <div className="scanner-long-details">
+                    {project.details.map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
+                  {project.contributions.length > 0 && (
+                    <>
+                      <h4>{t.contribution}</h4>
+                      <ul>
+                        {project.contributions.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <div className="scanner-instructions">
+                  <span className="eyebrow">02 / {t.details}</span>
+                  <h3>{project ? project.title : t.deck}</h3>
+                  <p className="muted">{project ? t.pending : t.instruction}</p>
+                </div>
+              )}
+            </section>
+          </div>
+        </div>
+        <p className="deck-label eyebrow">{t.deck}</p>
+        <div className="project-deck">
+          {projects.map((p, i) => (
+            <div className="project-slot" key={p.id} data-featured={p.featured}>
+              <button
+                ref={(el) => {
+                  sources.current[i] = el;
+                }}
+                className={
+                  selected === i ? "project-placeholder" : "project-token"
+                }
+                data-project-id={p.id}
+                onClick={() => choose(i)}
+                aria-pressed={selected === i}
+                aria-describedby={"project-summary-" + p.id}
+                aria-controls="scanner-details"
+                aria-label={
+                  (selected === i ? t.return : t.select) + ": " + p.title
+                }
+              >
+                {selected === i ? (
+                  <>
+                    <span className="eyebrow">
+                      {p.number} / {t.loaded}
+                    </span>
+                    <span>{p.title}</span>
+                    <span className="muted">{t.return} ↓</span>
+                  </>
+                ) : (
+                  <CardFace project={p} />
+                )}
+              </button>
+              <p className="project-caption" id={"project-summary-" + p.id}>
+                {p.summary}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
-      <p className="deck-label eyebrow">{t.deck}</p>
-      <div className="project-deck">
-        {projects.map((p, i) => (
-          <div className="project-slot" key={p.id}>
-            <button
-              ref={(el) => {
-                sources.current[i] = el;
-              }}
-              className={
-                selected === i ? "project-placeholder" : "project-token"
-              }
-              data-project-id={p.id}
-              onClick={() => choose(i)}
-              aria-pressed={selected === i}
-              aria-controls="scanner-details"
-              aria-label={
-                (selected === i ? t.return : t.select) + ": " + p.title
-              }
-            >
-              {selected === i ? (
-                <>
-                  <span className="eyebrow">
-                    {p.number} / {t.loaded}
-                  </span>
-                  <span>{p.title}</span>
-                  <span className="muted">{t.return} ↓</span>
-                </>
-              ) : (
-                <CardFace project={p} />
-              )}
-            </button>
-          </div>
-        ))}
+      <div id="project-list-view" hidden={view !== "list"} ref={listView}>
+        <ProjectList locale={locale} />
       </div>
       <noscript>
         <div className="scanner-static">

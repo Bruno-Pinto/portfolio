@@ -7,35 +7,34 @@ export const content = {
     student: "Computer Science student at ZHAW",
     location: "Zurich, Switzerland",
     description:
-      "I develop web applications with PHP and SQL. My experience includes intranet development at the University of Zurich and client applications at Rocketlaunch.",
+      "I’ve worked on a PHP/SQL intranet service at the University of Zurich, built Java applications, and developed client applications at Rocketlaunch.",
     explore: "Explore my work",
     contact: "Get in touch",
     emailLabel: "Email",
     work: "Selected work",
     workTitle: "Projects",
-    workIntro:
-      "Professional web applications first, followed by Java team and personal projects.",
+    workIntro: "Selected professional, university and personal projects.",
     details: "Project details",
     contributionTitle: "My contribution",
     projects: [
       {
-        title: "PHP intranet development",
+        title: "PHP intranet migration",
         category: "Professional / PHP",
-        text: "Architecture, migration and development of an intranet web service at the University of Zurich.",
-        tags: ["PHP", "SQL", "GitLab CI/CD"],
+        text: "Reorganized and migrated a PHP intranet service at the University of Zurich.",
+        tags: ["PHP 7 → 8", "SQL", "GitLab CI/CD"],
         contributions: [
-          "Migrated and extended the intranet web service",
-          "Refactored PHP code and SQL database queries",
-          "Integrated GitLab for version control, CI/CD and deployments",
+          "Unified scattered folders and files into one project",
+          "Migrated PHP 7 to PHP 8",
+          "Centralized database access and integrated GitLab CI/CD",
         ],
         detail:
-          "At the University of Zurich’s Institute of Medical Microbiology, I worked on the architecture, migration and development of a PHP intranet service. This included SQL database queries, LDAP / Active Directory integration and GitLab-based version control, CI/CD and deployment processes.",
+          "The intranet work also included SQL database queries and LDAP / Active Directory integration. This professional project’s source code and internal screens are not published here.",
         id: "php",
       },
       {
-        title: "Applications and a marketplace",
+        title: "Client apps and marketplace",
         category: "Professional / Product development",
-        text: "Client applications and technical project planning at Rocketlaunch; a two-sided marketplace at Kork Tech.",
+        text: "Client applications at Rocketlaunch and a two-sided marketplace at Kork Tech.",
         tags: ["Bubble.io", "XANO", "Product development"],
         contributions: [
           "Built client applications with Bubble.io and XANO",
@@ -43,7 +42,7 @@ export const content = {
           "Planned technical projects and coordinated developers",
         ],
         detail:
-          "As Co-Founder and CTO at Rocketlaunch, I developed client applications using Bubble.io and XANO and coordinated the technical team. I planned and delivered technical projects, with responsibility for budgets and schedules, evaluated new technologies and improved development processes. Separately, at Kork Tech AG, I developed and launched a two-sided marketplace using Bubble.io.",
+          "At Rocketlaunch, I used Bubble.io and XANO and coordinated the technical team. At Kork Tech, I developed and launched a two-sided marketplace with Bubble.io.",
         id: "products",
       },
       {
@@ -58,7 +57,7 @@ export const content = {
           "Created and maintained technical documentation",
         ],
         detail:
-          "Alongside the intranet work, I designed and implemented a central ticketing system at the Institute of Medical Microbiology and continued developing it. I maintained technical documentation to support knowledge transfer and ongoing operation.",
+          "The work included ongoing development and technical documentation for knowledge transfer and operation.",
       },
     ],
     experience: "Experience",
@@ -67,9 +66,9 @@ export const content = {
       {
         company: "University of Zurich · Institute of Medical Microbiology",
         role: "Student Assistant",
-        date: "15 Oct 2025 — 14 Oct 2026",
+        date: "Oct 2025 — Oct 2026",
         points: [
-          "Worked on the architecture, migration and development of an intranet web service.",
+          "Reorganized a scattered PHP intranet into a unified project, migrated PHP 7 to 8 and centralized database access.",
           "Integrated GitLab for version control, CI/CD and deployments.",
           "Designed and implemented a central ticketing system and maintained technical documentation.",
         ],
@@ -104,7 +103,7 @@ export const content = {
         date: "2022 — 2024",
         points: [
           "Developed client applications with Bubble.io and XANO and coordinated the technical team.",
-          "Planned and delivered technical projects with budget and schedule responsibility, evaluated technologies and improved development processes.",
+          "Planned technical projects and managed budgets and schedules.",
         ],
         area: "Product development",
         tags: ["Bubble.io", "XANO"],
@@ -135,14 +134,14 @@ export const content = {
     about: "About me",
     aboutTitle: "Education and background",
     aboutText:
-      "I have studied Computer Science at ZHAW since 2024 and expect to graduate in 2028. Before that, I studied at ETH Zurich. Alongside my studies, I have worked in software development, product development and IT support.",
+      "Previously studied at ETH Zurich. Alongside my studies, I have worked in software development, product development and IT support.",
     skillsTitle: "Technical skills",
     skills: [
       {
         title: "PHP and databases",
         text: "PHP · SQL · LDAP",
         evidence:
-          "Worked on an intranet service’s architecture, migration and PHP code, including SQL queries and directory integration.",
+          "PHP 7-to-8 migration, shared database access and directory integration in a professional intranet project.",
         id: "php",
         symbol: "</>",
         context: "University of Zurich",
@@ -151,7 +150,7 @@ export const content = {
         title: "Java",
         text: "Java · JavaFX · JUnit",
         evidence:
-          "Used in ZHAW team projects, including SpinWheels. Worked on skins, statistics and interface fixes.",
+          "JavaFX applications, object-oriented modelling and JUnit tests in university and personal projects.",
         id: "java",
         symbol: "{ }",
         context: "ZHAW and personal projects",
@@ -160,13 +159,13 @@ export const content = {
         title: "Development tools",
         text: "Git · GitLab · CI/CD · GitHub · Gradle · Jira",
         evidence:
-          "Integrated GitLab for version control, CI/CD and deployments at the University of Zurich. Used GitHub, Gradle and Jira in development projects.",
+          "GitLab CI/CD in professional work; GitHub and Gradle in team and personal projects.",
         id: "tools",
         symbol: "git",
         context: "Professional and team projects",
       },
       {
-        title: "Application development",
+        title: "Bubble.io and XANO",
         text: "Bubble.io · XANO",
         evidence:
           "Built client applications at Rocketlaunch and a two-sided marketplace at Kork Tech.",
@@ -175,18 +174,19 @@ export const content = {
         context: "Rocketlaunch and Kork Tech",
       },
       {
-        title: "Frontend — currently learning",
+        title: "Web frontend",
         text: "TypeScript · React · Next.js · Tailwind CSS",
-        evidence: "Currently learning these tools by building this portfolio.",
+        evidence:
+          "Building localized components, accessible interactions and responsive layouts.",
         id: "frontend",
         symbol: "TS",
-        context: "This portfolio",
+        context: "Currently learning · This portfolio",
       },
       {
         title: "Systems and support",
         text: "Linux · Windows Server · Active Directory · ITSM",
         evidence:
-          "Designed and implemented a central ticketing system, wrote technical documentation, and worked on server maintenance and user permissions.",
+          "Server maintenance, user permissions and technical documentation in IT roles.",
         id: "systems",
         symbol: ">_",
         context: "IT roles",
@@ -205,6 +205,9 @@ export const content = {
     cvEnglish: "English CV (PDF)",
     cvGerman: "German CV (PDF)",
     relatedProjects: "Related projects",
+    opportunity:
+      "Seeking junior software development or working-student opportunities.",
+    education: "ZHAW · Computer Science · 2024–2028 (expected)",
   },
   de: {
     nav: ["Erfahrung", "Projekte", "Über mich", "Kontakt"],
@@ -213,35 +216,35 @@ export const content = {
     student: "Informatikstudent an der ZHAW",
     location: "Zürich, Schweiz",
     description:
-      "Ich entwickle Webanwendungen mit PHP und SQL. Dazu gehören ein Intranet an der Universität Zürich und Kundenanwendungen bei Rocketlaunch.",
+      "Ich habe an einem PHP-/SQL-Intranet der Universität Zürich gearbeitet, Java-Anwendungen entwickelt und Kundenanwendungen bei Rocketlaunch umgesetzt.",
     explore: "Projekte entdecken",
     contact: "Kontakt aufnehmen",
     emailLabel: "E-Mail",
     work: "Ausgewählte Projekte",
     workTitle: "Projekte",
     workIntro:
-      "Zuerst berufliche Webanwendungen, danach Java-Teamprojekte und eigene Projekte.",
+      "Ausgewählte berufliche Projekte, Hochschulprojekte und eigene Anwendungen.",
     details: "Projektdetails",
     contributionTitle: "Mein Beitrag",
     projects: [
       {
-        title: "Weiterentwicklung eines PHP-Intranets",
+        title: "Migration eines PHP-Intranets",
         category: "Beruflich / PHP",
-        text: "Architektur, Migration und Weiterentwicklung eines Intranet-Webservices an der Universität Zürich.",
-        tags: ["PHP", "SQL", "GitLab CI/CD"],
+        text: "Neuorganisation und Migration eines PHP-Intranets an der Universität Zürich.",
+        tags: ["PHP 7 → 8", "SQL", "GitLab CI/CD"],
         contributions: [
-          "Intranet-Webservice migriert und weiterentwickelt",
-          "PHP-Code und SQL-Datenbankabfragen überarbeitet",
-          "GitLab für Versionsverwaltung, CI/CD und Deployments integriert",
+          "Verstreute Ordner und Dateien in einem einheitlichen Projekt zusammengeführt",
+          "PHP 7 auf PHP 8 migriert",
+          "Datenbankzugriffe zentralisiert und GitLab CI/CD integriert",
         ],
         detail:
-          "Am Institut für Medizinische Mikrobiologie der Universität Zürich arbeitete ich an Architektur, Migration und Weiterentwicklung eines PHP-Intranet-Webservices. Dazu gehörten SQL-Datenbankabfragen, LDAP-/Active-Directory-Anbindung sowie GitLab für Versionsverwaltung, CI/CD- und Deployment-Prozesse.",
+          "Zur Intranet-Arbeit gehörten auch SQL-Datenbankabfragen sowie die Anbindung an LDAP / Active Directory. Quellcode und interne Ansichten dieses beruflichen Projekts werden hier nicht veröffentlicht.",
         id: "php",
       },
       {
-        title: "Anwendungen und ein Marktplatz",
+        title: "Kundenapps und Marktplatz",
         category: "Beruflich / Produktentwicklung",
-        text: "Kundenanwendungen und technische Projektplanung bei Rocketlaunch; ein zweiseitiger Marktplatz bei Kork Tech.",
+        text: "Kundenanwendungen bei Rocketlaunch und ein zweiseitiger Marktplatz bei Kork Tech.",
         tags: ["Bubble.io", "XANO", "Produktentwicklung"],
         contributions: [
           "Kundenanwendungen mit Bubble.io und XANO entwickelt",
@@ -249,7 +252,7 @@ export const content = {
           "Technische Projekte geplant und Entwickler koordiniert",
         ],
         detail:
-          "Als Mitgründer und CTO bei Rocketlaunch entwickelte ich Kundenanwendungen mit Bubble.io und XANO und koordinierte das technische Team. Ich plante und realisierte technische Projekte mit Budget- und Terminverantwortung, evaluierte neue Technologien und verbesserte Entwicklungsprozesse. Bei Kork Tech AG entwickelte und lancierte ich unabhängig davon einen zweiseitigen Marktplatz mit Bubble.io.",
+          "Bei Rocketlaunch setzte ich Bubble.io und XANO ein und koordinierte das technische Team. Bei Kork Tech entwickelte und lancierte ich einen zweiseitigen Marktplatz mit Bubble.io.",
         id: "products",
       },
       {
@@ -264,7 +267,7 @@ export const content = {
           "Technische Dokumentationen erstellt und gepflegt",
         ],
         detail:
-          "Neben der Intranet-Entwicklung konzipierte und implementierte ich am Institut für Medizinische Mikrobiologie ein zentrales Ticketsystem und entwickelte es weiter. Ich pflegte technische Dokumentationen für Wissenstransfer und laufenden Betrieb.",
+          "Zur Arbeit gehörten die Weiterentwicklung sowie technische Dokumentationen für Wissenstransfer und Betrieb.",
       },
     ],
     experience: "Erfahrung",
@@ -273,11 +276,11 @@ export const content = {
       {
         company: "Universität Zürich · Institut für Medizinische Mikrobiologie",
         role: "Studentische Hilfskraft",
-        date: "15. Okt. 2025 — 14. Okt. 2026",
+        date: "Okt. 2025 — Okt. 2026",
         points: [
-          "Architektur, Migration und Weiterentwicklung eines Intranet-Webservices.",
-          "Integration von GitLab für Versionsverwaltung, CI/CD und Deployments.",
-          "Konzeption und Implementierung eines zentralen Ticketsystems sowie Pflege technischer Dokumentationen.",
+          "Verstreutes PHP-Intranet in einem einheitlichen Projekt zusammengeführt, PHP 7 auf 8 migriert und Datenbankzugriffe zentralisiert.",
+          "GitLab für Versionsverwaltung, CI/CD und Deployments integriert.",
+          "Zentrales Ticketsystem konzipiert und implementiert sowie technische Dokumentationen gepflegt.",
         ],
         area: "Webentwicklung",
         tags: ["PHP", "SQL", "GitLab CI/CD"],
@@ -310,7 +313,7 @@ export const content = {
         date: "2022 — 2024",
         points: [
           "Entwicklung von Kundenanwendungen mit Bubble.io und XANO und Koordination des technischen Teams.",
-          "Planung und Umsetzung technischer Projekte mit Budget- und Terminverantwortung, Evaluation neuer Technologien und Verbesserung der Entwicklungsprozesse.",
+          "Technische Projekte geplant sowie Budget- und Terminverantwortung übernommen.",
         ],
         area: "Produktentwicklung",
         tags: ["Bubble.io", "XANO"],
@@ -341,14 +344,14 @@ export const content = {
     about: "Über mich",
     aboutTitle: "Studium und Hintergrund",
     aboutText:
-      "Ich studiere seit 2024 Informatik an der ZHAW und schliesse voraussichtlich 2028 ab. Davor studierte ich an der ETH Zürich. Neben dem Studium habe ich in der Softwareentwicklung, Produktentwicklung und im IT-Support gearbeitet.",
+      "Zuvor habe ich an der ETH Zürich studiert. Neben dem Studium habe ich in der Softwareentwicklung, Produktentwicklung und im IT-Support gearbeitet.",
     skillsTitle: "Technische Kenntnisse",
     skills: [
       {
         title: "PHP und Datenbanken",
         text: "PHP · SQL · LDAP",
         evidence:
-          "Arbeit an Architektur, Migration und PHP-Code eines Intranet-Webservices, einschliesslich SQL-Abfragen und Verzeichnisanbindung.",
+          "PHP-7-auf-8-Migration, zentrale Datenbankzugriffe und Verzeichnisanbindung in einem beruflichen Intranet-Projekt.",
         id: "php",
         symbol: "</>",
         context: "Universität Zürich",
@@ -357,7 +360,7 @@ export const content = {
         title: "Java",
         text: "Java · JavaFX · JUnit",
         evidence:
-          "In ZHAW-Teamprojekten eingesetzt, unter anderem in SpinWheels. Arbeit an Skins, Statistiken und Oberflächenkorrekturen.",
+          "JavaFX-Anwendungen, objektorientierte Modellierung und JUnit-Tests in Hochschulprojekten und eigenen Anwendungen.",
         id: "java",
         symbol: "{ }",
         context: "ZHAW und eigene Projekte",
@@ -366,13 +369,13 @@ export const content = {
         title: "Entwicklungswerkzeuge",
         text: "Git · GitLab · CI/CD · GitHub · Gradle · Jira",
         evidence:
-          "GitLab für Versionsverwaltung, CI/CD und Deployments an der Universität Zürich integriert. GitHub, Gradle und Jira in Entwicklungsprojekten eingesetzt.",
+          "GitLab CI/CD im Beruf; GitHub und Gradle in Teamprojekten und eigenen Anwendungen.",
         id: "tools",
         symbol: "git",
         context: "Berufliche Arbeit und Teamprojekte",
       },
       {
-        title: "Anwendungsentwicklung",
+        title: "Bubble.io und XANO",
         text: "Bubble.io · XANO",
         evidence:
           "Kundenanwendungen bei Rocketlaunch und einen zweiseitigen Marktplatz bei Kork Tech entwickelt.",
@@ -381,18 +384,19 @@ export const content = {
         context: "Rocketlaunch und Kork Tech",
       },
       {
-        title: "Frontend — lerne ich gerade",
+        title: "Web-Frontend",
         text: "TypeScript · React · Next.js · Tailwind CSS",
-        evidence: "Diese Werkzeuge lerne ich beim Aufbau dieses Portfolios.",
+        evidence:
+          "Aufbau lokalisierter Komponenten, zugänglicher Interaktionen und responsiver Layouts.",
         id: "frontend",
         symbol: "TS",
-        context: "Dieses Portfolio",
+        context: "Diese Werkzeuge lerne ich gerade · Dieses Portfolio",
       },
       {
         title: "Systeme und Support",
         text: "Linux · Windows Server · Active Directory · ITSM",
         evidence:
-          "Zentrales Ticketsystem konzipiert und implementiert, technische Dokumentationen erstellt und an Serverwartung und Benutzerrechten gearbeitet.",
+          "Serverwartung, Benutzerrechte und technische Dokumentation in IT-Tätigkeiten.",
         id: "systems",
         symbol: ">_",
         context: "IT-Tätigkeiten",
@@ -411,6 +415,9 @@ export const content = {
     cvEnglish: "Lebenslauf Englisch (PDF)",
     cvGerman: "Lebenslauf Deutsch (PDF)",
     relatedProjects: "Zugehörige Projekte",
+    opportunity:
+      "Ich suche eine Junior- oder Werkstudentenstelle in der Softwareentwicklung.",
+    education: "ZHAW · Informatik · 2024–2028 (voraussichtlich)",
   },
 };
 export type PortfolioContent = typeof content.en;

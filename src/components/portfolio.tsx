@@ -3,6 +3,7 @@ import { content, type Locale } from "@/content/portfolio";
 import Image from "next/image";
 import { SiteHeader } from "@/components/site-header";
 import { LinkedInIcon } from "@/components/linkedin-icon";
+import { GitHubIcon } from "@/components/github-icon";
 import { getProjects } from "@/content/project-scanner";
 import { ProjectScanner } from "@/components/project-scanner";
 import { SectionNav } from "@/components/section-nav";
@@ -63,6 +64,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
             <p className="student">{t.student}</p>
 
             <p className="muted hero-description">{t.description}</p>
+            <p className="opportunity">{t.opportunity}</p>
             <div className="actions">
               <a className="button primary" href="#work">
                 {t.explore} ↗
@@ -82,8 +84,12 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 <LinkedInIcon /> LinkedIn
               </a>
               <span aria-hidden="true">/</span>
-              <a href="https://github.com/Bruno-Pinto" rel="me">
-                GitHub
+              <a
+                href="https://github.com/Bruno-Pinto"
+                rel="me"
+                className="social-link"
+              >
+                <GitHubIcon /> GitHub
               </a>
               <span aria-hidden="true">/</span>
               <a href={t.cvHref} download>
@@ -202,6 +208,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
           <div className="about-grid">
             <div>
               <h2 id="about-title">{t.aboutTitle}</h2>
+              <p className="education-summary">{t.education}</p>
               <p className="about-copy muted">{t.aboutText}</p>
             </div>
           </div>
@@ -249,8 +256,12 @@ export function Portfolio({ locale }: { locale: Locale }) {
               >
                 <LinkedInIcon /> LinkedIn
               </a>
-              <a href="https://github.com/Bruno-Pinto" rel="me">
-                GitHub
+              <a
+                href="https://github.com/Bruno-Pinto"
+                rel="me"
+                className="social-link"
+              >
+                <GitHubIcon /> GitHub
               </a>
               <a href="/cv/bruno-pinto-cv-en.pdf" download hrefLang="en">
                 {t.cvEnglish} ↓

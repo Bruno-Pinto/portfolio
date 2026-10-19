@@ -1,6 +1,7 @@
 import { content, type Locale } from "@/content/portfolio";
 import { spinwheels } from "@/content/spinwheels";
 import { personalProjects } from "@/content/personal-projects";
+import { portfolioProject } from "@/content/portfolio-project";
 
 const repositories: Record<string, string> = {
   "mission-life": "https://github.com/Bruno-Pinto/Mission-Life",
@@ -37,13 +38,15 @@ export function getProjects(locale: Locale) {
   };
   return [
     professional[0],
-    professional[1],
     racing,
+    portfolioProject[locale],
+    professional[1],
     professional[2],
     ...personalProjects[locale],
   ].map((project, i) => ({
     ...project,
     repositoryUrl: repositories[project.id] ?? null,
+    featured: ["php", "spinwheels", "portfolio"].includes(project.id),
     number: String(i + 1).padStart(2, "0"),
   }));
 }

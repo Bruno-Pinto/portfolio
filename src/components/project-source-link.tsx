@@ -1,3 +1,4 @@
+import { GitHubIcon } from "@/components/github-icon";
 import type { Locale } from "@/content/portfolio";
 
 export function ProjectSourceLink({
@@ -22,7 +23,7 @@ export function ProjectSourceLink({
       rel="noopener noreferrer"
       aria-label={text + ": " + title + " (" + newTab + ")"}
     >
-      {text} <span aria-hidden="true">↗</span>
+      <GitHubIcon /> {text} <span aria-hidden="true">↗</span>
     </a>
   );
 }

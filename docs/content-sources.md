@@ -51,3 +51,9 @@ The PHP intranet and central ticketing system are separate project cards. Their 
 ## Approved public CV downloads
 
 The owner approved publishing both CVs after reviewing their contents. The PDFs were checked again: no postal address or phone number was found in the extracted content, and document metadata was reviewed. Identical copies of the supplied English and German files are tracked in public/cv; originals remain in the ignored _private folder. Employment-reference PDFs remain private. The PDFs have not been rewritten to match later website copy changes.
+
+## Owner clarification, 19 October 2026
+
+The owner confirmed reorganizing the PHP intranet from scattered folders and files into a unified project, migrating PHP 7 to PHP 8 and centralizing database access. No impact metrics, internal layouts or reasons for particular implementation choices are inferred. Availability and workload are intentionally omitted at the owner’s request.
+
+Public repository links were verified against the owner's GitHub account. SpinWheels and professional projects have no public source link in this portfolio. The portfolio itself is included as a web project; its features are grounded in this repository.

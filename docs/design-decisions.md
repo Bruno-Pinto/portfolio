@@ -17,3 +17,11 @@ Applied principles:
 The static export remains suitable for the user's own web server. Reference documents are not included in public assets.
 
 Experience entries link to their corresponding projects. Links reach the projects section without JavaScript. The scanner enhances them to select the matching card and move keyboard focus to it. Reopening a project keeps it open; modified clicks retain native browser behavior.
+
+## Project browsing and evidence
+
+The scanner remains the default creative view. A keyboard-accessible Scanner/List toggle offers an ordinary reading path with visible summaries, technologies and features; technical paragraphs expand with native details controls. Both views use getProjects(locale), so facts and repository links stay consistent. Timeline links open the relevant entry in the currently selected view. Switching views preserves the selected card and safely completes an interrupted scan. Reduced-motion settings apply to scrolling and animation.
+
+PHP intranet, SpinWheels and the portfolio lead the project order and receive the Featured grouping in list view. Other work remains available. Professional source and internal screens stay unpublished. Card illustrations remain explicitly illustrative; actual application screenshots have not been substituted with mockups.
+
+The hero now includes Java work and a concise job-opportunity statement without unconfirmed workload or start dates. Skills retain context and learning labels, with shorter descriptions. Chronology and official job titles remain unchanged; displayed employment dates use month/year. Education lists the expected ZHAW graduation separately from previous ETH study. The portrait file is unchanged; a mild CSS brightness adjustment improves its appearance.

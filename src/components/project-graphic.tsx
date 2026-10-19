@@ -110,6 +110,18 @@ export function ProjectGraphic({ id }: { id: string }) {
               </g>
             ))}
           </>
+        ) : id === "portfolio" ? (
+          <>
+            <rect x="24" y="10" width="176" height="66" stroke="#527887" />
+            <path d="M24 24H200M94 24V76" stroke="#527887" />
+            <rect x="36" y="34" width="44" height="30" stroke="#00ffff" />
+            <path
+              d="M106 37H178M106 47H155M106 57H169"
+              stroke="#8faab5"
+              strokeWidth="3"
+            />
+            <path d="M37 17H42M48 17H53" stroke="#00ffff" />
+          </>
         ) : id === "php" ? (
           <>
             <rect x="22" y="12" width="180" height="62" stroke="#345361" />

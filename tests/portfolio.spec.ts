@@ -126,7 +126,7 @@ test("experience is chronological and skills include examples", async ({
       "Rocketlaunch",
       "Kork Tech AG",
     ]);
-    await expect(page.locator(".project-deck button")).toHaveCount(6);
+    await expect(page.locator(".project-deck button")).toHaveCount(7);
     await expect(page.locator(".project-scanner img")).toHaveCount(0);
     await expect(page.locator(".skill-card")).toHaveCount(6);
     await expect(
@@ -190,18 +190,18 @@ test("cards move into scanner, switch and return with keyboard support", async (
       await expect(page.locator(".scanner-details h3")).toHaveText(
         i === 0
           ? route === "/"
-            ? "PHP intranet development"
-            : "Weiterentwicklung eines PHP-Intranets"
+            ? "PHP intranet migration"
+            : "Migration eines PHP-Intranets"
           : i === 1
-            ? route === "/"
-              ? "Applications and a marketplace"
-              : "Anwendungen und ein Marktplatz"
-            : "SpinWheels",
+            ? "SpinWheels"
+            : route === "/"
+              ? "Developer portfolio"
+              : "Entwicklerportfolio",
       );
       await expect(page.locator(".scanner-status")).toHaveText(
         route === "/" ? "Scan complete" : "Scan abgeschlossen",
       );
-      if (i === 2)
+      if (i === 1)
         await expect(page.locator(".scanner-details")).toContainText(
           route === "/" ? "breadth-first search" : "Breitensuche",
         );
@@ -327,11 +327,11 @@ test("Mission projects have localized details and matching card appearance", asy
   for (const route of ["/", "/de/"]) {
     await page.goto(route);
     const deck = page.locator(".project-deck button");
-    await expect(deck).toHaveCount(6);
+    await expect(deck).toHaveCount(7);
     expect(
       (await page.locator(".scanner-layout").boundingBox())!.height,
     ).toBeGreaterThanOrEqual(560);
-    for (const index of [4, 5]) {
+    for (const index of [5, 6]) {
       const face = await deck.nth(index).evaluate((el) => ({
         width: el.clientWidth,
         height: el.clientHeight,
@@ -339,7 +339,7 @@ test("Mission projects have localized details and matching card appearance", asy
       }));
       await deck.nth(index).click();
       await expect(page.locator(".scanner-reveal h3")).toHaveText(
-        index === 4 ? "Mission-Life" : "Mission-Chess",
+        index === 5 ? "Mission-Life" : "Mission-Chess",
       );
       const scanned = await page.locator(".docked-token").evaluate((el) => ({
         width: el.clientWidth,
@@ -348,7 +348,7 @@ test("Mission projects have localized details and matching card appearance", asy
       }));
       expect(scanned).toEqual(face);
       await expect(page.locator(".scanner-reveal")).toContainText(
-        index === 4 ? "JavaFX" : "Swing",
+        index === 5 ? "JavaFX" : "Swing",
       );
     }
     expect(
@@ -359,7 +359,7 @@ test("Mission projects have localized details and matching card appearance", asy
   }
 });
 
-test("professional projects lead and PHP and ITSM have separate details", async ({
+test("featured development projects lead and PHP and ITSM have separate details", async ({
   page,
 }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
@@ -373,8 +373,9 @@ test("professional projects lead and PHP and ITSM have separate details", async 
         ),
     ).toEqual([
       "php",
-      "products",
       "spinwheels",
+      "portfolio",
+      "products",
       "itsm",
       "mission-life",
       "mission-chess",
@@ -591,4 +592,104 @@ test("mobile header hides scrolling down and returns scrolling up or using the k
       .poll(async () => Math.round((await header.boundingBox())!.y))
       .toBe(0);
   }
+});
+
+test("list view exposes project evidence and timeline links without scanning", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/de/"]) {
+    const english = route === "/";
+    await page.goto(route);
+    const listButton = page.getByRole("button", {
+      name: english ? "List view" : "Listenansicht",
+      exact: true,
+    });
+    await listButton.focus();
+    await page.keyboard.press("Enter");
+    await expect(listButton).toHaveAttribute("aria-pressed", "true");
+    await expect(page.locator(".scanner-frame")).toBeHidden();
+    await expect(page.locator(".project-list-item")).toHaveCount(7);
+    expect(
+      await page
+        .locator(".project-list-group")
+        .first()
+        .locator(".project-list-item")
+        .evaluateAll((items) =>
+          items.map((i) => i.getAttribute("data-list-project")),
+        ),
+    ).toEqual(["php", "spinwheels", "portfolio"]);
+    const php = page.locator('[data-list-project="php"]');
+    await expect(php).toContainText(
+      english ? "PHP 7 to PHP 8" : "PHP 7 auf PHP 8",
+    );
+    await expect(php).toContainText(
+      english
+        ? "Centralized database access"
+        : "Datenbankzugriffe zentralisiert",
+    );
+    for (const [id, repo] of [
+      ["portfolio", "portfolio"],
+      ["mission-life", "Mission-Life"],
+      ["mission-chess", "Mission-Chess"],
+    ]) {
+      await expect(
+        page.locator('[data-list-project="' + id + '"] a'),
+      ).toHaveAttribute("href", "https://github.com/Bruno-Pinto/" + repo);
+    }
+    await page.locator(".job [data-project-target=php]").first().click();
+    await expect(php).toBeFocused();
+    await expect(php.locator("details")).toHaveAttribute("open", "");
+    await expect(listButton).toHaveAttribute("aria-pressed", "true");
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    await page
+      .getByRole("button", {
+        name: english ? "Scanner view" : "Scanner-Ansicht",
+        exact: true,
+      })
+      .click();
+    await page
+      .locator(".project-deck button[data-project-id=portfolio]")
+      .click();
+    await expect(page.locator(".scanner-reveal a")).toHaveAttribute(
+      "href",
+      "https://github.com/Bruno-Pinto/portfolio",
+    );
+    await listButton.click();
+    await page
+      .getByRole("button", {
+        name: english ? "Scanner view" : "Scanner-Ansicht",
+        exact: true,
+      })
+      .click();
+    await expect(page.locator(".docked-token")).toHaveAttribute(
+      "data-project-id",
+      "portfolio",
+    );
+    await expect(page.locator(".scanner-details")).toHaveAttribute(
+      "aria-busy",
+      "false",
+    );
+  }
+});
+
+test("switching to list view during a scan does not leave the scanner waiting", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page
+    .locator(".project-deck button[data-project-id=spinwheels]")
+    .click();
+  await expect(page.locator(".scanner-pad")).toHaveAttribute(
+    "data-phase",
+    "scanning",
+  );
+  await page.getByRole("button", { name: "List view", exact: true }).click();
+  await expect(page.locator(".project-list")).toBeVisible();
+  await page.getByRole("button", { name: "Scanner view", exact: true }).click();
+  await expect(page.locator(".scanner-reveal h3")).toHaveText("SpinWheels");
 });
