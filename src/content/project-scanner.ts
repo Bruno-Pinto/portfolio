@@ -1,5 +1,6 @@
 import { content, type Locale } from "@/content/portfolio";
 import { spinwheels } from "@/content/spinwheels";
+import { personalProjects } from "@/content/personal-projects";
 
 export function getProjects(locale: Locale) {
   const t = content[locale],
@@ -31,6 +32,7 @@ export function getProjects(locale: Locale) {
       contributions: [] as string[],
       details: [p.detail],
     })),
+    ...personalProjects[locale],
   ];
 }
 export type ScannerProject = ReturnType<typeof getProjects>[number];

@@ -49,18 +49,27 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
   const frame = useRef<HTMLDivElement>(null);
   const dock = useRef<HTMLButtonElement>(null);
   const sources = useRef<(HTMLButtonElement | null)[]>([]);
-  const pending = useRef<{ rect: DOMRect; index: number } | null>(null);
+  const pending = useRef<{
+    rect: DOMRect;
+    index: number;
+    outgoing?: { rect: DOMRect; index: number };
+  } | null>(null);
   const animation = useRef<Animation | null>(null);
+  const outgoingAnimation = useRef<Animation | null>(null);
 
   function choose(index: number) {
-    animation.current?.cancel();
     const returning = selected === index;
     if (!returning)
       frame.current?.scrollIntoView({ behavior: "instant", block: "start" });
     const source = returning ? dock.current : sources.current[index];
-    pending.current = source
-      ? { rect: source.getBoundingClientRect(), index }
-      : null;
+    const rect = source?.getBoundingClientRect();
+    const outgoing =
+      !returning && selected !== null && dock.current
+        ? { rect: dock.current.getBoundingClientRect(), index: selected }
+        : undefined;
+    animation.current?.cancel();
+    outgoingAnimation.current?.cancel();
+    pending.current = rect ? { rect, index, outgoing } : null;
     setSelected(returning ? null : index);
     setPhase(
       returning
@@ -82,6 +91,28 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
       window.matchMedia("(prefers-reduced-motion: reduce)").matches
     )
       return;
+    const outgoing = move.outgoing
+      ? sources.current[move.outgoing.index]
+      : null;
+    if (outgoing && move.outgoing) {
+      const origin = move.outgoing.rect,
+        destination = outgoing.getBoundingClientRect();
+      outgoingAnimation.current = outgoing.animate(
+        [
+          {
+            transform:
+              "translate(" +
+              (origin.left - destination.left) +
+              "px," +
+              (origin.top - destination.top) +
+              "px)",
+            zIndex: 30,
+          },
+          { transform: "translate(0,0)", zIndex: 30 },
+        ],
+        { duration: 480, easing: "cubic-bezier(.22,.8,.25,1)" },
+      );
+    }
     const to = element.getBoundingClientRect();
     const flight = element.animate(
       [
@@ -90,7 +121,12 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
         },
         { transform: "translate(0,0) scale(1,1)" },
       ],
-      { duration: 480, easing: "cubic-bezier(.22,.8,.25,1)" },
+      {
+        duration: 480,
+        delay: move.outgoing ? 120 : 0,
+        fill: "backwards",
+        easing: "cubic-bezier(.22,.8,.25,1)",
+      },
     );
     animation.current = flight;
     flight.onfinish = () => {
@@ -100,6 +136,7 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
     };
     return () => {
       flight.cancel();
+      outgoingAnimation.current?.cancel();
     };
   }, [selected]);
 
@@ -108,6 +145,7 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
     function finishIfReduced() {
       if (preference.matches) {
         animation.current?.cancel();
+        outgoingAnimation.current?.cancel();
         setPhase(selected === null ? "idle" : "ready");
       }
     }
@@ -168,7 +206,9 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
                 <div className="scanner-empty">
                   <span aria-hidden="true">+</span>
                   <p>{t.empty}</p>
-                  <span aria-hidden="true">01 — 03</span>
+                  <span aria-hidden="true">
+                    01 — {String(projects.length).padStart(2, "0")}
+                  </span>
                 </div>
               )}
             </div>

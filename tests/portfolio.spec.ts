@@ -146,7 +146,7 @@ test("experience is chronological and skills include examples", async ({
       "Rocketlaunch",
       "Kork Tech AG",
     ]);
-    await expect(page.locator(".project-deck button")).toHaveCount(3);
+    await expect(page.locator(".project-deck button")).toHaveCount(5);
     await expect(page.locator(".project-scanner img")).toHaveCount(0);
     await expect(page.locator(".skill-card")).toHaveCount(6);
     await expect(
@@ -309,4 +309,64 @@ test("enabling reduced motion during scanning reveals details immediately", asyn
   await expect(page.locator(".scanner-reveal")).toContainText(
     "Movement strategies",
   );
+});
+
+test("replacement animates the outgoing card and preserves card dimensions", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const first = page.locator(".project-deck button").first();
+  const before = await first.boundingBox();
+  await first.click();
+  await expect(page.locator(".scanner-status")).toHaveText("Scan complete");
+  const dock = await page.locator(".docked-token").boundingBox();
+  expect(dock!.width).toBeCloseTo(before!.width, 0);
+  expect(dock!.height).toBeCloseTo(before!.height, 0);
+  await page.locator(".project-deck button").nth(3).click();
+  expect(
+    await first.evaluate((el) =>
+      el.getAnimations().some((animation) => animation.playState === "running"),
+    ),
+  ).toBe(true);
+  await expect(page.locator(".scanner-status")).toHaveText("Scan complete");
+  await expect(page.locator(".scanner-reveal h3")).toHaveText("Mission-Life");
+  await expect(first).toHaveAttribute("aria-pressed", "false");
+});
+test("Mission projects have localized details and matching card appearance", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    const deck = page.locator(".project-deck button");
+    await expect(deck).toHaveCount(5);
+    expect(
+      (await page.locator(".scanner-layout").boundingBox())!.height,
+    ).toBeGreaterThanOrEqual(560);
+    for (const index of [3, 4]) {
+      const face = await deck.nth(index).evaluate((el) => ({
+        width: el.clientWidth,
+        height: el.clientHeight,
+        titleSize: getComputedStyle(el.querySelector(".token-title")!).fontSize,
+      }));
+      await deck.nth(index).click();
+      await expect(page.locator(".scanner-reveal h3")).toHaveText(
+        index === 3 ? "Mission-Life" : "Mission-Chess",
+      );
+      const scanned = await page.locator(".docked-token").evaluate((el) => ({
+        width: el.clientWidth,
+        height: el.clientHeight,
+        titleSize: getComputedStyle(el.querySelector(".token-title")!).fontSize,
+      }));
+      expect(scanned).toEqual(face);
+      await expect(page.locator(".scanner-reveal")).toContainText(
+        index === 3 ? "JavaFX" : "Swing",
+      );
+    }
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
 });
