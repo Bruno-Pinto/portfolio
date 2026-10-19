@@ -16,7 +16,7 @@ Source repository: `team02-jetstillbrains-projekt2-spinwheels` in the owner's ZH
 
 These commits support contribution summaries, not exclusive ownership of final team code. CPU pathfinding is presented as a team feature.
 
-The featured SVG is a schematic generated from `tracks/Nascar.txt`, not an application screenshot. Track boundaries, coins, starting positions and finish cells come from that file. Typography and colors are portfolio presentation.
+The portfolio presents SpinWheels as a text card with its verified features and contributions; no game screenshot is currently shown.
 
 ## Portrait
 

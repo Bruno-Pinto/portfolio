@@ -96,3 +96,55 @@ test("featured work and portrait load in both languages without overflow", async
     );
   }
 });
+
+test("header stays visible and anchor headings stay below it", async ({
+  page,
+}) => {
+  await page.goto("/");
+  await page.getByRole("link", { name: "Experience", exact: true }).click();
+  await expect(page).toHaveURL(/#experience$/);
+  await expect
+    .poll(async () =>
+      page
+        .locator(".site-header")
+        .evaluate((el) => Math.round(el.getBoundingClientRect().top)),
+    )
+    .toBe(0);
+  await expect
+    .poll(async () =>
+      page
+        .locator("#experience-title")
+        .evaluate(
+          (el) =>
+            el.getBoundingClientRect().top -
+            document.querySelector(".site-header")!.getBoundingClientRect()
+              .bottom,
+        ),
+    )
+    .toBeGreaterThanOrEqual(0);
+  await expect(
+    page.getByRole("link", { name: "Work", exact: true }),
+  ).toBeVisible();
+});
+test("experience is chronological and skills include examples", async ({
+  page,
+}) => {
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    const companies = await page.locator(".job h3").allTextContents();
+    expect(companies).toEqual([
+      route === "/"
+        ? "Institute of Medical Microbiology"
+        : "Institut für Medizinische Mikrobiologie",
+      "IKAMED Institute AG",
+      "Rocketlaunch",
+      "Kork Tech AG",
+    ]);
+    await expect(page.locator(".project-grid > article")).toHaveCount(3);
+    await expect(page.locator(".project-grid img")).toHaveCount(0);
+    await expect(page.locator(".skill-card")).toHaveCount(6);
+    await expect(
+      page.locator(".skill-card").filter({ hasText: "TypeScript" }),
+    ).toContainText(route === "/" ? "Currently learning" : "lerne ich");
+  }
+});

@@ -2,9 +2,9 @@ import type { Locale } from "@/content/portfolio";
 
 export const spinwheels = {
   en: {
-    label: "Featured project / ZHAW team project",
+    label: "ZHAW / Team project",
     title: "SpinWheels",
-    subtitle: "A racing game. Built as a team.",
+    subtitle: "Turn-based racing game",
     description:
       "A turn-based desktop racer with selectable tracks, CPU opponents and a garage of car skins. Built in a four-person team using Java 21 and JavaFX.",
     contributionTitle: "My contribution",
@@ -16,16 +16,11 @@ export const spinwheels = {
     detailLabel: "Inside the project",
     detail:
       "The application separates models, FXML views and controllers using MVC. User data is persisted in JSON, and the repository includes JUnit tests and manual test scenarios. CPU opponents use a pathfinding strategy.",
-    visualAlt:
-      "Schematic of the Nascar track from SpinWheels, showing the road, coins, starting positions and finish line.",
-    caption: "Track visualization · Nascar",
-    source: "Based on the project’s track data",
-    more: "More development work",
   },
   de: {
-    label: "Projekt im Fokus / ZHAW-Teamprojekt",
+    label: "ZHAW / Teamprojekt",
     title: "SpinWheels",
-    subtitle: "Ein Rennspiel. Im Team entwickelt.",
+    subtitle: "Rundenbasiertes Rennspiel",
     description:
       "Ein rundenbasiertes Desktop-Rennspiel mit Streckenauswahl, CPU-Gegnern und einer Garage für Fahrzeug-Skins. Im Viererteam mit Java 21 und JavaFX entwickelt.",
     contributionTitle: "Mein Beitrag",
@@ -37,11 +32,6 @@ export const spinwheels = {
     detailLabel: "Einblick ins Projekt",
     detail:
       "Die Anwendung trennt Modelle, FXML-Ansichten und Controller nach MVC. Nutzerdaten werden in JSON gespeichert. Das Repository enthält JUnit-Tests und manuelle Testszenarien. CPU-Gegner verwenden eine Pfadfindungsstrategie.",
-    visualAlt:
-      "Schematische Darstellung der Nascar-Strecke aus SpinWheels mit Fahrbahn, Münzen, Startpositionen und Ziellinie.",
-    caption: "Streckenvisualisierung · Nascar",
-    source: "Aus den Streckendaten des Projekts",
-    more: "Weitere Entwicklungsarbeit",
   },
 } satisfies Record<
   Locale,
@@ -54,9 +44,5 @@ export const spinwheels = {
     contributions: string[];
     detailLabel: string;
     detail: string;
-    visualAlt: string;
-    caption: string;
-    source: string;
-    more: string;
   }
 >;

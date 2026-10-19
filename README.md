@@ -62,4 +62,4 @@ The local static preview is available at `http://127.0.0.1:4173`. It is a develo
 
 ## Visual hierarchy
 
-The hero emphasizes name, role and portrait. SpinWheels is the dominant project, with a labeled track visualization generated from real project data. Supporting work uses quieter summaries; experience follows a compact timeline. The interactive lab is optional and collapsed by default. Cyan is reserved primarily for actions and selected markers.
+The header stays visible while scrolling. Projects use bordered cards, with SpinWheels highlighted. Experience is listed most recent first. Skills include the tools and concrete examples of where they were used. The interactive lab is collapsed by default.

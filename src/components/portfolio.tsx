@@ -3,7 +3,6 @@ import { content, type Locale } from "@/content/portfolio";
 import { SearchLab } from "@/components/search-lab";
 import Image from "next/image";
 import { FeaturedProject } from "@/components/featured-project";
-import { spinwheels } from "@/content/spinwheels";
 const anchors = ["work", "experience", "about", "contact"];
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = content[locale];
@@ -117,14 +116,13 @@ export function Portfolio({ locale }: { locale: Locale }) {
             </div>
             <p className="section-intro muted">{t.workIntro}</p>
           </div>
-          <FeaturedProject locale={locale} />
-          <h3 className="supporting-heading">{spinwheels[locale].more}</h3>
-          <div className="projects">
+          <div className="project-grid">
+            <FeaturedProject locale={locale} />
             {t.projects.map((p, i) => (
               <article className="project" key={p.title}>
                 <div className="project-top">
                   <span className="project-number" aria-hidden="true">
-                    0{i + 1}
+                    0{i + 2}
                   </span>
                   <p className="eyebrow">{p.category}</p>
                 </div>
@@ -135,6 +133,14 @@ export function Portfolio({ locale }: { locale: Locale }) {
                     <li key={tag}>{tag}</li>
                   ))}
                 </ul>
+                <div className="contributions">
+                  <h4>{t.contributionTitle}</h4>
+                  <ul>
+                    {p.contributions.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </div>
                 <details>
                   <summary>
                     {t.details}
@@ -179,12 +185,23 @@ export function Portfolio({ locale }: { locale: Locale }) {
               <h2 id="about-title">{t.aboutTitle}</h2>
               <p className="about-copy muted">{t.aboutText}</p>
             </div>
+          </div>
+          <div className="skills-section">
+            <h3 className="skills-heading">{t.skillsTitle}</h3>
             <div className="skills">
-              {t.skills.map((s) => (
-                <div key={s.title}>
-                  <h3>{s.title}</h3>
-                  <p className="muted">{s.text}</p>
-                </div>
+              {t.skills.map((s, i) => (
+                <article className="skill-card" key={s.title}>
+                  <span className="skill-number" aria-hidden="true">
+                    0{i + 1}
+                  </span>
+                  <h4>{s.title}</h4>
+                  <ul className="skill-tags">
+                    {s.text.split(" · ").map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                  <p className="muted">{s.evidence}</p>
+                </article>
               ))}
             </div>
           </div>
