@@ -57,3 +57,7 @@ The owner approved publishing both CVs after reviewing their contents. The PDFs 
 The owner confirmed reorganizing the PHP intranet from scattered folders and files into a unified project, migrating PHP 7 to PHP 8 and centralizing database access. No impact metrics, internal layouts or reasons for particular implementation choices are inferred. Availability and workload are intentionally omitted at the owner’s request.
 
 Public repository links were verified against the owner's GitHub account. SpinWheels and professional projects have no public source link in this portfolio. The portfolio itself is included as a web project; its features are grounded in this repository.
+
+## Personal About content, 20 October 2026
+
+The owner confirmed being born in Portugal and having lived in Zurich for 20 years; an interest in building and learning new things, with computers familiar through gaming; gym, running, paintball, gaming, reading, listening to music and playing guitar. No specific achievements, genres, books or personal dates are inferred. About uses the preserved old portrait (portrait.jpg); the newer hero portrait remains unchanged.

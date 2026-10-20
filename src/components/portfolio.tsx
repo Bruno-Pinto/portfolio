@@ -8,6 +8,8 @@ import { EmailIcon, DownloadIcon } from "@/components/link-icons";
 import { getProjects } from "@/content/project-scanner";
 import { ProjectScanner } from "@/components/project-scanner";
 import { SectionNav } from "@/components/section-nav";
+import { TechnicalSkills } from "@/components/technical-skills";
+import { AboutMap } from "@/components/about-map";
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = content[locale];
   const projects = getProjects(locale);
@@ -202,69 +204,15 @@ export function Portfolio({ locale }: { locale: Locale }) {
           </div>
           <ProjectScanner locale={locale} />
         </section>
-        <section
-          className="container section"
-          id="about"
-          aria-labelledby="about-title"
-        >
-          <p className="eyebrow">03 / {t.about}</p>
-          <div className="about-grid">
-            <div>
-              <h2 id="about-title">{t.aboutTitle}</h2>
-              <p className="education-summary">{t.education}</p>
-              <p className="about-copy muted">{t.aboutText}</p>
-            </div>
-          </div>
-          <div className="skills-section">
-            <h3 className="skills-heading">{t.skillsTitle}</h3>
-            <div className="skills">
-              {t.skills.map((s) => (
-                <article className={"skill-card skill-" + s.id} key={s.id}>
-                  <div className="skill-body" style={{ gridColumn: "1 / -1" }}>
-                    <p className="skill-context">{s.context}</p>
-                    <h4>{s.title}</h4>
-                    <ul
-                      className="skill-tags"
-                      aria-label={
-                        locale === "en" ? "Technologies" : "Technologien"
-                      }
-                    >
-                      {s.tools.map((tool) => (
-                        <li key={tool}>{tool}</li>
-                      ))}
-                    </ul>
-                    <div className="skill-evidence">
-                      {s.evidence.map((item) => {
-                        const project = projects.find(
-                          (p) => p.id === item.projectId,
-                        );
-                        return (
-                          <div key={item.projectId}>
-                            <p className="muted">{item.text}</p>
-                            {project && (
-                              <a href="#work" data-project-target={project.id}>
-                                {project.title}{" "}
-                                <span aria-hidden="true">↗</span>
-                              </a>
-                            )}
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-          <p className="languages muted">{t.languages}</p>
-        </section>
+        <TechnicalSkills locale={locale} />
+        <AboutMap locale={locale} />
         <section
           className="contact-section section"
           id="contact"
           aria-labelledby="contact-title"
         >
           <div className="container">
-            <p className="eyebrow">04 / {t.nav[3]}</p>
+            <p className="eyebrow">05 / {t.nav[4]}</p>
             <h2 id="contact-title">{t.contactTitle}</h2>
             <p className="section-intro muted">{t.contactText}</p>
             <a

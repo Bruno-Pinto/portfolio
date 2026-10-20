@@ -2054,3 +2054,22 @@ nav a[aria-current="location"] {
     padding: 20px;
   }
 }
+
+@media (min-width: 701px) and (max-width: 1000px) {
+  .header-inner > nav {
+    gap: 18px;
+    font-size: 0.8rem;
+  }
+}
+@media (max-width: 700px) {
+  .header-inner > nav {
+    gap: 4px;
+  }
+  .header-inner > nav a {
+    font-size: clamp(0.7rem, 3vw, 0.75rem);
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+  }
+}

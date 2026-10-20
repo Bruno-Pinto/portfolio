@@ -1,7 +1,7 @@
 export type Locale = "en" | "de";
 export const content = {
   en: {
-    nav: ["Experience", "Projects", "About", "Contact"],
+    nav: ["Experience", "Projects", "Skills", "About", "Contact"],
     skip: "Skip to content",
     role: "Software Developer",
     student: "Computer Science student at ZHAW",
@@ -138,18 +138,14 @@ export const content = {
     skillsTitle: "Technical skills",
     skills: [
       {
-        id: "development",
-        title: "Software development",
-        context: "Professional work and Java projects",
-        tools: ["PHP", "SQL", "Java", "JavaFX", "JUnit"],
+        id: "backend",
+        title: "Backend",
+        context: "Professional intranet development",
+        tools: ["PHP", "SQL"],
         evidence: [
           {
             text: "Migrated a PHP intranet from version 7 to 8, unified its project structure and centralized database access.",
             projectId: "php",
-          },
-          {
-            text: "Built Java applications in university and personal projects, using object-oriented models and JUnit tests.",
-            projectId: "spinwheels",
           },
         ],
       },
@@ -160,20 +156,32 @@ export const content = {
         tools: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
         evidence: [
           {
-            text: "Learning these tools through this bilingual portfolio, including responsive layouts, keyboard-accessible interactions and browser tests.",
+            text: "Building localized components, responsive layouts and keyboard-accessible interactions in this portfolio.",
             projectId: "portfolio",
           },
         ],
       },
       {
-        id: "workflow",
-        title: "Development workflow",
-        context: "Professional work and team projects",
-        tools: ["Git", "GitLab CI/CD", "GitHub", "Gradle"],
+        id: "desktop",
+        title: "Desktop & testing",
+        context: "University and personal projects",
+        tools: ["Java", "JavaFX", "Swing", "JUnit"],
         evidence: [
           {
-            text: "Integrated GitLab version control, CI/CD and deployments in professional work. Used GitHub and Gradle in team and personal projects.",
-            projectId: "php",
+            text: "Java applications with object-oriented models, desktop interfaces and JUnit tests in team and personal projects.",
+            projectId: "spinwheels",
+          },
+        ],
+      },
+      {
+        id: "workflow",
+        title: "Tooling & deployment",
+        context: "Professional workflows and this portfolio",
+        tools: ["Git", "GitLab CI/CD", "GitHub", "Gradle", "Docker", "Nginx"],
+        evidence: [
+          {
+            text: "Integrated GitLab CI/CD in professional work; this portfolio uses a static export packaged with Docker and served by Nginx.",
+            projectId: "portfolio",
           },
         ],
       },
@@ -217,9 +225,11 @@ export const content = {
     opportunity:
       "Seeking junior software development or working-student opportunities.",
     education: "ZHAW · Computer Science · 2024–2028 (expected)",
+    skillsIntro:
+      "Tools I’ve used in professional work, university projects and this portfolio. Frontend is an area I’m currently learning.",
   },
   de: {
-    nav: ["Erfahrung", "Projekte", "Über mich", "Kontakt"],
+    nav: ["Erfahrung", "Projekte", "Kenntnisse", "Über mich", "Kontakt"],
     skip: "Zum Inhalt springen",
     role: "Softwareentwickler",
     student: "Informatikstudent an der ZHAW",
@@ -357,18 +367,14 @@ export const content = {
     skillsTitle: "Technische Kenntnisse",
     skills: [
       {
-        id: "development",
-        title: "Softwareentwicklung",
-        context: "Berufliche Arbeit und Java-Projekte",
-        tools: ["PHP", "SQL", "Java", "JavaFX", "JUnit"],
+        id: "backend",
+        title: "Backend",
+        context: "Berufliche Intranet-Entwicklung",
+        tools: ["PHP", "SQL"],
         evidence: [
           {
             text: "Ein PHP-Intranet von Version 7 auf 8 migriert, die Projektstruktur vereinheitlicht und Datenbankzugriffe zentralisiert.",
             projectId: "php",
-          },
-          {
-            text: "Java-Anwendungen in Hochschulprojekten und eigenen Projekten entwickelt, mit objektorientierten Modellen und JUnit-Tests.",
-            projectId: "spinwheels",
           },
         ],
       },
@@ -379,20 +385,32 @@ export const content = {
         tools: ["TypeScript", "React", "Next.js", "Tailwind CSS"],
         evidence: [
           {
-            text: "Diese Werkzeuge lerne ich beim Aufbau dieses zweisprachigen Portfolios, einschliesslich responsiver Layouts, Tastaturbedienung und Browsertests.",
+            text: "Aufbau lokalisierter Komponenten, responsiver Layouts und tastaturbedienbarer Interaktionen in diesem Portfolio.",
             projectId: "portfolio",
           },
         ],
       },
       {
-        id: "workflow",
-        title: "Entwicklungsablauf",
-        context: "Berufliche Arbeit und Teamprojekte",
-        tools: ["Git", "GitLab CI/CD", "GitHub", "Gradle"],
+        id: "desktop",
+        title: "Desktop & Tests",
+        context: "Hochschulprojekte und eigene Anwendungen",
+        tools: ["Java", "JavaFX", "Swing", "JUnit"],
         evidence: [
           {
-            text: "GitLab für Versionsverwaltung, CI/CD und Deployments im Beruf integriert. GitHub und Gradle in Teamprojekten und eigenen Projekten eingesetzt.",
-            projectId: "php",
+            text: "Java-Anwendungen mit objektorientierten Modellen, Desktop-Oberflächen und JUnit-Tests in Teamprojekten und eigenen Projekten.",
+            projectId: "spinwheels",
+          },
+        ],
+      },
+      {
+        id: "workflow",
+        title: "Werkzeuge & Deployment",
+        context: "Berufliche Abläufe und dieses Portfolio",
+        tools: ["Git", "GitLab CI/CD", "GitHub", "Gradle", "Docker", "Nginx"],
+        evidence: [
+          {
+            text: "GitLab CI/CD im Beruf integriert; dieses Portfolio nutzt einen statischen Export, der mit Docker verpackt und von Nginx ausgeliefert wird.",
+            projectId: "portfolio",
           },
         ],
       },
@@ -436,6 +454,8 @@ export const content = {
     opportunity:
       "Ich suche eine Junior- oder Werkstudentenstelle in der Softwareentwicklung.",
     education: "ZHAW · Informatik · 2024–2028 (voraussichtlich)",
+    skillsIntro:
+      "Werkzeuge aus meiner beruflichen Arbeit, Hochschulprojekten und diesem Portfolio. Im Web-Frontend lerne ich gerade dazu.",
   },
 };
 export type PortfolioContent = typeof content.en;

@@ -35,3 +35,11 @@ Skills are grouped into software development, web frontend (explicitly currently
 Experience uses a static, low-opacity monochrome grain texture to distinguish it from the project and skills sections. All timeline entries share the same background, border and milestone styling; the first entry has no special cyan treatment. Chronology remains the hierarchy. The white project-card hover shadow is tighter and concentrated below the lifted card. Skills and scanner behavior are unchanged.
 
 Experience refinement: replaced grain with sparse, low-contrast diagonal lines behind the timeline; role cards keep plain backgrounds for reading. Skills groups now share the same background and solid border, with no cyan top stripe or dashed learning panel. The learning label remains in the content.
+
+## Separate Skills and About
+
+Skills is a separate section between Projects and About, with backend, web frontend, desktop/testing, tooling/deployment and additional experience categories. Muted colors and small category symbols aid orientation; technology names remain visible beside local logos. Frontend remains explicitly labelled as currently learning.
+
+About centers the old portrait between four personal panels. Decorative connector lines suggest tracing outward, and panels float by at most 3px while in view. All content is readable immediately. Animation pauses outside the viewport; reduced motion removes it. Tablet and phone layouts place the portrait above the panels and hide the connectors. Education and languages remain factual supporting content below. Navigation and section numbers follow Experience, Projects, Skills, About, Contact.
+
+The existing Turbopack Tailwind loader now targets globals.css only. CSS Modules for Skills and About use native Next.js processing, preventing lost class-name exports. Styling for the new sections is scoped rather than added to the legacy global overrides.

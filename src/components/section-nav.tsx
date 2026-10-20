@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const sections = ["experience", "work", "about", "contact"];
+const sections = ["experience", "work", "skills", "about", "contact"];
 export function SectionNav({
   labels,
   label,

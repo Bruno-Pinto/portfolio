@@ -1,0 +1,120 @@
+.section {
+  padding-top: 72px;
+}
+.intro {
+  color: #b4c1c7;
+  max-width: 64ch;
+  margin: 20px 0 32px;
+}
+.groups {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.groups .category {
+  --category-accent: #9cb3bf;
+  display: block;
+  padding: 24px;
+  background: #10191e;
+  border: 1px solid #35434b;
+  min-width: 0;
+}
+.category[data-category="backend"] {
+  --category-accent: #81c4cf;
+}
+.category[data-category="frontend"] {
+  --category-accent: #b6a8d7;
+}
+.category[data-category="desktop"] {
+  --category-accent: #91b8d4;
+}
+.category[data-category="workflow"] {
+  --category-accent: #9ac2ac;
+}
+.category[data-category="additional"] {
+  grid-column: 1 / -1;
+  --category-accent: #b5b9c2;
+}
+.heading {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.symbol {
+  color: var(--category-accent);
+  border-left: 2px solid currentColor;
+  padding-left: 10px;
+  display: flex;
+  flex-shrink: 0;
+}
+.heading h3 {
+  font-size: 1.25rem;
+  line-height: 1.35;
+}
+.heading .context {
+  color: #a4b5be;
+  margin: 0 0 6px;
+  font-size: 0.72rem !important;
+}
+.tools {
+  list-style: none;
+  padding: 0;
+  margin: 24px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 22px;
+}
+.tools li {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #e0e8ec;
+  min-height: 36px;
+  font-size: 0.9375rem;
+}
+.tools img,
+.tools svg {
+  display: block;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+.tools [data-mono] {
+  filter: brightness(0) invert(1);
+}
+.tools [data-wordmark] {
+  width: 56px;
+}
+.evidence {
+  display: grid;
+  gap: 14px;
+}
+.groups .evidence p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: #afc0c8;
+}
+.evidence a {
+  color: var(--category-accent);
+  font-size: 0.875rem;
+}
+.category[data-category="additional"] .evidence {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+}
+@media (max-width: 700px) {
+  .groups {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .groups .category {
+    padding: 20px;
+  }
+  .category[data-category="additional"] .evidence {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+  .tools {
+    gap: 12px 18px;
+  }
+}

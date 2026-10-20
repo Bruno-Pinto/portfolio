@@ -128,7 +128,7 @@ test("experience is chronological and skills include examples", async ({
     ]);
     await expect(page.locator(".project-deck button")).toHaveCount(7);
     await expect(page.locator(".project-scanner img")).toHaveCount(0);
-    await expect(page.locator(".skill-card")).toHaveCount(4);
+    await expect(page.locator(".skill-card")).toHaveCount(5);
     await expect(
       page.locator(".skill-card").filter({ hasText: "TypeScript" }),
     ).toContainText(route === "/" ? "Currently learning" : "lerne ich");
@@ -701,25 +701,27 @@ test("skills prioritize development and open project evidence in either view", a
   for (const route of ["/", "/de/"]) {
     const english = route === "/";
     await page.goto(route);
-    expect(await page.locator(".skill-card h4").allTextContents()).toEqual(
+    expect(await page.locator(".skill-card h3").allTextContents()).toEqual(
       english
         ? [
-            "Software development",
+            "Backend",
             "Web frontend",
-            "Development workflow",
+            "Desktop & testing",
+            "Tooling & deployment",
             "Additional experience",
           ]
         : [
-            "Softwareentwicklung",
+            "Backend",
             "Web-Frontend",
-            "Entwicklungsablauf",
+            "Desktop & Tests",
+            "Werkzeuge & Deployment",
             "Weitere Erfahrung",
           ],
     );
     await expect(page.locator(".skill-frontend")).toContainText(
       english ? "Currently learning" : "lerne ich gerade",
     );
-    await page.locator(".skill-development a[data-project-target=php]").click();
+    await page.locator(".skill-backend a[data-project-target=php]").click();
     await expect(page.locator(".docked-token")).toHaveAttribute(
       "data-project-id",
       "php",
@@ -794,5 +796,109 @@ test("skills fill their cards with legacy grid styles and icons keep intrinsic d
       expect(sizes.length).toBeGreaterThanOrEqual(8);
       for (const size of sizes) expect(size).toEqual({ width: 16, height: 16 });
     }
+  }
+});
+
+test("skills and personal about are separate, localized and use local logos", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/de/"]) {
+    const english = route === "/";
+    await page.goto(route);
+    expect(
+      await page
+        .locator("main > section[id]")
+        .evaluateAll((sections) => sections.map((s) => s.id)),
+    ).toEqual(["experience", "work", "skills", "about", "contact"]);
+    await expect(page.locator(".site-header nav a")).toHaveCount(5);
+    await expect(page.locator("#about .skill-card")).toHaveCount(0);
+    await expect(page.locator("#skills .skill-card")).toHaveCount(5);
+    await expect(page.locator("#about")).toContainText("Portugal");
+    await expect(page.locator("#about")).toContainText(
+      english ? "guitar" : "Gitarre",
+    );
+    await expect(page.locator("#about img")).toHaveAttribute(
+      "src",
+      "/images/portrait.jpg",
+    );
+    await expect(page.locator(".hero img")).toHaveAttribute(
+      "src",
+      "/images/portrait-new.jpg",
+    );
+    await expect(page.locator("#about .about-panel")).toHaveCount(4);
+    expect(
+      await page
+        .locator("#skills, #about")
+        .evaluateAll((sections) =>
+          sections.every((section) => !section.innerHTML.includes("undefined")),
+        ),
+    ).toBe(true);
+    const logos = page.locator("#skills img");
+    expect(await logos.count()).toBeGreaterThan(12);
+    await logos.evaluateAll((images) =>
+      images.forEach((img) => {
+        if (img instanceof HTMLImageElement) img.loading = "eager";
+      }),
+    );
+    await expect
+      .poll(() =>
+        logos.evaluateAll((images) =>
+          images.every(
+            (img) =>
+              img instanceof HTMLImageElement &&
+              img.complete &&
+              img.naturalWidth > 0,
+          ),
+        ),
+      )
+      .toBe(true);
+    for (const href of ["#skills", "#about"]) {
+      const link = page.locator('.site-header nav a[href="' + href + '"]');
+      await link.focus();
+      await page.keyboard.press("Enter");
+      await expect(page).toHaveURL(new RegExp(href + "$"));
+      await expect(link).toHaveAttribute("aria-current", "location");
+    }
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
+});
+
+test("personal map respects reduced motion and small-screen layout", async ({
+  page,
+  isMobile,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/#about");
+  await page.locator(".about-map").scrollIntoViewIfNeeded();
+  await expect(page.locator(".about-map")).toHaveAttribute(
+    "data-active",
+    "true",
+  );
+  for (const panel of await page.locator(".about-panel").all()) {
+    expect(await panel.evaluate((e) => getComputedStyle(e).animationName)).toBe(
+      "none",
+    );
+  }
+  if (isMobile) {
+    await expect(page.locator(".about-connections")).toBeHidden();
+  } else {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    expect(
+      await page
+        .locator(".about-panel")
+        .first()
+        .evaluate((e) => getComputedStyle(e).animationName),
+    ).not.toBe("none");
+    expect(
+      await page
+        .locator(".about-panel")
+        .first()
+        .evaluate((e) => getComputedStyle(e).animationPlayState),
+    ).toBe("running");
   }
 });

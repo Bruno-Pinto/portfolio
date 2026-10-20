@@ -1,6 +1,6 @@
 # Bruno Pinto — Developer Portfolio
 
-Personal portfolio built with Next.js App Router, React, TypeScript and Tailwind CSS. English and German content are planned.
+Personal portfolio built with Next.js App Router, React, TypeScript and Tailwind CSS. Includes complete English and German content.
 
 ## Development
 
@@ -61,7 +61,7 @@ The local static preview is available at `http://127.0.0.1:4173`. It is a develo
 
 ## Visual hierarchy
 
-The header stays visible while scrolling. Projects use bordered cards, with SpinWheels highlighted. Experience is listed most recent first. Skills include the tools and concrete examples of where they were used.
+The header stays visible on desktop and hides while scrolling down on mobile. Projects use interactive cards and an alternative list view. Experience is listed most recent first. Technical skills have their own section, grouped by category with local technology logos and examples of where each was used. A separate personal section uses the original portrait, connected background and interest panels, education and languages. Its subtle motion pauses offscreen and respects reduced-motion preferences; small screens use stacked panels.
 
 The page order is introduction, work experience, projects, education/skills and contact. Navigation uses normal anchors; a small client component marks the current section while scrolling. The applied review principles are recorded in docs/design-decisions.md.
 
