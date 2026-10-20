@@ -28,10 +28,22 @@ export function ExperienceMotion() {
       };
       return animation;
     }
+    const headerHeight =
+      document.querySelector(".site-header")?.getBoundingClientRect().height ??
+      100;
     const observer = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (!entry.isIntersecting) continue;
+          // Tall cards must still reveal when they cannot fit in the viewport.
+          const requiredHeight = Math.min(
+            entry.boundingClientRect.height * 0.65,
+            (window.innerHeight - headerHeight) * 0.8,
+          );
+          if (
+            !entry.isIntersecting ||
+            entry.intersectionRect.height + 1 < requiredHeight
+          )
+            continue;
           observer.unobserve(entry.target);
           const animations = pending.get(entry.target);
           if (!animations) continue;
@@ -46,7 +58,10 @@ export function ExperienceMotion() {
           });
         }
       },
-      { threshold: 0, rootMargin: "0px" },
+      {
+        threshold: Array.from({ length: 21 }, (_, index) => index / 20),
+        rootMargin: "-" + headerHeight + "px 0px 0px",
+      },
     );
     document.querySelectorAll(".timeline .job").forEach((job) => {
       const animations = [
@@ -56,7 +71,7 @@ export function ExperienceMotion() {
             { opacity: 0, transform: "translateX(-16px)" },
             { opacity: 1, transform: "translateX(0)" },
           ],
-          430,
+          560,
         ),
       ];
       if (job.nextElementSibling)
@@ -64,7 +79,7 @@ export function ExperienceMotion() {
           prepare(
             job,
             [{ transform: "scaleY(0)" }, { transform: "scaleY(1)" }],
-            380,
+            480,
             "::after",
           ),
         );
@@ -74,7 +89,7 @@ export function ExperienceMotion() {
           prepare(
             meta,
             [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }],
-            220,
+            280,
             "::before",
           ),
         );
