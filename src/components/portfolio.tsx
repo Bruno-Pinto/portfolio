@@ -60,94 +60,76 @@ export function Portfolio({ locale }: { locale: Locale }) {
         </div>
       </SiteHeader>
       <main id="main">
-        <section className="hero container" aria-labelledby="hero-title">
-          <div className="hero-copy">
-            <p className="eyebrow">
-              <span className="status-dot" />
-              {t.location}
-            </p>
-            <h1 id="hero-title">
-              <span className="hero-firstname">
-                Bruno Pinto<span className="accent">.</span>
-              </span>
-              <span className="hero-role">{t.role}</span>
-            </h1>
-            <p className="student">{t.student}</p>
-            <ul
-              className="hero-focus"
-              aria-label={
-                locale === "en"
-                  ? "Development experience"
-                  : "Entwicklungserfahrung"
-              }
-            >
-              <li>PHP / SQL</li>
-              <li>Java</li>
-              <li>React / TypeScript</li>
-            </ul>
-
-            <p className="muted hero-description">{t.description}</p>
-            <p className="opportunity">{t.opportunity}</p>
-            <div className="actions">
-              <a className="button primary" href="#work">
-                {t.explore} ↗
-              </a>
-              <a className="button" href="#contact">
-                {t.contact}
-              </a>
+        <div className="hero-surface">
+          <section className="hero container" aria-labelledby="hero-title">
+            <div className="hero-copy">
+              <p className="eyebrow">
+                <span className="status-dot" />
+                {t.location}
+              </p>
+              <h1 id="hero-title">
+                <span className="hero-firstname">
+                  Bruno Pinto<span className="accent">.</span>
+                </span>
+                <span className="hero-role">{t.role}</span>
+              </h1>
+              <p className="student">{t.student}</p>
+              <p className="muted hero-description">{t.description}</p>
+              <p className="opportunity">{t.opportunity}</p>
+              <div className="actions">
+                <a className="button primary" href="#work">
+                  {t.explore} ↗
+                </a>
+                <a className="button" href="#contact">
+                  {t.contact}
+                </a>
+              </div>
+              <div className="hero-links">
+                <a
+                  className="social-link"
+                  href="mailto:bpintodasilva@gmail.com"
+                >
+                  <EmailIcon /> {t.emailLabel}
+                </a>
+                <span aria-hidden="true">/</span>
+                <a
+                  href="https://www.linkedin.com/in/bruno-pinto-da-silva/"
+                  rel="me"
+                  className="social-link"
+                >
+                  <LinkedInIcon /> LinkedIn
+                </a>
+                <span aria-hidden="true">/</span>
+                <a
+                  href="https://github.com/Bruno-Pinto"
+                  rel="me"
+                  className="social-link"
+                >
+                  <GitHubIcon /> GitHub
+                </a>
+                <span aria-hidden="true">/</span>
+                <a className="social-link" href={t.cvHref} download>
+                  <DownloadIcon /> {t.cv}
+                </a>
+              </div>
             </div>
-            <div className="hero-links">
-              <a className="social-link" href="mailto:bpintodasilva@gmail.com">
-                <EmailIcon /> {t.emailLabel}
-              </a>
-              <span aria-hidden="true">/</span>
-              <a
-                href="https://www.linkedin.com/in/bruno-pinto-da-silva/"
-                rel="me"
-                className="social-link"
-              >
-                <LinkedInIcon /> LinkedIn
-              </a>
-              <span aria-hidden="true">/</span>
-              <a
-                href="https://github.com/Bruno-Pinto"
-                rel="me"
-                className="social-link"
-              >
-                <GitHubIcon /> GitHub
-              </a>
-              <span aria-hidden="true">/</span>
-              <a className="social-link" href={t.cvHref} download>
-                <DownloadIcon /> {t.cv}
-              </a>
+            <div className="portrait-wrap">
+              <div className="portrait">
+                <Image
+                  src="/images/portrait-new.jpg"
+                  alt="Bruno Pinto da Silva"
+                  width={720}
+                  height={720}
+                  priority
+                  className="portrait-image"
+                />
+              </div>
+              <div className="portrait-caption">
+                <span>BRUNO PINTO DA SILVA</span>
+                <span>ZHAW / CH</span>
+              </div>
             </div>
-          </div>
-          <div className="portrait-wrap">
-            <div className="portrait">
-              <Image
-                src="/images/portrait-new.jpg"
-                alt="Bruno Pinto da Silva"
-                width={720}
-                height={720}
-                priority
-                className="portrait-image"
-              />
-            </div>
-            <div className="portrait-caption">
-              <span>BRUNO PINTO DA SILVA</span>
-              <span>ZHAW / CH</span>
-            </div>
-          </div>
-        </section>
-        <div className="hero-wayfinding container">
-          <a href="#experience">
-            <span>01</span>
-            {t.experience}
-            <span aria-hidden="true">↓</span>
-          </a>
-          <p>
-            {t.student} / {t.location}
-          </p>
+          </section>
         </div>
         <section
           className="section experience-section"

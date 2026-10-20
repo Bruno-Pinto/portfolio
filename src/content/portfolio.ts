@@ -7,7 +7,7 @@ export const content = {
     student: "Computer Science student at ZHAW",
     location: "Zurich, Switzerland",
     description:
-      "I’ve worked on a PHP/SQL intranet service at the University of Zurich, built Java applications, and developed client applications at Rocketlaunch.",
+      "I’ve developed web applications, restructured existing software and built applications for clients. Alongside my studies, I explore new ideas through university and personal projects.",
     explore: "Explore my work",
     contact: "Get in touch",
     emailLabel: "Email",
@@ -235,7 +235,7 @@ export const content = {
     student: "Informatikstudent an der ZHAW",
     location: "Zürich, Schweiz",
     description:
-      "Ich habe an einem PHP-/SQL-Intranet der Universität Zürich gearbeitet, Java-Anwendungen entwickelt und Kundenanwendungen bei Rocketlaunch umgesetzt.",
+      "Ich habe Webanwendungen entwickelt, bestehende Software neu strukturiert und Anwendungen für Kunden umgesetzt. Neben meinem Studium verfolge ich eigene Ideen in Hochschul- und persönlichen Projekten.",
     explore: "Projekte entdecken",
     contact: "Kontakt aufnehmen",
     emailLabel: "E-Mail",

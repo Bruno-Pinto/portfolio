@@ -2304,20 +2304,6 @@ nav a[aria-current="location"] {
   margin-top: 20px;
   color: #d4c6ef;
 }
-.hero-focus {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 18px;
-  padding: 0;
-  margin: 18px 0 0;
-  list-style: none;
-  font: 0.72rem/1.6 var(--font-mono);
-  color: #9fb3c7;
-}
-.hero-focus li + li {
-  border-left: 1px solid #4d6278;
-  padding-left: 18px;
-}
 .hero-description {
   max-width: 52ch;
   margin-top: 22px;
@@ -2372,10 +2358,11 @@ nav a[aria-current="location"] {
   .hero .portrait-wrap {
     max-width: 240px;
   }
-  .hero-focus {
-    gap: 6px 12px;
-  }
-  .hero-focus li + li {
-    padding-left: 12px;
-  }
+}
+
+.hero-surface {
+  background: radial-gradient(ellipse at 82% 38%, #244c703d, transparent 58%);
+}
+.hero-surface .hero {
+  background: none;
 }
