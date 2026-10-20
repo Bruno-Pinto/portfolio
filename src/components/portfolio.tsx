@@ -15,6 +15,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
   const projects = getProjects(locale);
   return (
     <>
+      <div id="top" aria-hidden="true" />
       <a className="skip-link" href="#main">
         {t.skip}
       </a>

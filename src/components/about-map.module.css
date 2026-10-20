@@ -41,7 +41,7 @@
   position: relative;
   background: #090d10;
   padding: 12px;
-  border: 1px solid #3b515d;
+  border: 1px solid #3b78ad;
 }
 .photo {
   width: 180px;
@@ -52,8 +52,8 @@
 .corners {
   position: absolute;
   inset: -5px;
-  border-top: 1px solid #a5bec8;
-  border-bottom: 1px solid #a5bec8;
+  border-top: 1px solid #69b5ff;
+  border-bottom: 1px solid #69b5ff;
   pointer-events: none;
 }
 .portrait figcaption {
@@ -67,7 +67,8 @@
   z-index: 1;
   padding: 22px;
   background: #10191e;
-  border: 1px solid #34444d;
+  border: 1px solid #305375;
+  background: linear-gradient(130deg, #122337, #10191e 85%);
   animation: about-float 8s ease-in-out infinite alternate;
   animation-play-state: paused;
 }
@@ -99,8 +100,17 @@
 }
 .index {
   margin: 0 0 10px;
-  color: #8eaab7;
+  color: #6eaae0;
   font: 0.7rem/1.5 var(--font-mono);
+}
+.themeHeading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #86c4ff;
+}
+.themeHeading svg {
+  flex-shrink: 0;
 }
 .panel h3 {
   font-size: 1.1rem;

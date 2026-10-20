@@ -15,45 +15,51 @@
   --category-accent: #9cb3bf;
   display: block;
   padding: 24px;
-  background: #10191e;
-  border: 1px solid #35434b;
+  background: linear-gradient(
+    125deg,
+    color-mix(in srgb, var(--category-accent) 12%, #10191e),
+    #10191e 85%
+  );
+  border: 1px solid color-mix(in srgb, var(--category-accent) 42%, #26343e);
+  border-top: 3px solid var(--category-accent);
   min-width: 0;
 }
 .category[data-category="backend"] {
-  --category-accent: #81c4cf;
+  --category-accent: #56d9e7;
 }
 .category[data-category="frontend"] {
-  --category-accent: #b6a8d7;
+  --category-accent: #c1a0ff;
 }
 .category[data-category="desktop"] {
-  --category-accent: #91b8d4;
+  --category-accent: #6aafff;
 }
 .category[data-category="workflow"] {
-  --category-accent: #9ac2ac;
+  --category-accent: #6fd7a0;
 }
 .category[data-category="additional"] {
   grid-column: 1 / -1;
-  --category-accent: #b5b9c2;
+  --category-accent: #efbd78;
 }
 .heading {
   display: flex;
   gap: 14px;
-  align-items: center;
+  align-items: flex-start;
 }
 .symbol {
   color: var(--category-accent);
-  border-left: 2px solid currentColor;
-  padding-left: 10px;
+  padding-top: 6px;
   display: flex;
   flex-shrink: 0;
 }
 .heading h3 {
-  font-size: 1.25rem;
+  font-size: clamp(1.5rem, 2.2vw, 1.8rem);
+  color: var(--category-accent);
+  margin: 0;
   line-height: 1.35;
 }
 .heading .context {
   color: #a4b5be;
-  margin: 0 0 6px;
+  margin: 7px 0 0;
   font-size: 0.72rem !important;
 }
 .tools {

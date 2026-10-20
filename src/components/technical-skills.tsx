@@ -28,10 +28,10 @@ export function TechnicalSkills({ locale }: { locale: Locale }) {
                   <CategoryIcon category={group.id} />
                 </span>
                 <div>
+                  <h3>{group.title}</h3>
                   <p className={"skill-context " + styles.context}>
                     {group.context}
                   </p>
-                  <h3>{group.title}</h3>
                 </div>
               </div>
               <ul

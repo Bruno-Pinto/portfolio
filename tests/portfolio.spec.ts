@@ -902,3 +902,19 @@ test("personal map respects reduced motion and small-screen layout", async ({
     ).toBe("running");
   }
 });
+
+test("footer top link returns to the document start", async ({ page }) => {
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    const link = page.locator('footer a[href="#top"]');
+    await link.scrollIntoViewIfNeeded();
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY))
+      .toBeGreaterThan(500);
+    await link.click();
+    await expect
+      .poll(() => page.evaluate(() => window.scrollY))
+      .toBeLessThan(2);
+    await expect(page.locator("#hero-title")).toBeInViewport();
+  }
+});

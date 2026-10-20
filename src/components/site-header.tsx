@@ -59,7 +59,7 @@ export function SiteHeader({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-    <header className="site-header" id="top" ref={header}>
+    <header className="site-header" ref={header}>
       {children}
     </header>
   );

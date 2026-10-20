@@ -25,22 +25,29 @@ export function AboutMap({ locale }: { locale: Locale }) {
           aria-hidden="true"
           focusable="false"
         >
-          <g
-            fill="none"
-            stroke="#41545d"
-            strokeWidth="1"
-            vectorEffect="non-scaling-stroke"
-          >
-            <path d="M430 300H375V140H300M570 300H625V140H700M430 300H375V460H300M570 300H625V460H700" />
-          </g>
-          <path
-            className={styles.flow}
-            d="M430 300H375V140H300M570 300H625V140H700M430 300H375V460H300M570 300H625V460H700"
-            fill="none"
-            stroke="#9db5be"
-            strokeWidth="1.5"
-            vectorEffect="non-scaling-stroke"
-          />
+          {[
+            "M430 260H407L370 140H300",
+            "M570 260H593L630 140H700",
+            "M430 340H407L370 460H300",
+            "M570 340H593L630 460H700",
+          ].map((path, index) => (
+            <g key={path} fill="none" data-connection={index}>
+              <path
+                d={path}
+                stroke="#2865a2"
+                strokeWidth="1.5"
+                vectorEffect="non-scaling-stroke"
+              />
+              <path
+                className={styles.flow}
+                d={path}
+                stroke="#69b5ff"
+                strokeWidth="2"
+                vectorEffect="non-scaling-stroke"
+                style={{ animationDelay: index * -1.5 + "s" }}
+              />
+            </g>
+          ))}
         </svg>
         <figure className={styles.portrait}>
           <div className={styles.photoFrame}>
@@ -64,7 +71,10 @@ export function AboutMap({ locale }: { locale: Locale }) {
             <p className={styles.index} aria-hidden="true">
               0{index + 1}
             </p>
-            <h3>{panel.title}</h3>
+            <h3 className={styles.themeHeading}>
+              <ThemeIcon theme={panel.id} />
+              {panel.title}
+            </h3>
             <p>{panel.text}</p>
           </article>
         ))}
@@ -85,5 +95,43 @@ export function AboutMap({ locale }: { locale: Locale }) {
         </div>
       </div>
     </section>
+  );
+}
+
+function ThemeIcon({ theme }: { theme: string }) {
+  return (
+    <svg
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="square"
+      aria-hidden="true"
+      focusable="false"
+    >
+      {theme === "background" ? (
+        <>
+          <circle cx="12" cy="12" r="9" />
+          <ellipse cx="12" cy="12" rx="4" ry="9" />
+          <path d="M3 12h18M5 6h14M5 18h14" />
+        </>
+      ) : theme === "motivation" ? (
+        <>
+          <path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18" />
+        </>
+      ) : theme === "hobbies" ? (
+        <>
+          <path d="M6 5v14M3 8v8m15-11v14m3-11v8M6 12h12" />
+        </>
+      ) : (
+        <>
+          <path d="M9 17V5l11-2v12M9 8l11-2" />
+          <ellipse cx="6" cy="18" rx="3" ry="2" />
+          <ellipse cx="17" cy="16" rx="3" ry="2" />
+        </>
+      )}
+    </svg>
   );
 }
