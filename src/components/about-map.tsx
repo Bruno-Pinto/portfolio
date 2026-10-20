@@ -19,37 +19,6 @@ export function AboutMap({ locale }: { locale: Locale }) {
         <h2 id="about-title">{t.title}</h2>
         <p className={styles.intro}>{t.intro}</p>
         <AboutMotion className={"about-map " + styles.map}>
-          <svg
-            className={"about-connections " + styles.connections}
-            viewBox="0 0 1000 600"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-            focusable="false"
-          >
-            {[
-              "M35 80H140L200 35H310",
-              "M650 74H715L790 155H950",
-              "M45 560H210L260 510",
-              "M620 555L690 585H860",
-            ].map((path, index) => (
-              <g key={path} fill="none" data-connection={index}>
-                <path
-                  d={path}
-                  stroke="#2865a2"
-                  strokeWidth="1.5"
-                  vectorEffect="non-scaling-stroke"
-                />
-                <path
-                  className={styles.flow}
-                  d={path}
-                  stroke="#69b5ff"
-                  strokeWidth="2"
-                  vectorEffect="non-scaling-stroke"
-                  style={{ animationDelay: index * -1.5 + "s" }}
-                />
-              </g>
-            ))}
-          </svg>
           <figure className={styles.portrait}>
             <div className={styles.photoFrame}>
               <Image
@@ -68,6 +37,27 @@ export function AboutMap({ locale }: { locale: Locale }) {
               data-panel={panel.id}
               key={panel.id}
             >
+              <svg
+                className={"about-connections " + styles.connections}
+                viewBox="0 0 200 32"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  d={
+                    [
+                      "M1 26H65L90 6H175",
+                      "M18 6H98L120 26H198",
+                      "M1 20H95L112 6H158",
+                      "M35 26H90L115 6H199",
+                    ][index]
+                  }
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  vectorEffect="non-scaling-stroke"
+                />
+              </svg>
               <p className={styles.index} aria-hidden="true">
                 0{index + 1}
               </p>

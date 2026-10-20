@@ -888,7 +888,9 @@ test("personal map respects reduced motion and small-screen layout", async ({
     );
   }
   if (isMobile) {
-    await expect(page.locator(".about-connections")).toBeHidden();
+    for (const line of await page.locator(".about-connections").all()) {
+      await expect(line).toBeHidden();
+    }
   } else {
     await page.emulateMedia({ reducedMotion: "no-preference" });
     expect(
