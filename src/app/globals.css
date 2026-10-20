@@ -359,7 +359,12 @@ summary > span:last-child {
 
 .experience-section {
   background-color: #101416;
-  background-image: url("/images/textures/experience-grain.svg");
+  background-image: repeating-linear-gradient(
+    135deg,
+    transparent 0 47px,
+    rgb(255 255 255 / 2.5%) 47px 48px,
+    transparent 48px 96px
+  );
   border-block: 1px solid #ffffff08;
 }
 .experience-section h2 {
@@ -1388,7 +1393,6 @@ nav a[aria-current="location"] {
   grid-template-columns: 205px minmax(0, 1fr);
   gap: 32px;
   background-color: #14191c;
-  background-image: url("/images/textures/experience-grain.svg");
   border: 1px solid #394147;
 }
 .job:not(:last-child) {
@@ -1442,14 +1446,6 @@ nav a[aria-current="location"] {
   background: #101b22;
   border-color: #314550;
 }
-.skill-php,
-.skill-java {
-  background: #11242c;
-  border-top: 2px solid #528392;
-}
-.skill-php {
-  border-top-color: var(--color-accent);
-}
 .skill-icon {
   width: 46px;
   height: 46px;
@@ -1460,10 +1456,6 @@ nav a[aria-current="location"] {
   color: #b9e5ef;
   background: #17313d;
   font: 1rem var(--font-mono);
-}
-.skill-php .skill-icon,
-.skill-java .skill-icon {
-  color: var(--color-accent);
 }
 .skill-context {
   font: 0.65rem var(--font-mono) !important;
@@ -1480,9 +1472,6 @@ nav a[aria-current="location"] {
 .skill-body {
   grid-column: 1 / -1;
   min-width: 0;
-}
-.skill-frontend {
-  border-style: dashed;
 }
 @media (max-width: 850px) {
   .job {
@@ -2029,16 +2018,6 @@ nav a[aria-current="location"] {
   display: block;
   padding: 24px;
   border-style: solid;
-}
-.skills .skill-development {
-  border-top: 2px solid var(--color-accent);
-  background: #10232b;
-}
-.skills .skill-frontend {
-  border-style: dashed;
-}
-.skills .skill-additional {
-  background: #0e191f;
 }
 .skills .skill-tags {
   gap: 6px 14px;
