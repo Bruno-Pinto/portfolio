@@ -31,3 +31,5 @@ Project cards use a trading-card hierarchy: category/number, name plate, framed 
 Card refinement: removed the collector footer, number outline and title divider. Shared card height is 420px, reducing unused description-panel space while retaining matching scanner/tray faces.
 
 Skills are grouped into software development, web frontend (explicitly currently learning), development workflow and additional experience. Larger plain technology names replace nested badges and icon tiles. Each evidence paragraph links to its related project and respects the current scanner/list view.
+
+Experience uses a static, low-opacity monochrome grain texture to distinguish it from the project and skills sections. All timeline entries share the same background, border and milestone styling; the first entry has no special cyan treatment. Chronology remains the hierarchy. The white project-card hover shadow is tighter and concentrated below the lifted card. Skills and scanner behavior are unchanged.

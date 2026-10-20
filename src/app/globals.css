@@ -358,7 +358,8 @@ summary > span:last-child {
 }
 
 .experience-section {
-  background: #0d1317;
+  background-color: #101416;
+  background-image: url("/images/textures/experience-grain.svg");
   border-block: 1px solid #ffffff08;
 }
 .experience-section h2 {
@@ -384,9 +385,6 @@ summary > span:last-child {
   width: 7px;
   height: 7px;
   background: #586c76;
-}
-.job:first-child:before {
-  background: var(--color-accent);
 }
 .job:not(:last-child) {
   border-bottom: 1px solid #ffffff0a;
@@ -1389,18 +1387,15 @@ nav a[aria-current="location"] {
   padding: 28px;
   grid-template-columns: 205px minmax(0, 1fr);
   gap: 32px;
-  background: #101b22;
-  border: 1px solid #314550;
+  background-color: #14191c;
+  background-image: url("/images/textures/experience-grain.svg");
+  border: 1px solid #394147;
 }
 .job:not(:last-child) {
-  border-bottom: 1px solid #314550;
+  border-bottom: 1px solid #394147;
 }
 .job::before {
   display: none;
-}
-.job:first-child {
-  border-left: 3px solid var(--color-accent);
-  background: #11232b;
 }
 .job-area {
   font: 0.7rem var(--font-mono);
@@ -1408,9 +1403,6 @@ nav a[aria-current="location"] {
   text-transform: uppercase;
   letter-spacing: 0.08em;
   margin-bottom: 16px;
-}
-.job:first-child .job-area {
-  color: var(--color-accent);
 }
 .job-date {
   line-height: 1.8;
@@ -1555,10 +1547,6 @@ nav a[aria-current="location"] {
   border: 1px solid #8eb2c0;
   background: #101b22;
 }
-.job:first-child::before {
-  border-color: var(--color-accent);
-  background: var(--color-accent);
-}
 .job::after {
   content: "";
   position: absolute;
@@ -1567,9 +1555,6 @@ nav a[aria-current="location"] {
   width: 1px;
   height: calc(100% + 24px);
   background: #567886;
-}
-.job:first-child::after {
-  background: linear-gradient(var(--color-accent), #567886);
 }
 .job:last-child::after {
   display: none;
@@ -1999,8 +1984,8 @@ nav a[aria-current="location"] {
     border-color: var(--color-accent);
     background: #14232c;
     box-shadow:
-      0 18px 28px rgb(180 180 180 / 55%),
-      0 5px 10px rgb(210 210 210 / 35%);
+      0 16px 20px -10px rgb(235 235 235 / 45%),
+      0 4px 8px -4px rgb(255 255 255 / 24%);
   }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
