@@ -32,7 +32,7 @@ A larger portrait balances the text. There is no map, technology list or lower w
 
 ## Motion
 
-No blinking, light-on flicker, looping flashes, typewriter gate or delayed introduction. Entrances run once on viewport entry: the hero title uses a horizontal mask reveal, the portrait opens from its center, experience entries reveal as complete cards with a gentle scale/fade, skills use a small scale/fade, and supporting text fades in. These last 650?900ms and do not move content upward. About topics reveal in sequence: connector drawing then text, spaced 680ms apart. Mobile reveals follow scrolling. Text remains available without JavaScript.
+No blinking, light-on flicker, looping flashes, typewriter gate or delayed introduction. Entrances run once on viewport entry: the hero title uses a horizontal mask reveal, the portrait opens from its center, experience entries fly in as complete cards with a short horizontal motion and fade, skills use a small scale/fade, and supporting text fades in. These last 650?900ms and do not move content upward. About topics reveal in sequence: connector drawing then text, spaced 680ms apart. Mobile reveals follow scrolling. Text remains available without JavaScript.
 
 About parallax moves only the background, at a 0.3 scroll ratio capped at 120px on desktop, with faded edges and overscan. It is disabled on mobile and for reduced motion. Connectors are measured from rendered portrait and text bounds and stop 18px short of the portrait. Text floats gently while in view.
 
@@ -44,4 +44,4 @@ Check English and German at 320, 390, 768 and 1440px. Confirm no horizontal over
 
 The hero location includes a local decorative Swiss flag. After the 900ms portrait expansion, two border paths draw from the top-left along opposite edges and meet at the bottom-right over 850ms. Without JavaScript or with reduced motion, the complete frame is visible immediately.
 
-Experience uses a dedicated sequence: trigger 100px inside the viewport, wait at least 180ms, reveal the full card over 720ms, and grow its left rail downward over 520ms starting at 660ms. Visible cards begin at least 1200ms apart. Horizontal branches grow toward the cards. Reduced motion and keyboard focus cancel waiting and reveal the relevant content immediately. No JavaScript leaves the complete timeline visible.
+Experience cards reveal independently as soon as they enter the viewport, without an initial delay or waiting for another card. The whole card travels 16px horizontally and fades in over 430ms. Its left rail starts after 80ms and grows downward over 380ms; horizontal branches draw over 220ms. Reduced motion and keyboard focus reveal content immediately. Without JavaScript the complete timeline stays visible.

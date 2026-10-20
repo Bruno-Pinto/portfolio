@@ -8,7 +8,6 @@ export function ExperienceMotion() {
     if (reduced.matches) return;
     const pending = new Map<Element, Animation[]>();
     const running = new Set<Animation>();
-    let nextStart = 0;
     function prepare(
       target: Element,
       frames: Keyframe[],
@@ -36,36 +35,28 @@ export function ExperienceMotion() {
           observer.unobserve(entry.target);
           const animations = pending.get(entry.target);
           if (!animations) continue;
-          const now = performance.now();
-          const delay = Math.max(180, nextStart - now);
-          nextStart = now + delay + 1200;
           animations.forEach((animation) => {
             animation.effect?.updateTiming({
               delay:
-                delay +
-                ((animation.effect as KeyframeEffect).pseudoElement ===
-                "::after"
-                  ? 660
-                  : (animation.effect as KeyframeEffect).pseudoElement ===
-                      "::before"
-                    ? 300
-                    : 0),
+                (animation.effect as KeyframeEffect).pseudoElement === "::after"
+                  ? 80
+                  : 0,
             });
             animation.play();
           });
         }
       },
-      { threshold: 0, rootMargin: "0px 0px -100px 0px" },
+      { threshold: 0, rootMargin: "0px" },
     );
     document.querySelectorAll(".timeline .job").forEach((job) => {
       const animations = [
         prepare(
           job,
           [
-            { opacity: 0, scale: "0.96" },
-            { opacity: 1, scale: "1" },
+            { opacity: 0, transform: "translateX(-16px)" },
+            { opacity: 1, transform: "translateX(0)" },
           ],
-          720,
+          430,
         ),
       ];
       if (job.nextElementSibling)
@@ -73,7 +64,7 @@ export function ExperienceMotion() {
           prepare(
             job,
             [{ transform: "scaleY(0)" }, { transform: "scaleY(1)" }],
-            520,
+            380,
             "::after",
           ),
         );
@@ -83,7 +74,7 @@ export function ExperienceMotion() {
           prepare(
             meta,
             [{ transform: "scaleX(0)" }, { transform: "scaleX(1)" }],
-            320,
+            220,
             "::before",
           ),
         );
