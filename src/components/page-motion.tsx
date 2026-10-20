@@ -49,11 +49,6 @@ export function PageMotion() {
               { opacity: 0.3, scale: "0.96" },
               { opacity: 1, scale: "1" },
             ];
-          } else if (target.matches(".job")) {
-            frames = [
-              { opacity: 0.25, clipPath: "inset(0 0 0 6%)" },
-              { opacity: 1, clipPath: "inset(0 0 0 0%)" },
-            ];
           }
           const animation = target.animate(frames, {
             duration,
@@ -67,7 +62,7 @@ export function PageMotion() {
     );
     document
       .querySelectorAll(
-        "#hero-title, .hero-copy > p, .hero-copy .actions, .portrait-wrap, .job, #skills .skill-card, #contact > .container",
+        "#hero-title, .hero-copy > p, .hero-copy .actions, .portrait-wrap, #skills .skill-card, #contact > .container",
       )
       .forEach((element) => observer.observe(element));
     const surface = document.querySelector<HTMLElement>(".hero-surface");

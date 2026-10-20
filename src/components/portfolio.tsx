@@ -11,6 +11,7 @@ import { SectionNav } from "@/components/section-nav";
 import { TechnicalSkills } from "@/components/technical-skills";
 import { AboutMap } from "@/components/about-map";
 import { LanguageFlag } from "@/components/language-flag";
+import { ExperienceMotion } from "@/components/experience-motion";
 import { PageMotion } from "@/components/page-motion";
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = content[locale];
@@ -18,6 +19,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
   return (
     <>
       <PageMotion />
+      <ExperienceMotion />
       <div id="top" aria-hidden="true" />
       <a className="skip-link" href="#main">
         {t.skip}
