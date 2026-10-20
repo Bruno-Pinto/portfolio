@@ -132,8 +132,8 @@ export function AboutMotion({
             animate(
               child,
               [
-                { opacity: 0, transform: "translateY(12px)" },
-                { opacity: 1, transform: "translateY(0)" },
+                { opacity: 0, clipPath: "inset(0 12% 0 0)" },
+                { opacity: 1, clipPath: "inset(0 0% 0 0)" },
               ],
               delay + (desktop.matches ? 180 : 0),
               500,

@@ -17,9 +17,9 @@ A personal technical portfolio: clear editorial hierarchy on dark surfaces, rest
 
 ## Hero
 
-The hero fills at least the viewport below the measured header using svh. Short viewports and mobile may grow naturally to keep all content readable. The full-width background contains a restrained blue wash. Name, role, study context, a broad introduction and primary actions lead the layout.
+The hero fills at least the viewport below the measured header using svh. Short viewports and mobile may grow naturally to keep all content readable. The full-width background uses dark blue-violet architectural planes and a low-contrast drafting grid. The grid drifts slowly only while the hero is visible and stays static on mobile and for reduced motion. Name, role, study context, a broad introduction and primary actions lead the layout.
 
-Portrait and a local original Zurich lake/river schematic balance the text. The schematic is an illustration, not a navigation map or an accurate geographic dataset. No map service, location tracking or external image request is needed. The hero contains no technology list or lower wayfinding strip.
+A larger portrait balances the text. There is no map, technology list or lower wayfinding strip. Background patterns are CSS-only and need no external image or service.
 
 ## Controls
 
@@ -32,7 +32,7 @@ Portrait and a local original Zurich lake/river schematic balance the text. The 
 
 ## Motion
 
-No blinking, light-on flicker, looping flashes, typewriter gate or delayed introduction. General entrances run once on viewport entry (720ms, 26px). About topics reveal in sequence: connector drawing then text, spaced 680ms apart. Mobile reveals follow scrolling. Text remains available without JavaScript.
+No blinking, light-on flicker, looping flashes, typewriter gate or delayed introduction. Entrances run once on viewport entry: the hero title uses a horizontal mask reveal, the portrait opens from its center, experience entries reveal from an edge, skills use a small scale/fade, and supporting text fades in. These last 650?900ms and do not move content upward. About topics reveal in sequence: connector drawing then text, spaced 680ms apart. Mobile reveals follow scrolling. Text remains available without JavaScript.
 
 About parallax moves only the background, at a 0.3 scroll ratio capped at 120px on desktop, with faded edges and overscan. It is disabled on mobile and for reduced motion. Connectors are measured from rendered portrait and text bounds and stop 18px short of the portrait. Text floats gently while in view.
 

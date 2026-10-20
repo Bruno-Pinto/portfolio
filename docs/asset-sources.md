@@ -22,3 +22,5 @@ Bubble’s mark is from https://bubble.io/brand/logo and Xano’s white logo fro
 The Nginx SVG viewBox is trimmed to remove empty vertical padding, without changing its paths or colors. The Next.js mark keeps its original black/white contrast rather than applying a monochrome filter.
 
 - Hero Zurich graphic: original local SVG in src/components/zurich-graphic.tsx, inspired by the lake and river and explicitly labelled as a schematic. No map tiles, external service, geographic dataset or third-party screenshot is used.
+
+- The Zurich schematic was removed from the hero. Its replacement background is drawn entirely in CSS with geometric planes and a drafting grid.
