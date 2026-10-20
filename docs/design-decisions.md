@@ -43,3 +43,7 @@ Skills is a separate section between Projects and About, with backend, web front
 About centers the old portrait between four personal panels. Decorative connector lines suggest tracing outward, and panels float by at most 3px while in view. All content is readable immediately. Animation pauses outside the viewport; reduced motion removes it. Tablet and phone layouts place the portrait above the panels and hide the connectors. Education and languages remain factual supporting content below. Navigation and section numbers follow Experience, Projects, Skills, About, Contact.
 
 The existing Turbopack Tailwind loader now targets globals.css only. CSS Modules for Skills and About use native Next.js processing, preventing lost class-name exports. Styling for the new sections is scoped rather than added to the legacy global overrides.
+
+## Page color and motion
+
+The skills palette continues through hero text, experience milestones and contact links. Role cards use equal-strength violet, mint and amber accents rather than highlighting one employer. The project scanner is unchanged. PageMotion adds a single 460 ms entrance animation as content enters the viewport; content is visible before JavaScript and observers are disconnected on unmount. Reduced-motion preferences skip or cancel animations. Hover movement is limited to fine pointers.

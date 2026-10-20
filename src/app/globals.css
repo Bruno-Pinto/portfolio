@@ -2073,3 +2073,139 @@ nav a[aria-current="location"] {
     white-space: nowrap;
   }
 }
+
+/* Carry the skills palette through the page without changing the scanner. */
+.hero {
+  background: radial-gradient(ellipse at 88% 35%, #193c5c33, transparent 52%);
+}
+.hero-role {
+  color: #91c5ff;
+}
+.hero .student {
+  color: #c1adf1;
+}
+.portrait-wrap .portrait {
+  border-color: #639cd0;
+}
+.portrait-caption {
+  color: #91b6d7;
+}
+.hero .button:not(.primary) {
+  border-color: #8570b0;
+  color: #dcc9ff;
+}
+.hero-links a:nth-of-type(2),
+.cv-note a:nth-of-type(1) {
+  color: #9dcaff;
+}
+.hero-links a:nth-of-type(3),
+.cv-note a:nth-of-type(2) {
+  color: #d2b5fa;
+}
+.hero-links a:nth-of-type(4),
+.cv-note a:nth-of-type(3),
+.cv-note a:nth-of-type(4) {
+  color: #9fe1bd;
+}
+.experience-section {
+  background-color: #0c111b;
+}
+#experience .eyebrow,
+#experience-title {
+  color: #c5b0ef;
+}
+#work > .section-heading .eyebrow {
+  color: #7ddbb5;
+}
+#skills > .eyebrow {
+  color: #efbd78;
+}
+#about > .eyebrow {
+  color: #86c4ff;
+}
+.timeline .job {
+  --role-color: #a9b9f4;
+  border-color: color-mix(in srgb, var(--role-color) 30%, #25303b);
+  background: linear-gradient(
+    115deg,
+    color-mix(in srgb, var(--role-color) 7%, #10171e),
+    #10171e 80%
+  );
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+}
+.timeline .job:nth-child(3n + 2) {
+  --role-color: #78ccba;
+}
+.timeline .job:nth-child(3n + 3) {
+  --role-color: #dfbb86;
+}
+.job .job-area,
+.job .job-role,
+.job .job-projects a {
+  color: var(--role-color);
+}
+.job .job-tags li {
+  border-color: color-mix(in srgb, var(--role-color) 35%, #26343e);
+  color: #d5e0e9;
+  background: #111d27;
+}
+.timeline .job::before {
+  border-color: var(--role-color);
+  background: color-mix(in srgb, var(--role-color) 25%, #10171e);
+}
+.timeline .job::after {
+  background: linear-gradient(var(--role-color), #42566c);
+}
+.job .job-meta::before {
+  background: var(--role-color);
+}
+.contact-section {
+  background: linear-gradient(115deg, #142338, #171c30 60%, #111c22);
+  border-top-color: #456184;
+}
+.contact-section::before {
+  background: #91bfff;
+  width: 120px;
+}
+.contact-section .eyebrow {
+  color: #a9caff;
+}
+.contact-section h2 {
+  color: #c9dcff;
+}
+.contact-section .contact-email {
+  color: #8de5d2;
+}
+.contact-email,
+.hero .button,
+.cv-note .social-link {
+  transition:
+    color 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    translate 180ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .timeline .job:hover {
+    border-color: var(--role-color);
+    box-shadow: 0 4px 20px #07101e55;
+  }
+  .hero .button:hover {
+    background: #20334a;
+    color: #edf5f6;
+  }
+  .contact-email:hover {
+    color: #c0fff0;
+  }
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .hero .button:hover,
+  .cv-note .social-link:hover {
+    translate: 0 -2px;
+  }
+  .contact-email:hover {
+    translate: 3px 0;
+  }
+}

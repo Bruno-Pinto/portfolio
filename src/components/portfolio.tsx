@@ -10,11 +10,13 @@ import { ProjectScanner } from "@/components/project-scanner";
 import { SectionNav } from "@/components/section-nav";
 import { TechnicalSkills } from "@/components/technical-skills";
 import { AboutMap } from "@/components/about-map";
+import { PageMotion } from "@/components/page-motion";
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = content[locale];
   const projects = getProjects(locale);
   return (
     <>
+      <PageMotion />
       <div id="top" aria-hidden="true" />
       <a className="skip-link" href="#main">
         {t.skip}

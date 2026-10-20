@@ -75,7 +75,11 @@
   align-items: center;
   gap: 9px;
   color: #e0e8ec;
-  min-height: 36px;
+  min-height: 42px;
+  padding: 6px 10px;
+  border: 1px solid color-mix(in srgb, var(--category-accent) 45%, #26343e);
+  background: #0c141bcc;
+  border-radius: 0;
   font-size: 0.9375rem;
 }
 .tools img,
