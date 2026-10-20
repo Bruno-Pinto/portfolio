@@ -923,3 +923,34 @@ test("footer top link returns to the document start", async ({ page }) => {
     await expect(page.locator("#hero-title")).toBeInViewport();
   }
 });
+
+test("about connectors track portrait and background moves with scroll", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  await page.goto("/#about");
+  const map = page.locator(".about-map");
+  await map.scrollIntoViewIfNeeded();
+  await expect(page.locator("[data-connect-to]")).toHaveCount(4);
+  for (const path of await page.locator("[data-connect-to]").all()) {
+    await expect(path).toHaveAttribute("d", /^M.+H.+L.+H/);
+  }
+  const offset = () =>
+    map.evaluate(
+      (e) =>
+        new DOMMatrixReadOnly(getComputedStyle(e, "::before").transform).m42,
+    );
+  await expect
+    .poll(() =>
+      map.evaluate((e) => e.style.getPropertyValue("--about-parallax")),
+    )
+    .not.toBe("");
+  const before = await offset();
+  await page.evaluate(() => window.scrollBy({ top: 180, behavior: "instant" }));
+  await expect
+    .poll(async () => Math.abs((await offset()) - before))
+    .toBeGreaterThan(35);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await expect.poll(offset).toBe(0);
+});

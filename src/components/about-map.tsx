@@ -19,7 +19,22 @@ export function AboutMap({ locale }: { locale: Locale }) {
         <h2 id="about-title">{t.title}</h2>
         <p className={styles.intro}>{t.intro}</p>
         <AboutMotion className={"about-map " + styles.map}>
-          <figure className={styles.portrait}>
+          <svg
+            className={"about-connections " + styles.connections}
+            aria-hidden="true"
+            focusable="false"
+          >
+            {t.panels.map((panel) => (
+              <path
+                key={panel.id}
+                data-connect-to={panel.id}
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.25"
+              />
+            ))}
+          </svg>
+          <figure className={styles.portrait} data-about-portrait>
             <div className={styles.photoFrame}>
               <Image
                 src="/images/portrait.jpg"
@@ -37,27 +52,6 @@ export function AboutMap({ locale }: { locale: Locale }) {
               data-panel={panel.id}
               key={panel.id}
             >
-              <svg
-                className={"about-connections " + styles.connections}
-                viewBox="0 0 200 32"
-                aria-hidden="true"
-                focusable="false"
-              >
-                <path
-                  d={
-                    [
-                      "M1 26H65L90 6H175",
-                      "M18 6H98L120 26H198",
-                      "M1 20H95L112 6H158",
-                      "M35 26H90L115 6H199",
-                    ][index]
-                  }
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1"
-                  vectorEffect="non-scaling-stroke"
-                />
-              </svg>
               <p className={styles.index} aria-hidden="true">
                 0{index + 1}
               </p>
