@@ -15,20 +15,20 @@ export function PageMotion() {
           if (reduced.matches) continue;
           const animation = entry.target.animate(
             [
-              { opacity: 0.85, transform: "translateY(8px)" },
+              { opacity: 0, transform: "translateY(26px)" },
               { opacity: 1, transform: "translateY(0)" },
             ],
-            { duration: 460, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)" },
+            { duration: 720, easing: "cubic-bezier(0.2, 0.7, 0.3, 1)" },
           );
           animations.add(animation);
           animation.onfinish = () => animations.delete(animation);
         }
       },
-      { threshold: 0.12 },
+      { threshold: 0, rootMargin: "0px 0px -16px 0px" },
     );
     document
       .querySelectorAll(
-        ".hero-copy, .portrait-wrap, .job, #skills .skill-card, #contact > .container",
+        ".hero-copy, .portrait-wrap, .job, #skills .skill-card, #contact > .container, #about .about-panel",
       )
       .forEach((element) => observer.observe(element));
     const stop = () => {

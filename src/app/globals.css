@@ -2209,3 +2209,72 @@ nav a[aria-current="location"] {
     translate: 3px 0;
   }
 }
+
+/* A transparent, readable navigation layer over the page. */
+.site-header {
+  background: rgb(9 13 16 / 58%);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid #93b6d51f;
+}
+.header-inner {
+  min-height: 80px;
+}
+.wordmark {
+  font-family: var(--font-sans);
+  font-size: 1.3rem;
+  letter-spacing: -0.045em;
+  font-weight: 600;
+}
+.wordmark span {
+  color: #86bdff;
+}
+.header-inner > nav a {
+  position: relative;
+  transition: color 180ms ease;
+}
+.header-inner > nav a:hover {
+  color: #b9d8ff;
+}
+.language-switch {
+  gap: 6px;
+  align-items: center;
+}
+.language-switch > span {
+  display: none;
+}
+.language-switch a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px;
+  min-height: 40px;
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+.language-switch svg {
+  display: block;
+  width: 22px;
+  height: 15px;
+  flex-shrink: 0;
+}
+.language-switch a[aria-current] {
+  border-color: #739dc15c;
+  background: #42658b21;
+  text-decoration: none;
+}
+.language-switch a:hover {
+  background: #42658b30;
+}
+@media (max-width: 700px) {
+  .header-inner {
+    gap: 10px;
+    min-height: 104px;
+  }
+  .wordmark {
+    font-size: 1.2rem;
+  }
+  .language-switch a {
+    padding: 6px;
+    gap: 5px;
+  }
+}

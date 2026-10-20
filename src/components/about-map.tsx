@@ -9,89 +9,90 @@ export function AboutMap({ locale }: { locale: Locale }) {
   return (
     <section
       id="about"
-      className={"container section " + styles.section}
+      className={"section " + styles.section}
       aria-labelledby="about-title"
     >
-      <p className="eyebrow">
-        04 / {locale === "en" ? "About me" : "Über mich"}
-      </p>
-      <h2 id="about-title">{t.title}</h2>
-      <p className={styles.intro}>{t.intro}</p>
-      <AboutMotion className={"about-map " + styles.map}>
-        <svg
-          className={"about-connections " + styles.connections}
-          viewBox="0 0 1000 600"
-          preserveAspectRatio="none"
-          aria-hidden="true"
-          focusable="false"
-        >
-          {[
-            "M430 260H407L370 140H300",
-            "M570 260H593L630 140H700",
-            "M430 340H407L370 460H300",
-            "M570 340H593L630 460H700",
-          ].map((path, index) => (
-            <g key={path} fill="none" data-connection={index}>
-              <path
-                d={path}
-                stroke="#2865a2"
-                strokeWidth="1.5"
-                vectorEffect="non-scaling-stroke"
-              />
-              <path
-                className={styles.flow}
-                d={path}
-                stroke="#69b5ff"
-                strokeWidth="2"
-                vectorEffect="non-scaling-stroke"
-                style={{ animationDelay: index * -1.5 + "s" }}
-              />
-            </g>
-          ))}
-        </svg>
-        <figure className={styles.portrait}>
-          <div className={styles.photoFrame}>
-            <Image
-              src="/images/portrait.jpg"
-              width={203}
-              height={203}
-              alt={t.portraitAlt}
-              className={styles.photo}
-            />
-            <span className={styles.corners} aria-hidden="true" />
-          </div>
-          <figcaption>{t.portraitCaption}</figcaption>
-        </figure>
-        {t.panels.map((panel, index) => (
-          <article
-            className={"about-panel " + styles.panel}
-            data-panel={panel.id}
-            key={panel.id}
+      <div className="container">
+        <p className="eyebrow">
+          04 / {locale === "en" ? "About me" : "Über mich"}
+        </p>
+        <h2 id="about-title">{t.title}</h2>
+        <p className={styles.intro}>{t.intro}</p>
+        <AboutMotion className={"about-map " + styles.map}>
+          <svg
+            className={"about-connections " + styles.connections}
+            viewBox="0 0 1000 600"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+            focusable="false"
           >
-            <p className={styles.index} aria-hidden="true">
-              0{index + 1}
-            </p>
-            <h3 className={styles.themeHeading}>
-              <ThemeIcon theme={panel.id} />
-              {panel.title}
-            </h3>
-            <p>{panel.text}</p>
-          </article>
-        ))}
-      </AboutMotion>
-      <div className={styles.background}>
-        <div>
-          <h3>{t.educationTitle}</h3>
-          <p>{t.education}</p>
-          <p className={styles.secondary}>{t.previousEducation}</p>
-        </div>
-        <div>
-          <h3>{t.languagesTitle}</h3>
-          <ul>
-            {content[locale].languages.split(" · ").map((language) => (
-              <li key={language}>{language}</li>
+            {[
+              "M35 80H140L200 35H310",
+              "M650 74H715L790 155H950",
+              "M45 560H210L260 510",
+              "M620 555L690 585H860",
+            ].map((path, index) => (
+              <g key={path} fill="none" data-connection={index}>
+                <path
+                  d={path}
+                  stroke="#2865a2"
+                  strokeWidth="1.5"
+                  vectorEffect="non-scaling-stroke"
+                />
+                <path
+                  className={styles.flow}
+                  d={path}
+                  stroke="#69b5ff"
+                  strokeWidth="2"
+                  vectorEffect="non-scaling-stroke"
+                  style={{ animationDelay: index * -1.5 + "s" }}
+                />
+              </g>
             ))}
-          </ul>
+          </svg>
+          <figure className={styles.portrait}>
+            <div className={styles.photoFrame}>
+              <Image
+                src="/images/portrait.jpg"
+                width={203}
+                height={203}
+                alt={t.portraitAlt}
+                className={styles.photo}
+              />
+            </div>
+            <figcaption>{t.portraitCaption}</figcaption>
+          </figure>
+          {t.panels.map((panel, index) => (
+            <article
+              className={"about-panel " + styles.panel}
+              data-panel={panel.id}
+              key={panel.id}
+            >
+              <p className={styles.index} aria-hidden="true">
+                0{index + 1}
+              </p>
+              <h3 className={styles.themeHeading}>
+                <ThemeIcon theme={panel.id} />
+                {panel.title}
+              </h3>
+              <p>{panel.text}</p>
+            </article>
+          ))}
+        </AboutMotion>
+        <div className={styles.background}>
+          <div>
+            <h3>{t.educationTitle}</h3>
+            <p>{t.education}</p>
+            <p className={styles.secondary}>{t.previousEducation}</p>
+          </div>
+          <div>
+            <h3>{t.languagesTitle}</h3>
+            <ul>
+              {content[locale].languages.split(" · ").map((language) => (
+                <li key={language}>{language}</li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

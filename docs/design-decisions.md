@@ -47,3 +47,7 @@ The existing Turbopack Tailwind loader now targets globals.css only. CSS Modules
 ## Page color and motion
 
 The skills palette continues through hero text, experience milestones and contact links. Role cards use equal-strength violet, mint and amber accents rather than highlighting one employer. The project scanner is unchanged. PageMotion adds a single 460 ms entrance animation as content enters the viewport; content is visible before JavaScript and observers are disconnected on unmount. Reduced-motion preferences skip or cancel animations. Hover movement is limited to fine pointers.
+
+## Open personal layout and navigation
+
+About me uses unboxed text, independent diagonal accents and a single portrait border over a blue-violet background. Desktop scroll parallax is capped at 28px and disabled on mobile and for reduced motion. Floating text pauses offscreen. Entrance animations run once when elements enter the viewport (720ms, 26px movement). The translucent header uses the full name, local SVG flags and explicit EN/DE labels.

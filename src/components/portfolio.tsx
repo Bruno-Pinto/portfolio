@@ -10,6 +10,7 @@ import { ProjectScanner } from "@/components/project-scanner";
 import { SectionNav } from "@/components/section-nav";
 import { TechnicalSkills } from "@/components/technical-skills";
 import { AboutMap } from "@/components/about-map";
+import { LanguageFlag } from "@/components/language-flag";
 import { PageMotion } from "@/components/page-motion";
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = content[locale];
@@ -24,7 +25,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
       <SiteHeader>
         <div className="header-inner">
           <a className="wordmark" href="#top" aria-label="Bruno Pinto da Silva">
-            <span>[</span> BP<span> / ]</span>
+            Bruno Pinto<span>.</span>
           </a>
           <SectionNav
             labels={t.nav}
@@ -37,19 +38,23 @@ export function Portfolio({ locale }: { locale: Locale }) {
             <a
               href="/"
               lang="en"
+              aria-label="EN"
+              title="English"
               hrefLang="en"
               aria-current={locale === "en" ? "page" : undefined}
             >
-              EN
+              <LanguageFlag language="en" /> EN
             </a>
             <span aria-hidden="true">/</span>
             <a
               href="/de/"
               lang="de"
+              aria-label="DE"
+              title="Deutsch"
               hrefLang="de"
               aria-current={locale === "de" ? "page" : undefined}
             >
-              DE
+              <LanguageFlag language="de" /> DE
             </a>
           </div>
         </div>

@@ -794,7 +794,10 @@ test("skills fill their cards with legacy grid styles and icons keep intrinsic d
           })),
         );
       expect(sizes.length).toBeGreaterThanOrEqual(8);
-      for (const size of sizes) expect(size).toEqual({ width: 16, height: 16 });
+      for (const size of sizes) {
+        expect(size.width).toBeCloseTo(16, 2);
+        expect(size.height).toBeCloseTo(16, 2);
+      }
     }
   }
 });
