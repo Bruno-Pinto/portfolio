@@ -47,3 +47,7 @@ The hero location includes a local decorative Swiss flag. After the 900ms portra
 Experience cards reveal independently when roughly 65% is visible below the header, without waiting for another card. For cards too tall to fit, the trigger is capped at 80% of the available viewport height. The whole card travels 16px horizontally and fades in over 560ms. Its left rail starts after 100ms and grows downward over 480ms; horizontal branches draw over 280ms. Reduced motion and keyboard focus reveal content immediately. Without JavaScript the complete timeline stays visible.
 
 The hero blue-violet background is deliberately dimmer than the content. The scanner has a low-opacity cyan perimeter trace on a 14-second loop while idle or ready and visible. It pauses offscreen and during card movement/scanning, and is hidden for reduced motion. The red scanning beam and progress feedback retain their existing behavior.
+
+## Stylesheet ownership
+
+Keep the Tailwind import and static theme tokens in src/app/globals.css. Put shared native CSS in src/app/portfolio.css, imported after globals.css by both localized root layouts. Keep component-specific CSS in CSS Modules. This separation avoids a reproduced Tailwind loader issue where the local preview retained old CSS after edits and Git branch changes. Live add/revert CSS updates were verified through the browser after the separation. Production caching and the static-export workflow remain unchanged.

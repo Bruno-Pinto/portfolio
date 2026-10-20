@@ -41,7 +41,7 @@ Use verified project facts only. Do not commit secrets, personal addresses, inte
 - English at `/` and German at `/de/`, with separate HTML language attributes and localized metadata.
 - `src/content/portfolio.ts`: CV-grounded content and translations. Verified SpinWheels facts and contributions are in src/content/spinwheels.ts; evidence is documented in docs/content-sources.md.
 - `src/components/portfolio.tsx`: shared page structure. The project scanner moves selected cards into a slot and displays their details beside it; static project descriptions are also provided without JavaScript.
-- `src/app/globals.css`: design tokens, responsive layouts, focus styles and reduced-motion support.
+- `src/app/globals.css`: Tailwind entry and theme tokens. `src/app/portfolio.css`: shared page layouts, controls, focus styles and reduced-motion rules.
 - Route groups `(english)` and `(german)` organize different root layouts without appearing in URLs. Language links load complete documents intentionally.
 
 Approved English and German CV copies are in public/cv and linked for download in the introduction and contact section. Original source files remain in the ignored _private folder. The hero uses the portrait extracted from the supplied CV; replace the low-resolution JPEG with the original photo when available. No project metrics or technology claims have been invented.

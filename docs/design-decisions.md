@@ -55,3 +55,7 @@ The skills palette continues through hero text, experience milestones and contac
 About me uses unboxed text, independent diagonal accents and a single portrait border over a blue-violet background. Desktop scroll parallax is capped at 28px and disabled on mobile and for reduced motion. Floating text pauses offscreen. Entrance animations run once when elements enter the viewport (720ms, 26px movement). The translucent header uses the full name, local SVG flags and explicit EN/DE labels.
 
 About connectors are measured from the actual portrait and heading bounds with an 18px portrait gap. The background scroll rate is 0.3, capped at 120px, with overscan and faded edges; this replaces the earlier barely visible 0.07 rate. Resize observation keeps connectors aligned across layout and language changes.
+
+## Native shared styles and live preview
+
+Plain portfolio rules now live in src/app/portfolio.css and are imported separately after the Tailwind entry in both root layouts. A browser probe reproduced stale updates through the Tailwind loader; the same live add/revert probe passes through native CSS processing. globals.css uses @theme static so every shared theme token remains available to the separately compiled stylesheet. No dependency or production runtime changes were required.
