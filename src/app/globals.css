@@ -2611,7 +2611,7 @@ summary:active {
   inset: 0;
   pointer-events: none;
   clip-path: polygon(79% 0, 100% 0, 100% 100%, 52% 100%);
-  background: linear-gradient(155deg, #3660801c, #47427326 65%, #164d6320);
+  background: linear-gradient(155deg, #3660801c, #344d6520 65%, #164d6320);
   border-right: 1px solid #759bb547;
 }
 .hero .hero-visual .portrait-wrap {
