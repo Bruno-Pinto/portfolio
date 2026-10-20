@@ -82,3 +82,7 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for the multi-stage Docker build, Compose com
 ## Project views and public evidence
 
 The project section offers a scanner and a list view, using the same localized project data. List view shows summaries and features immediately, with expandable technical details. Public source links are provided for Mission-Life, Mission-Chess and this portfolio. The PHP intranet, SpinWheels and portfolio are featured first; professional source code and internal screens remain unpublished. See docs/design-decisions.md and docs/content-sources.md for scope and provenance.
+
+## Design reference
+
+The current visual and interaction rules are in [docs/design-system.md](docs/design-system.md). Consult this guide before changing section hierarchy, controls, colors or motion.

@@ -13,25 +13,6 @@ export function PageMotion() {
           if (!entry.isIntersecting) continue;
           observer.unobserve(entry.target);
           if (reduced.matches) continue;
-          if (entry.target.matches(".portrait-wrap")) {
-            const image = entry.target.querySelector(".portrait-image");
-            if (image) {
-              // Two gentle power dips, then steady illumination. Never loops.
-              const light = image.animate(
-                [
-                  { filter: "brightness(0.35) saturate(0.65)", offset: 0 },
-                  { filter: "brightness(0.75) saturate(0.8)", offset: 0.25 },
-                  { filter: "brightness(0.45) saturate(0.7)", offset: 0.36 },
-                  { filter: "brightness(1) saturate(0.92)", offset: 0.65 },
-                  { filter: "brightness(0.8) saturate(0.85)", offset: 0.76 },
-                  { filter: "brightness(1) saturate(0.92)", offset: 1 },
-                ],
-                { duration: 1700, easing: "linear" },
-              );
-              animations.add(light);
-              light.onfinish = () => animations.delete(light);
-            }
-          }
           const animation = entry.target.animate(
             [
               { opacity: 0, transform: "translateY(26px)" },

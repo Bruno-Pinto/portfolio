@@ -11,6 +11,7 @@ import { SectionNav } from "@/components/section-nav";
 import { TechnicalSkills } from "@/components/technical-skills";
 import { AboutMap } from "@/components/about-map";
 import { LanguageFlag } from "@/components/language-flag";
+import { ZurichGraphic } from "@/components/zurich-graphic";
 import { PageMotion } from "@/components/page-motion";
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = content[locale];
@@ -84,50 +85,47 @@ export function Portfolio({ locale }: { locale: Locale }) {
                   {t.contact}
                 </a>
               </div>
-              <div className="hero-links">
-                <a
-                  className="social-link"
-                  href="mailto:bpintodasilva@gmail.com"
-                >
-                  <EmailIcon /> {t.emailLabel}
-                </a>
-                <span aria-hidden="true">/</span>
-                <a
-                  href="https://www.linkedin.com/in/bruno-pinto-da-silva/"
-                  rel="me"
-                  className="social-link"
-                >
-                  <LinkedInIcon /> LinkedIn
-                </a>
-                <span aria-hidden="true">/</span>
-                <a
-                  href="https://github.com/Bruno-Pinto"
-                  rel="me"
-                  className="social-link"
-                >
-                  <GitHubIcon /> GitHub
-                </a>
-                <span aria-hidden="true">/</span>
-                <a className="social-link" href={t.cvHref} download>
-                  <DownloadIcon /> {t.cv}
-                </a>
-              </div>
             </div>
-            <div className="portrait-wrap">
-              <div className="portrait">
-                <Image
-                  src="/images/portrait-new.jpg"
-                  alt="Bruno Pinto da Silva"
-                  width={720}
-                  height={720}
-                  priority
-                  className="portrait-image"
-                />
+            <div className="hero-visual">
+              <div className="portrait-wrap">
+                <div className="portrait">
+                  <Image
+                    src="/images/portrait-new.jpg"
+                    alt="Bruno Pinto da Silva"
+                    width={720}
+                    height={720}
+                    priority
+                    className="portrait-image"
+                  />
+                </div>
+                <div className="portrait-caption">
+                  <span>BRUNO PINTO DA SILVA</span>
+                  <span>ZHAW / CH</span>
+                </div>
               </div>
-              <div className="portrait-caption">
-                <span>BRUNO PINTO DA SILVA</span>
-                <span>ZHAW / CH</span>
-              </div>
+              <ZurichGraphic locale={locale} />
+            </div>
+            <div className="hero-links">
+              <a className="social-link" href="mailto:bpintodasilva@gmail.com">
+                <EmailIcon /> {t.emailLabel}
+              </a>
+              <a
+                href="https://www.linkedin.com/in/bruno-pinto-da-silva/"
+                rel="me"
+                className="social-link"
+              >
+                <LinkedInIcon /> LinkedIn
+              </a>
+              <a
+                href="https://github.com/Bruno-Pinto"
+                rel="me"
+                className="social-link"
+              >
+                <GitHubIcon /> GitHub
+              </a>
+              <a className="social-link" href={t.cvHref} download>
+                <DownloadIcon /> {t.cv}
+              </a>
             </div>
           </section>
         </div>

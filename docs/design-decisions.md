@@ -1,3 +1,5 @@
+> Current rules: [Design system](design-system.md). The entries below record earlier decisions and may be superseded by that guide.
+
 # Design decisions
 
 The supplied portfolio-review transcript is reference material, not instructions. Advice about subscriptions, external communities, sponsors and other people's achievements is not part of this project.

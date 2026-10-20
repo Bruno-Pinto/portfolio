@@ -954,3 +954,45 @@ test("about connectors track portrait and background moves with scroll", async (
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect.poll(offset).toBe(0);
 });
+
+test("section hierarchy and full-height hero stay consistent across languages", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    const headings = await page.locator("main h2").evaluateAll((elements) =>
+      elements.map((e) => {
+        const s = getComputedStyle(e);
+        return [s.color, s.fontSize, s.fontWeight, s.lineHeight].join("|");
+      }),
+    );
+    expect(headings).toHaveLength(5);
+    expect(new Set(headings).size).toBe(1);
+    expect(
+      await page
+        .locator(".hero")
+        .evaluate(
+          (e) =>
+            e.getBoundingClientRect().height +
+              document.querySelector(".site-header")!.getBoundingClientRect()
+                .height >=
+            innerHeight - 1,
+        ),
+    ).toBe(true);
+    await expect(page.locator(".hero-focus, .hero-wayfinding")).toHaveCount(0);
+    for (const link of await page.locator(".hero-links a, .cv-note a").all()) {
+      const frame = await link.evaluate((e) => ({
+        height: e.getBoundingClientRect().height,
+        border: getComputedStyle(e).borderTopWidth,
+      }));
+      expect(frame.height).toBeGreaterThanOrEqual(48);
+      expect(frame.border).toBe("1px");
+    }
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
+});

@@ -20,3 +20,5 @@ Local SVG logos for PHP, Java, JUnit, TypeScript, React, Next.js, Tailwind CSS, 
 Bubble’s mark is from https://bubble.io/brand/logo and Xano’s white logo from https://www.xano.com/presskit/. Logos are stored locally and displayed alongside technology names. Generic SQL, JavaFX/Swing desktop, directory and ticket icons represent capabilities without pretending to be product logos. The Windows mark labels Windows Server experience; no desktop Windows version is claimed. Monochrome marks use a white presentation for dark-background contrast.
 
 The Nginx SVG viewBox is trimmed to remove empty vertical padding, without changing its paths or colors. The Next.js mark keeps its original black/white contrast rather than applying a monochrome filter.
+
+- Hero Zurich graphic: original local SVG in src/components/zurich-graphic.tsx, inspired by the lake and river and explicitly labelled as a schematic. No map tiles, external service, geographic dataset or third-party screenshot is used.

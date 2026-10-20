@@ -8,6 +8,13 @@ export function SiteHeader({ children }: { children: ReactNode }) {
   useEffect(() => {
     const element = header.current;
     if (!element) return;
+    const measure = new ResizeObserver(() => {
+      document.documentElement.style.setProperty(
+        "--site-header-height",
+        element.offsetHeight + "px",
+      );
+    });
+    measure.observe(element);
     const mobile = window.matchMedia("(max-width: 700px)");
     let previous = Math.max(0, window.scrollY);
     let frame = 0;
@@ -51,6 +58,8 @@ export function SiteHeader({ children }: { children: ReactNode }) {
     mobile.addEventListener("change", show);
     element.addEventListener("focusin", onFocus);
     return () => {
+      measure.disconnect();
+      document.documentElement.style.removeProperty("--site-header-height");
       window.removeEventListener("scroll", schedule);
       mobile.removeEventListener("change", show);
       element.removeEventListener("focusin", onFocus);
