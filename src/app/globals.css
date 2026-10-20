@@ -2585,7 +2585,7 @@ summary:active {
   position: relative;
   isolation: isolate;
   overflow: clip;
-  background: linear-gradient(115deg, #090d10 20%, #101b29 64%, #14233a 100%);
+  background: linear-gradient(115deg, #090d10 20%, #0e1723 64%, #101c2e 100%);
 }
 .hero-surface::before {
   content: "";
@@ -2611,7 +2611,7 @@ summary:active {
   inset: 0;
   pointer-events: none;
   clip-path: polygon(79% 0, 100% 0, 100% 100%, 52% 100%);
-  background: linear-gradient(155deg, #36608026, #47427333 65%, #164d632e);
+  background: linear-gradient(155deg, #3660801c, #47427326 65%, #164d6320);
   border-right: 1px solid #759bb547;
 }
 .hero .hero-visual .portrait-wrap {
@@ -2685,4 +2685,44 @@ summary:active {
 }
 .job .job-meta::before {
   transform-origin: left center;
+}
+
+/* A quiet perimeter trace signals the scanner is available, not scanning. */
+.scanner-ambient {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.45;
+  transition: opacity 180ms ease;
+}
+.scanner-ambient path {
+  fill: none;
+  stroke: #87cadd;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 0.06 0.94;
+  animation: scanner-standby 14s linear infinite;
+  animation-play-state: paused;
+}
+.scanner-frame[data-ambient-visible="true"]
+  .scanner-pad:is([data-phase="idle"], [data-phase="ready"])
+  .scanner-ambient
+  path {
+  animation-play-state: running;
+}
+.scanner-pad:is([data-phase="moving"], [data-phase="scanning"])
+  .scanner-ambient {
+  opacity: 0;
+}
+@keyframes scanner-standby {
+  to {
+    stroke-dashoffset: -1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scanner-ambient {
+    display: none;
+  }
 }

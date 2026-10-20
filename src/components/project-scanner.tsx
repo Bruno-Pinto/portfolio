@@ -62,6 +62,19 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
   const animation = useRef<Animation | null>(null);
   const outgoingAnimation = useRef<Animation | null>(null);
 
+  useEffect(() => {
+    const element = frame.current;
+    if (!element) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        element.dataset.ambientVisible = String(entries[0].isIntersecting);
+      },
+      { threshold: 0 },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+
   const choose = useCallback(
     (index: number, open = false) => {
       if (open && selected === index) {
@@ -298,6 +311,15 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
           </div>
           <div className="scanner-layout">
             <div className="scanner-pad" data-phase={phase}>
+              <svg
+                className="scanner-ambient"
+                viewBox="0 0 300 480"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path d="M14 14H286V466H14Z" pathLength="1" />
+              </svg>
               <div className="scanner-slot">
                 {project ? (
                   <button
