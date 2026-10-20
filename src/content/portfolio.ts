@@ -7,7 +7,11 @@ export const content = {
     student: "Computer Science student at ZHAW",
     location: "Zurich, Switzerland",
     description:
-      "I’ve developed web applications, restructured existing software and built applications for clients. Alongside my studies, I explore new ideas through university and personal projects.",
+      "Hands-on experience developing and modernizing software applications, backend systems and deployment workflows.",
+    supporting:
+      "I enjoy building practical, maintainable software — from improving production systems to developing new applications.",
+    availability: "60–80% workload · Available immediately",
+    cvLabel: "Download CV",
     explore: "Explore my work",
     contact: "Get in touch",
     emailLabel: "Email",
@@ -15,49 +19,58 @@ export const content = {
     workTitle: "Projects",
     workIntro: "Selected professional, university and personal projects.",
     details: "Project details",
-    contributionTitle: "My contribution",
+    contributionTitle: "My contributions",
     projects: [
       {
-        title: "PHP intranet migration",
-        category: "Professional / PHP",
-        text: "Reorganized and migrated a PHP intranet service at the University of Zurich.",
-        tags: ["PHP 7 → 8", "SQL", "GitLab CI/CD"],
-        contributions: [
-          "Unified scattered folders and files into one project",
-          "Migrated PHP 7 to PHP 8",
-          "Centralized database access and integrated GitLab CI/CD",
-        ],
-        detail:
-          "The intranet work also included SQL database queries and LDAP / Active Directory integration. This professional project’s source code and internal screens are not published here.",
         id: "php",
+        title: "PHP intranet modernization",
+        category: "Professional / PHP",
+        text: "Modernized an internal PHP portal at the University of Zurich into a structured application now in production.",
+        tags: ["PHP 5 → 8", "SQL", "GitLab CI/CD"],
+        contributions: [
+          "Separated public files, application functionality and shared core components; standardized layouts and styling.",
+          "Migrated PHP 5-era code to PHP 8, resolving compatibility issues and refactoring existing functionality.",
+          "Centralized database access and added reusable utilities, logging and error handling.",
+          "Implemented page-level authorization using LDAP and Active Directory roles.",
+          "Established GitLab version control and GitLab CI/CD for automated deployment.",
+        ],
+        detail: [
+          "Outcome: Delivered a production application with improved maintainability, clearer structure and stronger access controls. Source code and internal screens remain private.",
+        ],
       },
       {
+        id: "products",
         title: "Client apps and marketplace",
         category: "Professional / Product development",
-        text: "Client applications at Rocketlaunch and a two-sided marketplace at Kork Tech.",
+        text: "Custom client applications at Rocketlaunch and a C2C services marketplace at Kork Tech.",
         tags: ["Bubble.io", "XANO", "Product development"],
         contributions: [
-          "Built client applications with Bubble.io and XANO",
-          "Developed a two-sided marketplace",
-          "Planned technical projects and coordinated developers",
+          "Rocketlaunch · Co-Founder & CTO: Developed client frontends and workflows with Bubble.io; designed databases, APIs and business logic with Xano.",
+          "Rocketlaunch: Built the agency website and an internal content management system.",
+          "Rocketlaunch: Led developers and managed requirements, client communication, delivery and business development.",
+          "Kork Tech: Built Bubble.io interfaces and workflows, maintained the marketplace database and contributed to service listings and requests.",
+          "Kork Tech: Supported marketing and user acquisition.",
         ],
-        detail:
-          "At Rocketlaunch, I used Bubble.io and XANO and coordinated the technical team. At Kork Tech, I developed and launched a two-sided marketplace with Bubble.io.",
-        id: "products",
+        detail: [
+          "Rocketlaunch was a software agency delivering custom applications for clients. My role combined hands-on development, technical leadership and project management.",
+          "At Kork Tech, I contributed to a consumer-to-consumer services marketplace where people could offer services or request assistance, from household tasks to recreational activities.",
+        ],
       },
       {
         id: "itsm",
-        title: "Central ticketing system",
+        title: "GLPI IT service management",
         category: "Professional / ITSM",
-        text: "Designed and implemented a central ticketing system at the University of Zurich.",
-        tags: ["ITSM", "Documentation"],
+        text: "Deployed and configured a self-hosted GLPI platform for internal IT service management at the University of Zurich.",
+        tags: ["GLPI", "Docker", "LDAPS", "ITSM", "Documentation"],
         contributions: [
-          "Designed and implemented the ticketing system",
-          "Continued developing the system",
-          "Created and maintained technical documentation",
+          "Prepared the server environment and deployed GLPI with Docker.",
+          "Configured HTTPS and TLS certificates, LDAPS authentication and SMTP email services.",
+          "Configured ticket categories, workflows and service management processes.",
+          "Maintained infrastructure, application configuration and technical documentation.",
         ],
-        detail:
-          "The work included ongoing development and technical documentation for knowledge transfer and operation.",
+        detail: [
+          "Outcome: A working internal IT service management environment with integrated authentication, email and ticketing workflows. Internal architecture and configuration remain private.",
+        ],
       },
     ],
     experience: "Experience",
@@ -68,9 +81,9 @@ export const content = {
         role: "Student Assistant",
         date: "Oct 2025 — Oct 2026",
         points: [
-          "Reorganized a scattered PHP intranet into a unified project, migrated PHP 7 to 8 and centralized database access.",
-          "Integrated GitLab for version control, CI/CD and deployments.",
-          "Designed and implemented a central ticketing system and maintained technical documentation.",
+          "Modernized a legacy PHP portal, including application architecture, PHP 5-era to PHP 8 migration and role-based authorization.",
+          "Established GitLab version control and automated deployment.",
+          "Deployed and configured an internal GLPI service management platform and maintained technical documentation.",
         ],
         area: "Web development",
         tags: ["PHP", "SQL", "GitLab CI/CD"],
@@ -102,8 +115,8 @@ export const content = {
         role: "Co-Founder & CTO",
         date: "2022 — 2024",
         points: [
-          "Developed client applications with Bubble.io and XANO and coordinated the technical team.",
-          "Planned technical projects and managed budgets and schedules.",
+          "Co-founded a software agency and combined client application development with technical leadership.",
+          "Led developers and managed technical requirements, client communication and project delivery.",
         ],
         area: "Product development",
         tags: ["Bubble.io", "XANO"],
@@ -119,7 +132,7 @@ export const content = {
         role: "Developer & Marketing",
         date: "2022 — 2023",
         points: [
-          "Developed and launched a two-sided marketplace with Bubble.io and supported marketing activities.",
+          "Contributed to a C2C services marketplace, including application development, database design and marketing.",
         ],
         area: "Application development",
         tags: ["Bubble.io"],
@@ -144,7 +157,7 @@ export const content = {
         tools: ["PHP", "SQL"],
         evidence: [
           {
-            text: "Migrated a PHP intranet from version 7 to 8, unified its project structure and centralized database access.",
+            text: "Modernized a production PHP portal, restructuring application code, centralizing data access and adding role-based authorization.",
             projectId: "php",
           },
         ],
@@ -222,8 +235,7 @@ export const content = {
     cvEnglish: "English CV (PDF)",
     cvGerman: "German CV (PDF)",
     relatedProjects: "Related projects",
-    opportunity:
-      "Seeking junior software development or working-student opportunities.",
+    opportunity: "Open to working-student and junior developer roles",
     education: "ZHAW · Computer Science · 2024–2028 (expected)",
     skillsIntro:
       "Tools I’ve used in professional work, university projects and this portfolio. Frontend is an area I’m currently learning.",
@@ -235,7 +247,11 @@ export const content = {
     student: "Informatikstudent an der ZHAW",
     location: "Zürich, Schweiz",
     description:
-      "Ich habe Webanwendungen entwickelt, bestehende Software neu strukturiert und Anwendungen für Kunden umgesetzt. Neben meinem Studium verfolge ich eigene Ideen in Hochschul- und persönlichen Projekten.",
+      "Praktische Erfahrung in der Entwicklung und Modernisierung von Softwareanwendungen, Backend-Systemen und Deployment-Prozessen.",
+    supporting:
+      "Ich entwickle gerne praxisnahe, wartbare Software – von der Weiterentwicklung produktiver Systeme bis zur Umsetzung neuer Anwendungen.",
+    availability: "60–80% Pensum · Ab sofort verfügbar",
+    cvLabel: "Lebenslauf herunterladen",
     explore: "Projekte entdecken",
     contact: "Kontakt aufnehmen",
     emailLabel: "E-Mail",
@@ -244,49 +260,58 @@ export const content = {
     workIntro:
       "Ausgewählte berufliche Projekte, Hochschulprojekte und eigene Anwendungen.",
     details: "Projektdetails",
-    contributionTitle: "Mein Beitrag",
+    contributionTitle: "Meine Beiträge",
     projects: [
       {
-        title: "Migration eines PHP-Intranets",
-        category: "Beruflich / PHP",
-        text: "Neuorganisation und Migration eines PHP-Intranets an der Universität Zürich.",
-        tags: ["PHP 7 → 8", "SQL", "GitLab CI/CD"],
-        contributions: [
-          "Verstreute Ordner und Dateien in einem einheitlichen Projekt zusammengeführt",
-          "PHP 7 auf PHP 8 migriert",
-          "Datenbankzugriffe zentralisiert und GitLab CI/CD integriert",
-        ],
-        detail:
-          "Zur Intranet-Arbeit gehörten auch SQL-Datenbankabfragen sowie die Anbindung an LDAP / Active Directory. Quellcode und interne Ansichten dieses beruflichen Projekts werden hier nicht veröffentlicht.",
         id: "php",
+        title: "Modernisierung eines PHP-Intranets",
+        category: "Beruflich / PHP",
+        text: "Ein internes PHP-Portal an der Universität Zürich zu einer strukturierten Anwendung modernisiert, die heute produktiv eingesetzt wird.",
+        tags: ["PHP 5 → 8", "SQL", "GitLab CI/CD"],
+        contributions: [
+          "Öffentliche Dateien, Anwendungslogik und zentrale Komponenten getrennt sowie Layouts und Styling vereinheitlicht.",
+          "PHP-5-Code auf PHP 8 migriert, Kompatibilitätsprobleme behoben und bestehende Funktionen überarbeitet.",
+          "Datenbankzugriffe zentralisiert sowie wiederverwendbare Hilfsfunktionen, Logging und Fehlerbehandlung eingeführt.",
+          "Seitenbezogene Zugriffssteuerung über LDAP und Active-Directory-Rollen implementiert.",
+          "GitLab-Versionsverwaltung und GitLab CI/CD für automatisierte Deployments eingerichtet.",
+        ],
+        detail: [
+          "Ergebnis: Eine modernisierte Produktivanwendung mit verbesserter Wartbarkeit, klarerer Struktur und gezielter Zugriffssteuerung. Quellcode und interne Ansichten bleiben privat.",
+        ],
       },
       {
+        id: "products",
         title: "Kundenapps und Marktplatz",
         category: "Beruflich / Produktentwicklung",
-        text: "Kundenanwendungen bei Rocketlaunch und ein zweiseitiger Marktplatz bei Kork Tech.",
+        text: "Kundenspezifische Anwendungen bei Rocketlaunch und ein C2C-Dienstleistungsmarktplatz bei Kork Tech.",
         tags: ["Bubble.io", "XANO", "Produktentwicklung"],
         contributions: [
-          "Kundenanwendungen mit Bubble.io und XANO entwickelt",
-          "Einen zweiseitigen Marktplatz entwickelt",
-          "Technische Projekte geplant und Entwickler koordiniert",
+          "Rocketlaunch · Mitgründer & CTO: Oberflächen und Workflows mit Bubble.io entwickelt sowie Datenbanken, APIs und Geschäftslogik mit Xano konzipiert.",
+          "Rocketlaunch: Agenturwebsite und internes Content-Management-System entwickelt.",
+          "Rocketlaunch: Entwickler geleitet und Anforderungen, Kundenkommunikation, Projektabwicklung und Geschäftsentwicklung verantwortet.",
+          "Kork Tech: Bubble.io-Oberflächen und Workflows entwickelt, die Marktplatzdatenbank gepflegt und an Angeboten und Anfragen mitgearbeitet.",
+          "Kork Tech: Marketing und Nutzergewinnung unterstützt.",
         ],
-        detail:
-          "Bei Rocketlaunch setzte ich Bubble.io und XANO ein und koordinierte das technische Team. Bei Kork Tech entwickelte und lancierte ich einen zweiseitigen Marktplatz mit Bubble.io.",
-        id: "products",
+        detail: [
+          "Rocketlaunch war eine Softwareagentur für kundenspezifische Anwendungen. Meine Rolle verband eigene Entwicklungsarbeit mit technischer Leitung und Projektmanagement.",
+          "Bei Kork Tech arbeitete ich an einem C2C-Dienstleistungsmarktplatz mit, auf dem Nutzer Angebote veröffentlichen oder Hilfe anfragen konnten – von Haushaltshilfe bis zu Freizeitaktivitäten.",
+        ],
       },
       {
         id: "itsm",
-        title: "Zentrales Ticketsystem",
+        title: "GLPI IT-Service-Management",
         category: "Beruflich / ITSM",
-        text: "Konzeption und Implementierung eines zentralen Ticketsystems an der Universität Zürich.",
-        tags: ["ITSM", "Dokumentation"],
+        text: "Eine selbst gehostete GLPI-Plattform für das interne IT-Service-Management an der Universität Zürich bereitgestellt und konfiguriert.",
+        tags: ["GLPI", "Docker", "LDAPS", "ITSM", "Dokumentation"],
         contributions: [
-          "Ticketsystem konzipiert und implementiert",
-          "System kontinuierlich weiterentwickelt",
-          "Technische Dokumentationen erstellt und gepflegt",
+          "Serverumgebung eingerichtet und GLPI mit Docker bereitgestellt.",
+          "HTTPS und TLS-Zertifikate, LDAPS-Authentifizierung und SMTP-E-Mail-Dienste konfiguriert.",
+          "Ticketkategorien, Workflows und Service-Management-Prozesse eingerichtet.",
+          "Infrastruktur, Anwendungskonfiguration und technische Dokumentation betreut.",
         ],
-        detail:
-          "Zur Arbeit gehörten die Weiterentwicklung sowie technische Dokumentationen für Wissenstransfer und Betrieb.",
+        detail: [
+          "Ergebnis: Eine funktionsfähige interne IT-Service-Management-Umgebung mit integrierter Authentifizierung, E-Mail-Anbindung und Ticket-Workflows. Interne Architektur und Konfiguration bleiben privat.",
+        ],
       },
     ],
     experience: "Erfahrung",
@@ -297,9 +322,9 @@ export const content = {
         role: "Studentische Hilfskraft",
         date: "Okt. 2025 — Okt. 2026",
         points: [
-          "Verstreutes PHP-Intranet in einem einheitlichen Projekt zusammengeführt, PHP 7 auf 8 migriert und Datenbankzugriffe zentralisiert.",
-          "GitLab für Versionsverwaltung, CI/CD und Deployments integriert.",
-          "Zentrales Ticketsystem konzipiert und implementiert sowie technische Dokumentationen gepflegt.",
+          "Ein gewachsenes PHP-Portal modernisiert: Architektur überarbeitet, PHP-5-Code auf PHP 8 migriert und rollenbasierte Zugriffssteuerung implementiert.",
+          "GitLab-Versionsverwaltung und automatisierte Deployments eingeführt.",
+          "Eine interne GLPI-Service-Management-Plattform bereitgestellt und konfiguriert sowie technische Dokumentation gepflegt.",
         ],
         area: "Webentwicklung",
         tags: ["PHP", "SQL", "GitLab CI/CD"],
@@ -331,8 +356,8 @@ export const content = {
         role: "Co-Founder & CTO",
         date: "2022 — 2024",
         points: [
-          "Entwicklung von Kundenanwendungen mit Bubble.io und XANO und Koordination des technischen Teams.",
-          "Technische Projekte geplant sowie Budget- und Terminverantwortung übernommen.",
+          "Eine Softwareagentur mitgegründet und Kundenanwendungen entwickelt sowie die technische Leitung übernommen.",
+          "Entwickler geleitet sowie technische Anforderungen, Kundenkommunikation und Projektabwicklung verantwortet.",
         ],
         area: "Produktentwicklung",
         tags: ["Bubble.io", "XANO"],
@@ -348,7 +373,7 @@ export const content = {
         role: "Entwickler & Marketing",
         date: "2022 — 2023",
         points: [
-          "Entwicklung und Einführung eines zweiseitigen Marktplatzes mit Bubble.io sowie Unterstützung im Marketing.",
+          "An einem C2C-Dienstleistungsmarktplatz mitgearbeitet, inklusive Anwendungsentwicklung, Datenbankkonzeption und Marketing.",
         ],
         area: "Anwendungsentwicklung",
         tags: ["Bubble.io"],
@@ -373,7 +398,7 @@ export const content = {
         tools: ["PHP", "SQL"],
         evidence: [
           {
-            text: "Ein PHP-Intranet von Version 7 auf 8 migriert, die Projektstruktur vereinheitlicht und Datenbankzugriffe zentralisiert.",
+            text: "Ein produktives PHP-Portal modernisiert: Anwendungscode neu strukturiert, Datenzugriffe zentralisiert und rollenbasierte Zugriffssteuerung ergänzt.",
             projectId: "php",
           },
         ],
@@ -452,7 +477,7 @@ export const content = {
     cvGerman: "Lebenslauf Deutsch (PDF)",
     relatedProjects: "Zugehörige Projekte",
     opportunity:
-      "Ich suche eine Junior- oder Werkstudentenstelle in der Softwareentwicklung.",
+      "Offen für Werkstudentenstellen und Junior-Developer-Positionen",
     education: "ZHAW · Informatik · 2024–2028 (voraussichtlich)",
     skillsIntro:
       "Werkzeuge aus meiner beruflichen Arbeit, Hochschulprojekten und diesem Portfolio. Im Web-Frontend lerne ich gerade dazu.",

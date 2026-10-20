@@ -95,6 +95,7 @@
 }
 .tools [data-wordmark] {
   width: 56px;
+  height: auto;
 }
 .evidence {
   display: grid;

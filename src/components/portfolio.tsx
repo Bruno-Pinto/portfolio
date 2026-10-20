@@ -87,13 +87,36 @@ export function Portfolio({ locale }: { locale: Locale }) {
               </h1>
               <p className="student">{t.student}</p>
               <p className="muted hero-description">{t.description}</p>
-              <p className="opportunity">{t.opportunity}</p>
+              <p className="muted hero-supporting">{t.supporting}</p>
+              <p className="opportunity">
+                <strong>{t.opportunity}</strong>
+                <span>{t.availability}</span>
+              </p>
               <div className="actions">
                 <a className="button primary" href="#work">
                   {t.explore} ↗
                 </a>
                 <a className="button" href="#contact">
                   {t.contact}
+                </a>
+              </div>
+              <div className="hero-cv" role="group" aria-label={t.cvLabel}>
+                <span>{t.cvLabel}</span>
+                <a
+                  href="/cv/bruno-pinto-cv-en.pdf"
+                  hrefLang="en"
+                  download
+                  aria-label={t.cvEnglish}
+                >
+                  <DownloadIcon /> English
+                </a>
+                <a
+                  href="/cv/bruno-pinto-cv-de.pdf"
+                  hrefLang="de"
+                  download
+                  aria-label={t.cvGerman}
+                >
+                  <DownloadIcon /> Deutsch
                 </a>
               </div>
             </div>
@@ -142,9 +165,6 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 className="social-link"
               >
                 <GitHubIcon /> GitHub
-              </a>
-              <a className="social-link" href={t.cvHref} download>
-                <DownloadIcon /> {t.cv}
               </a>
             </div>
           </section>

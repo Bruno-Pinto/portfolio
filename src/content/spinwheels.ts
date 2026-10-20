@@ -6,7 +6,7 @@ export const spinwheels = {
     title: "SpinWheels",
     subtitle: "Turn-based racing game",
     description:
-      "A JavaFX racing game built in a four-person team, with selectable tracks, human players and CPU opponents.",
+      "A JavaFX turn-based racing game built in a four-person ZHAW team, with human players and CPU opponents, multiple tracks, vehicle customization and progression.",
     featuresTitle: "Application features",
     features: [
       "Turn-based movement, collisions and finish detection",
@@ -14,8 +14,14 @@ export const spinwheels = {
       "JSON storage, MVC structure and JUnit tests",
     ],
     detail: [
-      "Movement strategies: player input and CPU decisions share a MoveStrategy interface. CPU opponents use breadth-first search over position and velocity, with difficulty-based mistakes.",
+      "Technical highlight: Balanced effective pathfinding with adjustable opponent difficulty to make gameplay more varied. Player input and CPU decisions share a MoveStrategy interface.",
       "Players collect coins and choose car skins. The application uses Java 21, JavaFX and Gradle.",
+    ],
+    contributions: [
+      "Primarily developed the AI opponent system, using breadth-first search over position and velocity for pathfinding.",
+      "Designed difficulty-dependent opponent behavior through controlled mistakes in movement decisions.",
+      "Built player and track selection interfaces with JavaFX, FXML and CSS.",
+      "Contributed to architecture, integration, automated tests, debugging and logging.",
     ],
   },
   de: {
@@ -23,7 +29,7 @@ export const spinwheels = {
     title: "SpinWheels",
     subtitle: "Rundenbasiertes Rennspiel",
     description:
-      "Ein JavaFX-Rennspiel, entwickelt im Viererteam, mit Streckenauswahl, menschlichen Spielern und CPU-Gegnern.",
+      "Ein rundenbasiertes JavaFX-Rennspiel aus einem ZHAW-Viererteam mit menschlichen Spielern und CPU-Gegnern, mehreren Strecken, Fahrzeuganpassungen und Fortschrittsmechaniken.",
     featuresTitle: "Funktionen der Anwendung",
     features: [
       "Rundenbasierte Bewegung, Kollisionen und Zielerkennung",
@@ -31,8 +37,14 @@ export const spinwheels = {
       "JSON-Speicherung, MVC-Aufbau und JUnit-Tests",
     ],
     detail: [
-      "Bewegungsstrategien: Spielereingaben und CPU-Entscheidungen verwenden eine gemeinsame MoveStrategy-Schnittstelle. CPU-Gegner nutzen eine Breitensuche über Position und Geschwindigkeit und machen je nach Schwierigkeitsgrad Fehler.",
+      "Technisches Highlight: Effiziente Pfadfindung mit anpassbarer Gegnerstärke verbunden, um abwechslungsreicheres Gameplay zu ermöglichen. Spielereingaben und CPU-Entscheidungen nutzen dieselbe MoveStrategy-Schnittstelle.",
       "Spieler sammeln Münzen und wählen Fahrzeug-Skins. Die Anwendung verwendet Java 21, JavaFX und Gradle.",
+    ],
+    contributions: [
+      "Das KI-Gegnersystem hauptsächlich entwickelt, mit Breitensuche über Position und Geschwindigkeit zur Pfadfindung.",
+      "Schwierigkeitsabhängiges Gegnerverhalten durch gezielte Fehler in den Bewegungsentscheidungen umgesetzt.",
+      "Spieler- und Streckenauswahl mit JavaFX, FXML und CSS entwickelt.",
+      "An Architektur, Integration, automatisierten Tests, Debugging und Logging mitgearbeitet.",
     ],
   },
 } satisfies Record<
@@ -44,6 +56,7 @@ export const spinwheels = {
     description: string;
     featuresTitle: string;
     features: string[];
+    contributions: string[];
     detail: string[];
   }
 >;

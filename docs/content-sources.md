@@ -60,4 +60,12 @@ Public repository links were verified against the owner's GitHub account. SpinWh
 
 ## Personal About content, 20 October 2026
 
-The owner confirmed being born in Portugal and having lived in Zurich for 20 years; an interest in building and learning new things, with computers familiar through gaming; gym, running, paintball, gaming, reading, listening to music and playing guitar. No specific achievements, genres, books or personal dates are inferred. About uses the preserved old portrait (portrait.jpg); the newer hero portrait remains unchanged.
+The owner confirmed being born in Portugal and having lived in Zurich for 20 years; an interest in building and learning new things, with computers familiar through gaming; gym, running, paintball, gaming, reading, listening to music and playing guitar. No specific achievements, genres, books or personal dates are inferred. The owner later supplied the desk portrait and the five-topic identity-map brief, including wording about growing up between cultures and working style. About now uses bruno-at-desk.png, copied unchanged from the supplied photo; portrait.jpg is preserved and the hero portrait-new.jpg is unchanged. The updated EN/DE copy follows that brief.
+
+## Approved Stage 1 project content (20 October 2026)
+
+The owner supplied and approved bilingual copy for the PHP portal, SpinWheels, Rocketlaunch, Kork Tech and GLPI. This is the source for production use and maintainability/access-control outcomes; PHP 5-era to PHP 8 migration; page-level LDAP/AD authorization; reusable utilities, logging and error handling; SpinWheels individual AI and UI contributions; Rocketlaunch website/CMS, Xano APIs and leadership; Kork Tech service listings, requests and user acquisition; and GLPI Docker, HTTPS/TLS, LDAPS and SMTP integration. The PHP 5-era wording supersedes the earlier PHP 7 description above. No metrics or confidential configurations are inferred.
+
+Project IDs, ordering, public repository links, employment dates and company metadata remain unchanged. Professional detail paragraphs are now arrays to keep Rocketlaunch and Kork Tech distinct in the same card. Existing features and verified technical details remain alongside individual contributions; scanner, list and no-JavaScript fallback render the shared content.
+
+The earlier orange technical-term highlighting and its authoring markers have been removed from project interfaces. Project facts, URLs, IDs and ordering remain unchanged. List previews reference selected existing contribution bullets; expanding an individual project exposes the remaining shared content. The first-three/show-all list state is independent of individual project details and does not limit scanner projects.

@@ -37,10 +37,19 @@ export function AboutMap({ locale }: { locale: Locale }) {
           </svg>
           <figure className={styles.portrait} data-about-portrait>
             <div className={styles.photoFrame}>
+              {t.panels.map((panel) => (
+                <span
+                  key={panel.id}
+                  className={styles.portraitAnchor}
+                  data-profile-anchor={panel.id}
+                  aria-hidden="true"
+                />
+              ))}
               <Image
-                src="/images/portrait.jpg"
-                width={203}
-                height={203}
+                src="/images/bruno-at-desk.png"
+                width={831}
+                height={1039}
+                sizes="(max-width: 600px) 224px, 260px"
                 alt={t.portraitAlt}
                 className={styles.photo}
               />
@@ -53,6 +62,11 @@ export function AboutMap({ locale }: { locale: Locale }) {
               data-panel={panel.id}
               key={panel.id}
             >
+              <span
+                className={styles.nodeAnchor}
+                data-node-anchor
+                aria-hidden="true"
+              />
               <p className={styles.index} aria-hidden="true">
                 0{index + 1}
               </p>
@@ -106,6 +120,10 @@ function ThemeIcon({ theme }: { theme: string }) {
       ) : theme === "motivation" ? (
         <>
           <path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18" />
+        </>
+      ) : theme === "approach" ? (
+        <>
+          <path d="M4 4h6v6H4zm10 10h6v6h-6zM7 10v7h7M10 7h7v7" />
         </>
       ) : theme === "hobbies" ? (
         <>

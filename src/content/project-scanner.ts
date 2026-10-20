@@ -3,6 +3,23 @@ import { spinwheels } from "@/content/spinwheels";
 import { personalProjects } from "@/content/personal-projects";
 import { portfolioProject } from "@/content/portfolio-project";
 
+// Category identity is locale-independent; foil status remains separate.
+export const projectCategories = {
+  professional: { accent: "#7EDFE6" },
+  university: { accent: "#CBBBF0" },
+  personal: { accent: "#9ED6B1" },
+  infrastructure: { accent: "#E8C18A" },
+} as const;
+const projectKinds: Record<string, keyof typeof projectCategories> = {
+  php: "professional",
+  spinwheels: "university",
+  portfolio: "personal",
+  products: "professional",
+  itsm: "infrastructure",
+  "mission-life": "personal",
+  "mission-chess": "personal",
+};
+
 const repositories: Record<string, string> = {
   "mission-life": "https://github.com/Bruno-Pinto/Mission-Life",
   "mission-chess": "https://github.com/Bruno-Pinto/Mission-Chess",
@@ -22,7 +39,7 @@ export function getProjects(locale: Locale) {
     overviewTitle: t.contributionTitle,
     overview: p.contributions,
     contributions: [] as string[],
-    details: [p.detail],
+    details: p.detail,
   }));
   const racing = {
     id: "spinwheels",
@@ -33,7 +50,7 @@ export function getProjects(locale: Locale) {
     tags: ["Java 21", "JavaFX", "Gradle", "JUnit"],
     overviewTitle: spin.featuresTitle,
     overview: spin.features,
-    contributions: [] as string[],
+    contributions: spin.contributions,
     details: spin.detail,
   };
   return [
@@ -45,6 +62,8 @@ export function getProjects(locale: Locale) {
     ...personalProjects[locale],
   ].map((project, i) => ({
     ...project,
+    kind: projectKinds[project.id],
+    accent: projectCategories[projectKinds[project.id]].accent,
     repositoryUrl: repositories[project.id] ?? null,
     featured: ["php", "spinwheels", "portfolio"].includes(project.id),
     number: String(i + 1).padStart(2, "0"),
@@ -55,7 +74,7 @@ export const scannerText = {
   en: {
     label: "Project scanner",
     instruction:
-      "Choose a card below. It moves into the scanner; its details appear here.",
+      "Select a card from the deck below. Its details appear after the scan.",
     empty: "Place a project here",
     details: "Project details",
     select: "Scan project",
@@ -68,12 +87,13 @@ export const scannerText = {
     ready: "Scan complete",
     idle: "Ready for a project",
     deck: "Choose a project",
-    contribution: "My contribution",
+    chooseAnother: "Choose another project",
+    contribution: "My contributions",
   },
   de: {
     label: "Projekt-Scanner",
     instruction:
-      "Wähle unten eine Karte. Sie bewegt sich in den Scanner; die Details erscheinen hier.",
+      "Wähle unten eine Karte aus. Nach dem Scan erscheinen hier die Details.",
     empty: "Hier ein Projekt platzieren",
     details: "Projektdetails",
     select: "Projekt scannen",
@@ -85,6 +105,7 @@ export const scannerText = {
     ready: "Scan abgeschlossen",
     idle: "Bereit für ein Projekt",
     deck: "Projekt auswählen",
-    contribution: "Mein Beitrag",
+    chooseAnother: "Anderes Projekt auswählen",
+    contribution: "Meine Beiträge",
   },
 };

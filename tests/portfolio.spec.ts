@@ -1,4 +1,12 @@
-import { test, expect } from "@playwright/test";
+import { auditProjectContrast } from "./project-contrast";
+import { test, expect, type Page } from "@playwright/test";
+async function revealAllListProjects(page: Page) {
+  const button = page.getByRole("button", {
+    name: /^(Show all \d+ projects|Alle \d+ Projekte anzeigen)$/,
+  });
+  if (await button.isVisible()) await button.click();
+}
+
 test("language switch renders localized document and navigation", async ({
   page,
 }) => {
@@ -25,7 +33,7 @@ test("project detail is accessible and page fits viewport", async ({
   await page.goto("/");
   await page.locator(".project-deck button[data-project-id=php]").click();
   await expect(page.locator(".scanner-details")).toContainText(
-    "SQL database queries",
+    "LDAP and Active Directory",
   );
   expect(
     await page.evaluate(
@@ -190,8 +198,8 @@ test("cards move into scanner, switch and return with keyboard support", async (
       await expect(page.locator(".scanner-details h3")).toHaveText(
         i === 0
           ? route === "/"
-            ? "PHP intranet migration"
-            : "Migration eines PHP-Intranets"
+            ? "PHP intranet modernization"
+            : "Modernisierung eines PHP-Intranets"
           : i === 1
             ? "SpinWheels"
             : route === "/"
@@ -208,7 +216,9 @@ test("cards move into scanner, switch and return with keyboard support", async (
     }
     await page.locator(".docked-token").click();
     await expect(page.locator(".docked-token")).toHaveCount(0);
-    await expect(page.locator(".scanner-empty")).toBeVisible();
+    if ((page.viewportSize()?.width ?? 0) > 850)
+      await expect(page.locator(".scanner-empty")).toBeVisible();
+    else await expect(page.locator(".scanner-empty")).toBeHidden();
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
@@ -230,9 +240,7 @@ test("reduced motion shows project immediately without animation", async ({
       .locator(".docked-token")
       .evaluate((el) => el.getAnimations().length),
   ).toBe(0);
-  await expect(page.locator(".scanner-details")).toContainText(
-    "Movement strategies",
-  );
+  await expect(page.locator(".scanner-details")).toContainText("MoveStrategy");
 });
 
 test("red scan sweeps down and back before details are revealed", async ({
@@ -274,9 +282,7 @@ test("red scan sweeps down and back before details are revealed", async ({
     "aria-busy",
     "false",
   );
-  await expect(page.locator(".scanner-reveal")).toContainText(
-    "Movement strategies",
-  );
+  await expect(page.locator(".scanner-reveal")).toContainText("MoveStrategy");
 });
 
 test("enabling reduced motion during scanning reveals details immediately", async ({
@@ -292,9 +298,7 @@ test("enabling reduced motion during scanning reveals details immediately", asyn
   );
   await page.emulateMedia({ reducedMotion: "reduce" });
   await expect(page.locator(".scanner-status")).toHaveText("Scan complete");
-  await expect(page.locator(".scanner-reveal")).toContainText(
-    "Movement strategies",
-  );
+  await expect(page.locator(".scanner-reveal")).toContainText("MoveStrategy");
 });
 
 test("replacement animates the outgoing card and preserves card dimensions", async ({
@@ -307,12 +311,23 @@ test("replacement animates the outgoing card and preserves card dimensions", asy
   await expect(page.locator(".scanner-status")).toHaveText("Scan complete");
   const dock = await page.locator(".docked-token").boundingBox();
   expect(dock!.width).toBeCloseTo(before!.width, 0);
-  expect(dock!.height).toBeCloseTo(before!.height, 0);
+  if ((page.viewportSize()?.width ?? 0) > 850)
+    expect(dock!.height).toBeCloseTo(before!.height, 0);
+  else
+    await expect
+      .poll(
+        async () => (await page.locator(".docked-token").boundingBox())!.height,
+      )
+      .toBeLessThan(170);
   await page
     .locator(".project-deck button[data-project-id=mission-life]")
     .click();
+  const returning = page.locator(
+    '.tray-flight-layer button[data-project-id="php"]',
+  );
+  await expect(returning).toBeVisible();
   expect(
-    await first.evaluate((el) =>
+    await returning.evaluate((el) =>
       el.getAnimations().some((animation) => animation.playState === "running"),
     ),
   ).toBe(true);
@@ -330,7 +345,7 @@ test("Mission projects have localized details and matching card appearance", asy
     await expect(deck).toHaveCount(7);
     expect(
       (await page.locator(".scanner-layout").boundingBox())!.height,
-    ).toBeGreaterThanOrEqual(560);
+    ).toBeLessThan(400);
     for (const index of [5, 6]) {
       const face = await deck.nth(index).evaluate((el) => ({
         width: el.clientWidth,
@@ -346,7 +361,12 @@ test("Mission projects have localized details and matching card appearance", asy
         height: el.clientHeight,
         titleSize: getComputedStyle(el.querySelector(".token-title")!).fontSize,
       }));
-      expect(scanned).toEqual(face);
+      if ((page.viewportSize()?.width ?? 0) > 850)
+        expect(scanned).toEqual(face);
+      else {
+        expect(scanned.width).toBe(face.width);
+        expect(scanned.height).toBeLessThan(170);
+      }
       await expect(page.locator(".scanner-reveal")).toContainText(
         index === 5 ? "JavaFX" : "Swing",
       );
@@ -387,7 +407,9 @@ test("featured development projects lead and PHP and ITSM have separate details"
     );
     await page.locator(".project-deck button[data-project-id=itsm]").click();
     await expect(page.locator(".scanner-reveal h3")).toHaveText(
-      route === "/" ? "Central ticketing system" : "Zentrales Ticketsystem",
+      route === "/"
+        ? "GLPI IT service management"
+        : "GLPI IT-Service-Management",
     );
     await expect(page.locator(".docked-token .token-tags")).not.toContainText(
       "PHP",
@@ -406,10 +428,9 @@ test("approved CVs download as PDFs and binary search is removed", async ({
 }) => {
   for (const locale of ["en", "de"]) {
     await page.goto(locale === "en" ? "/" : "/de/");
-    await expect(page.locator(".hero-links a[download]")).toHaveAttribute(
-      "href",
-      "/cv/bruno-pinto-cv-" + locale + ".pdf",
-    );
+    await expect(
+      page.locator('.hero-cv a[hreflang="' + locale + '"]'),
+    ).toHaveAttribute("href", "/cv/bruno-pinto-cv-" + locale + ".pdf");
     for (const language of ["en", "de"]) {
       const href = "/cv/bruno-pinto-cv-" + language + ".pdf";
       const response = await request.get(href);
@@ -480,7 +501,7 @@ test("narrow screens keep scanner details in the page flow and cards within the 
         content: el.scrollHeight,
         overflow: getComputedStyle(el).overflowY,
         fontSize: parseFloat(
-          getComputedStyle(el.querySelector("p.muted")!).fontSize,
+          getComputedStyle(el.querySelector("p.project-description")!).fontSize,
         ),
       }));
       expect(metrics.overflow).toBe("visible");
@@ -494,6 +515,7 @@ test("narrow screens keep scanner details in the page flow and cards within the 
       for (const card of await page
         .locator(".project-deck button,.docked-token")
         .all()) {
+        await card.scrollIntoViewIfNeeded();
         const box = await card.boundingBox();
         expect(box!.x).toBeGreaterThanOrEqual(0);
         expect(box!.x + box!.width).toBeLessThanOrEqual(width);
@@ -502,7 +524,7 @@ test("narrow screens keep scanner details in the page flow and cards within the 
   }
 });
 
-test("mobile scanner scrolls to revealed details after scanning", async ({
+test("mobile scanner settles compact header above readable details after scanning", async ({
   page,
   isMobile,
 }) => {
@@ -525,7 +547,9 @@ test("mobile scanner scrolls to revealed details after scanning", async ({
       }
       await expect(details).toHaveAttribute("aria-busy", "false");
       await expect
-        .poll(async () => Math.round((await details.boundingBox())!.y))
+        .poll(async () =>
+          Math.round((await page.locator(".scanner-pad").boundingBox())!.y),
+        )
         .toBe(
           await page.evaluate(() =>
             parseFloat(
@@ -544,7 +568,9 @@ test("mobile scanner scrolls to revealed details after scanning", async ({
         "data-phase",
         "idle",
       );
-      expect((await details.boundingBox())!.y).toBeGreaterThan(300);
+      await expect(
+        page.locator(".project-deck button[data-project-id=php]"),
+      ).toBeFocused();
     }
   }
 });
@@ -609,6 +635,7 @@ test("list view exposes project evidence and timeline links without scanning", a
     await page.keyboard.press("Enter");
     await expect(listButton).toHaveAttribute("aria-pressed", "true");
     await expect(page.locator(".scanner-frame")).toBeHidden();
+    await revealAllListProjects(page);
     await expect(page.locator(".project-list-item")).toHaveCount(7);
     expect(
       await page
@@ -621,7 +648,7 @@ test("list view exposes project evidence and timeline links without scanning", a
     ).toEqual(["php", "spinwheels", "portfolio"]);
     const php = page.locator('[data-list-project="php"]');
     await expect(php).toContainText(
-      english ? "PHP 7 to PHP 8" : "PHP 7 auf PHP 8",
+      english ? "PHP 5-era code to PHP 8" : "PHP-5-Code auf PHP 8",
     );
     await expect(php).toContainText(
       english
@@ -823,13 +850,13 @@ test("skills and personal about are separate, localized and use local logos", as
     );
     await expect(page.locator("#about img")).toHaveAttribute(
       "src",
-      "/images/portrait.jpg",
+      "/images/bruno-at-desk.png",
     );
     await expect(page.locator(".hero img")).toHaveAttribute(
       "src",
       "/images/portrait-new.jpg",
     );
-    await expect(page.locator("#about .about-panel")).toHaveCount(4);
+    await expect(page.locator("#about .about-panel")).toHaveCount(5);
     expect(
       await page
         .locator("#skills, #about")
@@ -898,13 +925,13 @@ test("personal map respects reduced motion and small-screen layout", async ({
         .locator(".about-panel")
         .first()
         .evaluate((e) => getComputedStyle(e).animationName),
-    ).not.toBe("none");
+    ).toBe("none");
+    const photoFrame = page.locator("[data-about-portrait] img").locator("..");
     expect(
-      await page
-        .locator(".about-panel")
-        .first()
-        .evaluate((e) => getComputedStyle(e).animationPlayState),
-    ).toBe("running");
+      await photoFrame.evaluate(
+        (e) => getComputedStyle(e, "::after").animationIterationCount,
+      ),
+    ).toBe("1");
   }
 });
 
@@ -924,35 +951,91 @@ test("footer top link returns to the document start", async ({ page }) => {
   }
 });
 
-test("about connectors track portrait and background moves with scroll", async ({
+test("identity map connectors meet photo and topic anchors after resize", async ({
   page,
 }) => {
-  await page.setViewportSize({ width: 1440, height: 1000 });
-  await page.emulateMedia({ reducedMotion: "no-preference" });
-  await page.goto("/#about");
-  const map = page.locator(".about-map");
-  await map.scrollIntoViewIfNeeded();
-  await expect(page.locator("[data-connect-to]")).toHaveCount(4);
-  for (const path of await page.locator("[data-connect-to]").all()) {
-    await expect(path).toHaveAttribute("d", /^M.+H.+L.+H/);
-  }
-  const offset = () =>
-    map.evaluate(
-      (e) =>
-        new DOMMatrixReadOnly(getComputedStyle(e, "::before").transform).m42,
-    );
-  await expect
-    .poll(() =>
-      map.evaluate((e) => e.style.getPropertyValue("--about-parallax")),
-    )
-    .not.toBe("");
-  const before = await offset();
-  await page.evaluate(() => window.scrollBy({ top: 180, behavior: "instant" }));
-  await expect
-    .poll(async () => Math.abs((await offset()) - before))
-    .toBeGreaterThan(35);
   await page.emulateMedia({ reducedMotion: "reduce" });
-  await expect.poll(offset).toBe(0);
+  for (const route of ["/", "/de/"]) {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(route + "#about");
+    await expect(page.locator("[data-connect-to]")).toHaveCount(5);
+    for (const width of [1440, 1200]) {
+      await page.setViewportSize({ width, height: 1000 });
+      await expect
+        .poll(async () =>
+          page.locator(".about-connections").evaluate((svg) => {
+            const bounds = svg.getBoundingClientRect();
+            return Array.from(
+              svg.querySelectorAll<SVGPathElement>("path"),
+            ).every((path) => {
+              if (!path.getAttribute("d")) return false;
+              const id = path.dataset.connectTo;
+              const start = document
+                .querySelector('[data-profile-anchor="' + id + '"]')!
+                .getBoundingClientRect();
+              const end = document
+                .querySelector('[data-panel="' + id + '"] [data-node-anchor]')!
+                .getBoundingClientRect();
+              const first = path.getPointAtLength(0),
+                last = path.getPointAtLength(path.getTotalLength());
+              return (
+                Math.abs(first.x + bounds.left - start.left - start.width / 2) <
+                  1 &&
+                Math.abs(first.y + bounds.top - start.top - start.height / 2) <
+                  1 &&
+                Math.abs(last.x + bounds.left - end.left - end.width / 2) < 1 &&
+                Math.abs(last.y + bounds.top - end.top - end.height / 2) < 1
+              );
+            });
+          }),
+        )
+        .toBe(true);
+    }
+    expect(
+      await page.locator(".about-connections").evaluate((svg) => {
+        const bounds = svg.getBoundingClientRect();
+        const text = Array.from(
+          document.querySelectorAll(
+            "#about .about-panel p, #about .about-panel h3, #about figcaption",
+          ),
+        ).flatMap((node) => {
+          const range = document.createRange();
+          range.selectNodeContents(node);
+          return Array.from(range.getClientRects());
+        });
+        return Array.from(svg.querySelectorAll<SVGPathElement>("path")).every(
+          (path) => {
+            for (let length = 0; length <= path.getTotalLength(); length += 3) {
+              const point = path.getPointAtLength(length),
+                x = point.x + bounds.left,
+                y = point.y + bounds.top;
+              if (
+                text.some(
+                  (box) =>
+                    x > box.left &&
+                    x < box.right &&
+                    y > box.top &&
+                    y < box.bottom,
+                )
+              )
+                return false;
+            }
+            return true;
+          },
+        );
+      }),
+    ).toBe(true);
+    const panel = page.locator('[data-panel="background"]');
+    const path = page.locator('[data-connect-to="background"]');
+    const rest = await path.evaluate((node) => getComputedStyle(node).stroke);
+    await panel.hover();
+    expect(
+      await path.evaluate((node) => getComputedStyle(node).stroke),
+    ).not.toBe(rest);
+    await expect(page.locator("#about .about-panel[tabindex]")).toHaveCount(0);
+    await page.setViewportSize({ width: 768, height: 1000 });
+    await expect(page.locator(".about-connections")).toBeHidden();
+  }
 });
 
 test("section hierarchy and full-height hero stay consistent across languages", async ({
@@ -994,5 +1077,993 @@ test("section hierarchy and full-height hero stay consistent across languages", 
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true);
+  }
+});
+
+test("approved contributions are equivalent in scanner and list views", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/de/"]) {
+    const english = route === "/";
+    await page.goto(route);
+    const snapshots: { id: string; text: string[] }[] = [];
+    const cases = [
+      {
+        id: "php",
+        terms: [
+          "PHP 8",
+          "LDAP",
+          "GitLab",
+          english ? "public files" : "Öffentliche Dateien",
+          english ? "production" : "produktiv",
+        ],
+      },
+      {
+        id: "spinwheels",
+        terms: [
+          english ? "breadth-first search" : "Breitensuche",
+          "FXML",
+          "MoveStrategy",
+          english ? "controlled mistakes" : "gezielte Fehler",
+        ],
+      },
+      {
+        id: "products",
+        terms: [
+          "Rocketlaunch",
+          "Kork Tech",
+          "Xano",
+          english ? "content management" : "Content-Management",
+          english ? "user acquisition" : "Nutzergewinnung",
+        ],
+      },
+      {
+        id: "itsm",
+        terms: [
+          "GLPI",
+          "Docker",
+          "HTTPS",
+          "TLS",
+          "LDAPS",
+          "SMTP",
+          english ? "ticketing workflows" : "Ticket-Workflows",
+        ],
+      },
+    ];
+    for (const project of cases) {
+      await page
+        .locator('.project-deck button[data-project-id="' + project.id + '"]')
+        .click();
+      const scanner = page.locator(".scanner-reveal");
+      await expect(scanner).toBeVisible();
+      for (const term of project.terms)
+        await expect(scanner).toContainText(new RegExp(term, "i"));
+      if (project.id === "spinwheels") {
+        await expect(
+          scanner.getByRole("heading", {
+            name: english ? "Application features" : "Funktionen der Anwendung",
+            exact: true,
+          }),
+        ).toBeVisible();
+      }
+      await expect(
+        scanner.getByRole("heading", {
+          name: english ? "My contributions" : "Meine Beiträge",
+          exact: true,
+        }),
+      ).toBeVisible();
+      snapshots.push({
+        id: project.id,
+        text: await scanner.locator("p, li").allTextContents(),
+      });
+    }
+    await page
+      .getByRole("button", {
+        name: english ? "List view" : "Listenansicht",
+        exact: true,
+      })
+      .click();
+    await revealAllListProjects(page);
+    for (const snapshot of snapshots) {
+      const item = page.locator('[data-list-project="' + snapshot.id + '"]');
+      await item.locator("summary").click();
+      for (const paragraph of snapshot.text)
+        await expect(item).toContainText(paragraph);
+      await expect(
+        item.getByRole("heading", {
+          name: english ? "Key contributions" : "Meine Beiträge",
+          exact: true,
+        }),
+      ).toBeVisible();
+    }
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
+});
+
+test("calm list cards disclose all projects accessibly without keyword highlighting", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/de/"]) {
+    const english = route === "/";
+    await page.goto(route);
+    await page
+      .getByRole("button", {
+        name: english ? "List view" : "Listenansicht",
+        exact: true,
+      })
+      .click();
+    await revealAllListProjects(page);
+    const cards = page.locator(".project-list-item");
+    await expect(cards).toHaveCount(7);
+    for (const card of await cards.all()) {
+      const trigger = card.locator("summary");
+      await expect(trigger).toHaveAttribute("aria-expanded", "false");
+      await expect(card.locator(".project-expanded")).toBeHidden();
+      const highlights = card.locator(".project-key-contributions li");
+      expect(await highlights.count()).toBeGreaterThanOrEqual(2);
+      expect(await highlights.count()).toBeLessThanOrEqual(2);
+      for (const highlight of await highlights.all())
+        await expect(highlight).toBeVisible();
+      const target = await trigger.getAttribute("aria-controls");
+      expect(target).toBeTruthy();
+      await trigger.focus();
+      await trigger.press("Enter");
+      await expect(trigger).toHaveAttribute("aria-expanded", "true");
+      await expect(card.locator('[id="' + target + '"]')).toBeVisible();
+      expect(
+        await trigger.evaluate((e) => getComputedStyle(e).outlineStyle),
+      ).not.toBe("none");
+      await trigger.press("Space");
+      await expect(trigger).toHaveAttribute("aria-expanded", "false");
+      await expect(card.locator(".project-expanded")).toBeHidden();
+    }
+    await expect(page.locator("#work .technical-term")).toHaveCount(0);
+    await expect(page.locator("#work")).not.toContainText("[[");
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
+});
+
+test("list show-all is independent of project disclosures and restores focus on collapse", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const order = [
+    "php",
+    "spinwheels",
+    "portfolio",
+    "products",
+    "itsm",
+    "mission-life",
+    "mission-chess",
+  ];
+  for (const route of ["/", "/de/"]) {
+    const english = route === "/";
+    await page.goto(route);
+    await expect(page.locator(".project-deck button")).toHaveCount(7);
+    await page
+      .getByRole("button", {
+        name: english ? "List view" : "Listenansicht",
+        exact: true,
+      })
+      .click();
+    const control = page.locator(".project-list-toggle button");
+    await expect(control).toHaveText(
+      english ? "Show all 7 projects" : "Alle 7 Projekte anzeigen",
+    );
+    await expect(control).toHaveAttribute("aria-expanded", "false");
+    expect(
+      await page
+        .locator(".project-list-item:visible")
+        .evaluateAll((items) =>
+          items.map((item) => (item as HTMLElement).dataset.listProject),
+        ),
+    ).toEqual(order.slice(0, 3));
+    const first = page.locator('[data-list-project="php"] details');
+    await first.locator("summary").click();
+    await control.focus();
+    await control.press("Enter");
+    await expect(control).toHaveAttribute("aria-expanded", "true");
+    expect(
+      await page
+        .locator(".project-list-item:visible")
+        .evaluateAll((items) =>
+          items.map((item) => (item as HTMLElement).dataset.listProject),
+        ),
+    ).toEqual(order);
+    const last = page.locator('[data-list-project="mission-chess"] details');
+    await last.locator("summary").click();
+    await last.locator("summary").focus();
+    // Programmatic activation deliberately keeps focus inside the part being hidden.
+    await control.evaluate((button: HTMLButtonElement) => button.click());
+    await expect(control).toBeFocused();
+    await expect(control).toBeInViewport();
+    await expect(page.locator(".project-list-item:visible")).toHaveCount(3);
+    await expect(first).toHaveAttribute("open", "");
+    for (let iteration = 0; iteration < 2; iteration++) {
+      await control.press("Space");
+      await expect(page.locator(".project-list-item:visible")).toHaveCount(7);
+      await expect(last).toHaveAttribute("open", "");
+      await control.scrollIntoViewIfNeeded();
+      const before = await control.evaluate(
+        (element) => element.getBoundingClientRect().top,
+      );
+      await control.click();
+      await expect(page.locator(".project-list-item:visible")).toHaveCount(3);
+      await expect(control).toBeInViewport();
+      await expect
+        .poll(() =>
+          control
+            .evaluate((element) => element.getBoundingClientRect().top)
+            .then((top) => Math.abs(top - before)),
+        )
+        .toBeLessThan(12);
+    }
+    await page.locator(".job [data-project-target=itsm]").first().click();
+    await expect(control).toHaveAttribute("aria-expanded", "true");
+    await expect(page.locator('[data-list-project="itsm"]')).toBeFocused();
+    await expect(
+      page.locator('[data-list-project="itsm"] details'),
+    ).toHaveAttribute("open", "");
+    await page
+      .getByRole("button", {
+        name: english ? "Scanner view" : "Scanner-Ansicht",
+        exact: true,
+      })
+      .click();
+    await expect(page.locator(".project-deck button")).toHaveCount(7);
+    await page
+      .locator('.project-deck button[data-project-id="mission-chess"]')
+      .focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator(".scanner-reveal h3")).toHaveText(
+      "Mission-Chess",
+    );
+  }
+});
+
+test("scanner hand keeps seven upright cards with a swipe rail on small screens", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await expect(page.locator(".project-deck button")).toHaveCount(7);
+  const desktop = (page.viewportSize()?.width ?? 0) >= 1200;
+  const geometry = await page
+    .locator(".project-deck button")
+    .evaluateAll((cards) =>
+      cards.map((card) => {
+        const box = card.getBoundingClientRect();
+        return {
+          left: box.left,
+          right: box.right,
+          width: box.width,
+          height: box.height,
+        };
+      }),
+    );
+  if (desktop) {
+    for (let index = 1; index < geometry.length; index++)
+      expect(geometry[index].left).toBeLessThan(geometry[index - 1].right);
+    await page.locator(".project-deck button").first().focus();
+    expect(
+      await page
+        .locator(".project-slot")
+        .first()
+        .evaluate((element) => getComputedStyle(element).zIndex),
+    ).toBe("30");
+  } else {
+    expect(
+      await page
+        .locator(".project-deck")
+        .evaluate((element) => element.scrollWidth > element.clientWidth),
+    ).toBe(true);
+    const next = page.getByRole("button", {
+      name: "Next projects",
+      exact: true,
+    });
+    await next.click();
+    await expect
+      .poll(() =>
+        page.locator(".project-deck").evaluate((element) => element.scrollLeft),
+      )
+      .toBeGreaterThan(0);
+  }
+  await page.locator(".project-deck button").last().focus();
+  await page.keyboard.press("Enter");
+  await expect(page.locator(".scanner-reveal h3")).toHaveText("Mission-Chess");
+  await expect(page.locator("#work .technical-term")).toHaveCount(0);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});
+
+test("deck layers, fixed faces and featured foil survive repeated flights", async ({
+  page,
+}) => {
+  test.setTimeout(90000);
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    const cards = page.locator(".project-deck button");
+    const desktop = (page.viewportSize()?.width ?? 0) >= 1200;
+    await expect(cards).toHaveCount(7);
+    expect(
+      await cards.evaluateAll((nodes) =>
+        nodes
+          .filter((n) => n.dataset.featured === "true")
+          .map((n) => n.dataset.projectId),
+      ),
+    ).toEqual(["php", "spinwheels", "portfolio"]);
+    for (let i = 0; i < 7; i++) {
+      const card = cards.nth(i);
+      if (desktop) {
+        await page.locator(".project-view-controls button").first().focus();
+        await card.hover({ position: { x: 12, y: 20 } });
+        await expect
+          .poll(() =>
+            card.evaluate((n) => getComputedStyle(n.parentElement!).zIndex),
+          )
+          .toBe("30");
+        await page.mouse.move(0, 0);
+        await expect
+          .poll(() =>
+            card.evaluate((n) => getComputedStyle(n.parentElement!).zIndex),
+          )
+          .toBe(String(i + 1));
+      }
+      await card.focus();
+      await expect
+        .poll(() =>
+          card.evaluate((n) => getComputedStyle(n.parentElement!).zIndex),
+        )
+        .toBe(desktop ? "30" : String(i + 1));
+      expect(
+        await card.evaluate((n) =>
+          Array.from(n.children).every(
+            (child) =>
+              child.getBoundingClientRect().bottom <=
+              n.getBoundingClientRect().bottom,
+          ),
+        ),
+      ).toBe(true);
+    }
+    await page.locator(".project-view-controls button").first().focus();
+    expect(
+      await page
+        .locator(".project-slot")
+        .evaluateAll((nodes) => nodes.map((n) => getComputedStyle(n).zIndex)),
+    ).toEqual(["1", "2", "3", "4", "5", "6", "7"]);
+    await expect
+      .poll(() =>
+        cards.evaluateAll((nodes) =>
+          nodes.every((card) => getComputedStyle(card).scale === "none"),
+        ),
+      )
+      .toBe(true);
+    const boxes = await cards.evaluateAll((nodes) =>
+      nodes.map((n) => ({
+        width: n.getBoundingClientRect().width,
+        height: n.getBoundingClientRect().height,
+        top: n.getBoundingClientRect().top,
+      })),
+    );
+    for (const box of boxes) {
+      expect(box.width).toBeCloseTo(boxes[0].width);
+      expect(box.height).toBeCloseTo(boxes[0].height);
+      expect(box.top).toBeCloseTo(boxes[0].top);
+    }
+    // Switch directly, then return; repeat with a different resting position.
+    for (const index of [0, 4, 1]) {
+      await cards.nth(index).focus();
+      await page.keyboard.press("Enter");
+      await expect(page.locator(".scanner-feedback")).toHaveAttribute(
+        "data-phase",
+        "ready",
+      );
+    }
+    await page.locator(".docked-token").focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator(".tray-flight-layer")).toHaveCount(0);
+    await expect(page.locator("[data-tray-flight]")).toHaveCount(0);
+    await page.locator(".project-view-controls button").first().focus();
+    expect(
+      await page
+        .locator(".project-slot")
+        .evaluateAll((nodes) => nodes.map((n) => getComputedStyle(n).zIndex)),
+    ).toEqual(["1", "2", "3", "4", "5", "6", "7"]);
+    expect(
+      await cards.evaluateAll((nodes) =>
+        nodes.every(
+          (n) => !n.style.transform && !n.style.translate && !n.style.zIndex,
+        ),
+      ),
+    ).toBe(true);
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
+});
+
+test("connected deck has featured-only resting sheen and readable spacing", async ({
+  page,
+}) => {
+  for (const route of ["/", "/de/"]) {
+    await page.emulateMedia({ reducedMotion: "no-preference" });
+    await page.goto(route);
+    await expect(page.locator(".deck-heading")).toHaveCount(0);
+    const gap = await page
+      .locator(".project-deck")
+      .evaluate(
+        (deck) =>
+          deck.getBoundingClientRect().top -
+          document.querySelector(".scanner-frame")!.getBoundingClientRect()
+            .bottom,
+      );
+    expect(Math.abs(gap)).toBeLessThan(2);
+    const finishes = await page
+      .locator(".project-deck .project-token")
+      .evaluateAll((cards) =>
+        cards.map((card) => ({
+          featured: card.getAttribute("data-featured"),
+          animation: getComputedStyle(card, "::after").animationName,
+        })),
+      );
+    expect(
+      finishes.filter((card) => card.animation === "featured-card-sheen"),
+    ).toHaveLength(3);
+    expect(
+      finishes
+        .filter((card) => card.featured !== "true")
+        .every((card) => card.animation === "none"),
+    ).toBe(true);
+    if ((page.viewportSize()?.width ?? 0) >= 1200) {
+      const cards = page.locator(".project-deck button");
+      const first = await cards.first().boundingBox(),
+        second = await cards.nth(1).boundingBox();
+      expect(second!.x - first!.x).toBeGreaterThanOrEqual(190);
+      await cards.first().focus();
+      await expect
+        .poll(() =>
+          cards.nth(1).evaluate((card) => getComputedStyle(card).filter),
+        )
+        .toBe("brightness(0.78)");
+      expect(
+        await cards.first().evaluate((card) => getComputedStyle(card).filter),
+      ).toBe("none");
+    }
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    expect(
+      await page
+        .locator('.project-deck [data-featured="true"].project-token')
+        .first()
+        .evaluate((card) => getComputedStyle(card, "::after").animationName),
+    ).toBe("none");
+  }
+});
+
+test("desktop deck drags over cards without scanning and still accepts clicks", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(isMobile, "Native touch scrolling is preserved on mobile");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    const rail = page.locator(".project-deck");
+    await rail.scrollIntoViewIfNeeded();
+    const card = await rail.locator("button").nth(2).boundingBox();
+    const x = card!.x + 20,
+      y = card!.y + 60;
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    await page.mouse.move(x - 170, y, { steps: 12 });
+    await expect(rail).toHaveAttribute("data-dragging", "true");
+    await expect
+      .poll(() => rail.evaluate((el) => el.scrollLeft))
+      .toBeGreaterThan(100);
+    await page.mouse.up();
+    await expect(rail).not.toHaveAttribute("data-dragging");
+    await expect(page.locator(".scanner-feedback")).toHaveAttribute(
+      "data-phase",
+      "idle",
+    );
+    const before = await rail.evaluate((el) => el.scrollLeft);
+    const box = await rail.boundingBox();
+    await page.mouse.move(box!.x + 40, y);
+    await page.mouse.down();
+    await page.mouse.move(box!.x + 250, y, { steps: 12 });
+    await page.mouse.up();
+    await expect
+      .poll(() => rail.evaluate((el) => el.scrollLeft))
+      .toBeLessThan(before);
+    await expect(page.locator(".docked-token")).toHaveCount(0);
+    // Cancellation releases the grab without trapping subsequent interaction.
+    await rail.dispatchEvent("pointerdown", {
+      pointerType: "mouse",
+      pointerId: 99,
+      button: 0,
+      isPrimary: true,
+      clientX: 300,
+    });
+    await rail.dispatchEvent("pointercancel", { pointerId: 99 });
+    await expect(rail).not.toHaveAttribute("data-dragging");
+    await rail
+      .locator("button")
+      .first()
+      .click({ position: { x: 20, y: 60 } });
+    await expect(page.locator(".docked-token")).toHaveAttribute(
+      "data-project-id",
+      "php",
+    );
+    await page.locator(".docked-token").focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator(".docked-token")).toHaveCount(0);
+  }
+});
+
+test("project category identity and computed text contrast remain consistent", async ({
+  page,
+}, testInfo) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  const measurements: { state: string; minimum: number }[] = [];
+  async function audit(state: string) {
+    const results = await auditProjectContrast(page);
+    expect(results.length).toBeGreaterThan(10);
+    const failures = results.filter((result) => result.ratio < result.required);
+    expect(failures, state).toEqual([]);
+    measurements.push({
+      state,
+      minimum: Math.min(...results.map((result) => result.ratio)),
+    });
+  }
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    const kinds = [
+      "professional",
+      "university",
+      "personal",
+      "professional",
+      "infrastructure",
+      "personal",
+      "personal",
+    ];
+    expect(
+      await page
+        .locator(".project-deck button")
+        .evaluateAll((cards) =>
+          cards.map((card) => card.getAttribute("data-project-kind")),
+        ),
+    ).toEqual(kinds);
+    const categoryColors = await page
+      .locator(".project-deck .token-top > span:last-child")
+      .evaluateAll((labels) =>
+        labels.map((label) => getComputedStyle(label).color),
+      );
+    await audit(route + " resting deck");
+    for (let i = 0; i < 7; i++) {
+      const card = page.locator(".project-deck button").nth(i);
+      await card.focus();
+      await audit(route + " focused card " + i);
+      await page.keyboard.press("Enter");
+      await expect(page.locator(".scanner-reveal")).toBeVisible();
+      await expect(page.locator(".scanner-details")).toHaveAttribute(
+        "data-project-kind",
+        kinds[i],
+      );
+      await expect(page.locator(".docked-token")).toHaveAttribute(
+        "data-project-kind",
+        kinds[i],
+      );
+      await expect(page.locator(".scanner-reveal > .eyebrow")).toHaveCSS(
+        "color",
+        categoryColors[i],
+      );
+      await audit(route + " scanner " + i);
+    }
+    await page
+      .getByRole("button", {
+        name: route === "/" ? "List view" : "Listenansicht",
+        exact: true,
+      })
+      .click();
+    await revealAllListProjects(page);
+    expect(
+      await page
+        .locator(".project-list-item")
+        .evaluateAll((cards) =>
+          cards.map((card) => card.getAttribute("data-project-kind")),
+        ),
+    ).toEqual(kinds);
+    expect(
+      await page
+        .locator(".project-list-heading .eyebrow")
+        .evaluateAll((labels) =>
+          labels.map((label) => getComputedStyle(label).color),
+        ),
+    ).toEqual(categoryColors);
+    await audit(route + " collapsed list");
+    for (const summary of await page
+      .locator(".project-disclosure summary")
+      .all()) {
+      await summary.focus();
+      await summary.press("Enter");
+    }
+    await audit(route + " expanded list with focus");
+    const summary = page.locator(".project-disclosure summary").first();
+    await summary.hover();
+    await audit(route + " disclosure hover");
+    const link = page
+      .locator(".project-list-item .project-source-link")
+      .first();
+    await link.hover();
+    await audit(route + " source hover");
+    await link.focus();
+    await audit(route + " source focus");
+  }
+  console.log(
+    "Minimum measured project contrast (" +
+      testInfo.project.name +
+      "): " +
+      Math.min(...measurements.map((entry) => entry.minimum)).toFixed(2) +
+      ":1",
+  );
+  await testInfo.attach("computed-project-contrast", {
+    body: JSON.stringify(measurements, null, 2),
+    contentType: "application/json",
+  });
+});
+
+test("project footer action fills the card and supports row, touch and keyboard activation", async ({
+  page,
+  isMobile,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    const english = route === "/";
+    await page
+      .getByRole("button", {
+        name: english ? "List view" : "Listenansicht",
+        exact: true,
+      })
+      .click();
+    const card = page.locator(".project-list-item").first();
+    const trigger = card.locator("summary");
+    await trigger.scrollIntoViewIfNeeded();
+    const row = (await trigger.boundingBox())!;
+    const content = (await card.locator(".project-list-copy").boundingBox())!;
+    expect(row.width).toBeCloseTo(content.width, 0);
+    expect(row.height).toBeGreaterThanOrEqual(56);
+    await expect(trigger.locator(".disclosure-symbol")).toHaveText("+");
+    // Activate empty row space, away from both label and icon.
+    const position = { x: row.width * 0.7, y: row.height / 2 };
+    if (isMobile) await trigger.tap({ position });
+    else await trigger.click({ position });
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    await expect(trigger.locator("span").first()).toHaveText(
+      english ? "Close details" : "Details schliessen",
+    );
+    await expect(trigger.locator(".disclosure-symbol")).toHaveText("\u00d7");
+    await trigger.focus();
+    await trigger.press("Space");
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    await expect(trigger.locator(".disclosure-symbol")).toHaveText("+");
+    await expect(trigger).toHaveCSS("outline-width", "3px");
+    await page.mouse.move(0, 0);
+    const rest = await trigger.evaluate(
+      (node) => getComputedStyle(node).backgroundColor,
+    );
+    await trigger.hover();
+    const hover = await trigger.evaluate(
+      (node) => getComputedStyle(node).backgroundColor,
+    );
+    expect(hover).not.toBe(rest);
+    await page.mouse.down();
+    expect(
+      await trigger.evaluate((node) => getComputedStyle(node).backgroundColor),
+    ).not.toBe(hover);
+    await page.mouse.up();
+    await expect(trigger).toHaveAttribute("aria-expanded", "true");
+    await trigger.focus();
+    await trigger.press("Enter");
+    await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+  }
+});
+
+test("profile identity map is readable, uncropped and localized at all target widths", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const width of [1440, 768, 390, 320, 720]) {
+    await page.setViewportSize({ width, height: 1000 });
+    for (const route of ["/", "/de/"]) {
+      await page.goto(route + "#about");
+      const english = route === "/";
+      await expect(page.locator("#about-title")).toHaveText(
+        english ? "Beyond the code" : "Abseits des Codes",
+      );
+      await expect(page.locator("#about .about-panel")).toHaveCount(5);
+      await expect(page.locator("#about")).toContainText(
+        english ? "How I work" : "Wie ich arbeite",
+      );
+      for (const term of [
+        "ZHAW",
+        "2024",
+        "2028",
+        "ETH",
+        "Portugal",
+        english ? "guitar" : "Gitarre",
+      ])
+        await expect(page.locator("#about")).toContainText(term);
+      const image = page.locator("#about img");
+      await image.scrollIntoViewIfNeeded();
+      await expect
+        .poll(() =>
+          image.evaluate(
+            (node) =>
+              (node as HTMLImageElement).complete &&
+              (node as HTMLImageElement).naturalWidth > 0,
+          ),
+        )
+        .toBe(true);
+      const geometry = await image.evaluate((node) => ({
+        width: node.clientWidth,
+        height: node.clientHeight,
+        fit: getComputedStyle(node).objectFit,
+        alt: node.getAttribute("alt"),
+      }));
+      expect(geometry.fit).toBe("contain");
+      expect(geometry.width / geometry.height).toBeCloseTo(831 / 1039, 2);
+      expect(geometry.alt).toContain("Bruno Pinto da Silva");
+      await expect(
+        page.locator("#about a, #about button, #about [tabindex]"),
+      ).toHaveCount(0);
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+      const contrast = await auditProjectContrast(page, "#about");
+      expect(
+        contrast.filter((result) => result.ratio < result.required),
+      ).toEqual([]);
+      if (width <= 1050) {
+        await expect(page.locator(".about-connections")).toBeHidden();
+        const first = (await page
+          .locator(".about-panel")
+          .first()
+          .boundingBox())!;
+        const photo = (await image.boundingBox())!;
+        expect(first.y).toBeGreaterThan(photo.y + photo.height);
+      }
+    }
+  }
+});
+
+test("profile remains usable with doubled text and without JavaScript", async ({
+  page,
+  browser,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await page.goto("/de/#about");
+  await page.addStyleTag({ content: ":root { font-size: 200%; }" });
+  await expect(page.locator(".about-panel")).toHaveCount(5);
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  const context = await browser.newContext({
+    javaScriptEnabled: false,
+    viewport: { width: 390, height: 844 },
+  });
+  try {
+    const plain = await context.newPage();
+    await plain.goto("/#about");
+    for (const topic of await plain.locator(".about-panel").all()) {
+      await expect(topic).toBeVisible();
+      expect(
+        await topic.evaluate((node) => getComputedStyle(node).opacity),
+      ).toBe("1");
+    }
+    await expect(plain.locator("#about img")).toHaveAttribute(
+      "src",
+      "/images/bruno-at-desk.png",
+    );
+  } finally {
+    await context.close();
+  }
+});
+
+test("scanner discovery, picker and completed layout work across target viewports", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const viewport of [
+    { width: 1440, height: 900 },
+    { width: 1366, height: 768 },
+    { width: 768, height: 900 },
+    { width: 390, height: 844 },
+    { width: 320, height: 844 },
+  ]) {
+    await page.setViewportSize(viewport);
+    for (const route of ["/", "/de/"]) {
+      await page.goto(route + "#work");
+      const picker = page.locator(".scanner-project-picker"),
+        summary = picker.locator("summary");
+      if (viewport.width > 850) {
+        await expect(picker).toBeHidden();
+        expect(
+          (await page.locator(".project-deck").boundingBox())!.y,
+        ).toBeLessThan(viewport.height);
+        await page.locator(".project-deck button").first().click();
+        await expect(page.locator(".scanner-feedback")).toHaveAttribute(
+          "data-phase",
+          "ready",
+        );
+        await expect(picker).toBeHidden();
+        continue;
+      }
+      await expect(summary).toBeInViewport();
+      expect(
+        (await page.locator(".scanner-layout").boundingBox())!.height,
+      ).toBeLessThan(400);
+      if (viewport.width > 850)
+        expect(
+          (await page.locator(".project-deck").boundingBox())!.y,
+        ).toBeLessThan(viewport.height);
+      await summary.focus();
+      await page.keyboard.press("Enter");
+      await expect(picker).toHaveAttribute("open", "");
+      await expect(picker.getByRole("button")).toHaveCount(7);
+      expect(
+        (await auditProjectContrast(page)).filter(
+          (result) => result.ratio < result.required,
+        ),
+      ).toEqual([]);
+      await page.keyboard.press("Escape");
+      await expect(picker).not.toHaveAttribute("open");
+      await expect(summary).toBeFocused();
+      await summary.click();
+      await picker.getByRole("button").first().click();
+      await expect(picker).not.toHaveAttribute("open");
+      await expect(page.locator(".scanner-feedback")).toHaveAttribute(
+        "data-phase",
+        "ready",
+      );
+      const details = page.locator(".scanner-details");
+      const size = await details.evaluate((node) => ({
+        height: node.clientHeight,
+        content: node.scrollHeight,
+        overflow: getComputedStyle(node).overflowY,
+      }));
+      expect(size.overflow).toBe("visible");
+      expect(size.content).toBeLessThanOrEqual(size.height + 1);
+      const dock = page.locator(".docked-token");
+      expect((await dock.boundingBox())!.height).toBe(
+        viewport.width <= 850 ? 148 : 420,
+      );
+      await expect(dock).toBeFocused();
+      await expect(summary).toHaveText(
+        route === "/"
+          ? "Choose another project+"
+          : "Anderes Projekt ausw\u00e4hlen+",
+      );
+      await summary.click();
+      await picker.getByRole("button").last().click();
+      await expect(page.locator(".scanner-reveal h3")).toHaveText(
+        "Mission-Chess",
+      );
+      await dock.focus();
+      await page.keyboard.press("Enter");
+      await expect(
+        page.locator('.project-deck button[data-project-id="mission-chess"]'),
+      ).toBeFocused();
+      expect(
+        await page.evaluate(
+          () => document.documentElement.scrollWidth <= innerWidth,
+        ),
+      ).toBe(true);
+    }
+  }
+});
+
+test("compact dock follows the full scan and survives selection, resize and view changes", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/#work");
+  const picker = page.locator(".scanner-project-picker");
+  await picker.locator("summary").click();
+  await picker.getByRole("button").first().click();
+  await expect(page.locator(".scanner-pad")).toHaveAttribute(
+    "data-phase",
+    "scanning",
+  );
+  expect((await page.locator(".docked-token").boundingBox())!.height).toBe(420);
+  await expect(page.locator(".scanner-beam")).toBeVisible();
+  await expect
+    .poll(
+      async () => (await page.locator(".docked-token").boundingBox())!.height,
+    )
+    .toBe(148);
+  await picker.locator("summary").click();
+  await picker.getByRole("button").nth(1).click();
+  await expect(page.locator(".tray-flight-layer")).toHaveCount(1);
+  await expect(page.locator(".scanner-pad")).toHaveAttribute(
+    "data-phase",
+    "scanning",
+  );
+  expect((await page.locator(".docked-token").boundingBox())!.height).toBe(420);
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(page.locator(".scanner-pad")).toHaveAttribute(
+    "data-phase",
+    "ready",
+  );
+  expect((await page.locator(".docked-token").boundingBox())!.height).toBe(420);
+  await page.setViewportSize({ width: 320, height: 844 });
+  await expect
+    .poll(
+      async () => (await page.locator(".docked-token").boundingBox())!.height,
+    )
+    .toBe(148);
+  await picker.locator("summary").click();
+  await picker.getByRole("button").nth(2).click();
+  await page.getByRole("button", { name: "List view", exact: true }).click();
+  await expect(page.locator("#project-list-view")).toBeVisible();
+  await page.getByRole("button", { name: "Scanner view", exact: true }).click();
+  await expect(page.locator(".scanner-pad")).toHaveAttribute(
+    "data-phase",
+    "ready",
+  );
+  await expect(
+    page.locator(".tray-flight-layer, [data-tray-flight]"),
+  ).toHaveCount(0);
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.locator(".docked-token").click();
+  await expect(
+    page.locator('.project-deck button[data-project-id="portfolio"]'),
+  ).toBeFocused();
+});
+
+test("resting deck exposes complete titles inside each card's visible area", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  for (const route of ["/", "/de/"]) {
+    await page.goto(route);
+    const bounds = await page.locator(".project-slot").evaluateAll((slots) =>
+      slots.map((slot) => ({
+        visible: slot.getBoundingClientRect().right,
+        title: slot.querySelector(".token-title")!.getBoundingClientRect()
+          .right,
+        number: slot.querySelector(".token-top > span")!.getBoundingClientRect()
+          .right,
+      })),
+    );
+    for (const box of bounds) {
+      expect(box.title).toBeLessThanOrEqual(box.visible);
+      expect(box.number).toBeLessThanOrEqual(box.visible);
+    }
   }
 });

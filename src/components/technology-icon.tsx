@@ -33,8 +33,8 @@ export function TechnologyIcon({ name }: { name: string }) {
         data-wordmark={logo.wordmark || undefined}
         src={"/images/technologies/" + logo.file + ".svg"}
         alt=""
-        width={28}
-        height={28}
+        width={logo.file === "nginx" ? 128 : logo.file === "xano" ? 81 : 28}
+        height={logo.file === "nginx" ? 34 : logo.file === "xano" ? 19 : 28}
       />
     );
   return (

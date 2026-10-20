@@ -1,225 +1,314 @@
 .section {
   border-top: 1px solid #2a353c;
-  overflow: clip;
 }
 .intro {
-  max-width: 58ch;
-  margin: 20px 0 36px;
-  color: #b8c5cc;
+  overflow-wrap: anywhere;
+  max-width: 66ch;
+  margin: 20px 0 32px;
+  color: #bdcbd2;
 }
 .map {
   position: relative;
+  isolation: isolate;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 220px minmax(0, 1fr);
-  gap: 72px 50px;
-  padding-block: 60px;
+  grid-template-columns: minmax(0, 1fr) 260px minmax(0, 1fr);
+  grid-template-rows: minmax(160px, auto) minmax(160px, auto) auto;
+  gap: 30px 60px;
+  padding: 32px;
   align-items: center;
+  border: 1px solid #2e4650;
+  background: #0c151b;
 }
 .map::before {
   content: "";
   position: absolute;
-  z-index: 0;
-  left: calc(50% - 50vw);
-  width: 100vw;
-  top: -160px;
-  bottom: -160px;
+  inset: 0;
+  z-index: -1;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse at 30% 32%, #194b794d, transparent 50%),
-    radial-gradient(ellipse at 78% 65%, #4535783d, transparent 48%),
-    repeating-linear-gradient(
-      125deg,
-      transparent 0 110px,
-      #6fa6d11f 111px,
-      transparent 112px 220px
-    ),
-    transparent;
-  mask-image: linear-gradient(
-    to bottom,
-    transparent,
-    black 20%,
-    black 80%,
-    transparent
-  );
-  transform: translateY(var(--about-parallax, 0px));
+  background-image:
+    linear-gradient(#a8d5e706 1px, transparent 1px),
+    linear-gradient(90deg, #a8d5e706 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 .connections {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  color: #70a9df;
-  opacity: 0.75;
+  color: #588590;
   pointer-events: none;
+}
+.connections path {
+  transition: stroke 240ms ease;
+}
+.map:has([data-panel="background"]:hover) [data-connect-to="background"],
+.map:has([data-panel="motivation"]:hover) [data-connect-to="motivation"],
+.map:has([data-panel="approach"]:hover) [data-connect-to="approach"],
+.map:has([data-panel="hobbies"]:hover) [data-connect-to="hobbies"],
+.map:has([data-panel="music"]:hover) [data-connect-to="music"] {
+  stroke: #9ae3e8;
 }
 .portrait {
   grid-column: 2;
   grid-row: 1 / span 2;
   position: relative;
-  z-index: 1;
   margin: 0;
-  justify-self: center;
+  align-self: center;
+  width: 260px;
 }
 .photoFrame {
   position: relative;
   background: #090d10;
-  padding: 0;
-  border: 1px solid #54738d;
+  border: 1px solid #70959d;
+}
+.photoFrame::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: #9ce7ee66;
+  opacity: 0;
+  pointer-events: none;
 }
 .photo {
-  width: 180px;
-  height: 180px;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 831 / 1039;
   display: block;
-  object-fit: cover;
+  object-fit: contain;
 }
-
 .portrait figcaption {
-  margin-top: 14px;
-  text-align: center;
-  color: #b5c4cc;
-  font: 0.7rem/1.5 var(--font-mono);
+  padding: 12px 0 0;
+  color: #d0e0e5;
+  font: 0.75rem/1.5 var(--font-mono);
+}
+.portraitAnchor,
+.nodeAnchor {
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  border: 1px solid #81bcc7;
+  background: #0c151b;
+  pointer-events: none;
+}
+.portraitAnchor[data-profile-anchor="background"] {
+  left: -4px;
+  top: 24%;
+}
+.portraitAnchor[data-profile-anchor="hobbies"] {
+  left: -4px;
+  top: 76%;
+}
+.portraitAnchor[data-profile-anchor="motivation"] {
+  right: -4px;
+  top: 20%;
+}
+.portraitAnchor[data-profile-anchor="approach"] {
+  right: -4px;
+  top: 72%;
+}
+.portraitAnchor[data-profile-anchor="music"] {
+  bottom: -4px;
+  left: 68%;
 }
 .panel {
   position: relative;
-  z-index: 1;
-  padding: 12px 0;
-  background: none;
-  border: 0;
-  max-width: 34ch;
-  animation: about-float 8s ease-in-out infinite alternate;
-  animation-play-state: paused;
-}
-.map[data-active="true"] .panel {
-  animation-play-state: running;
-}
-.panel:hover,
-.panel:focus-within {
-  animation-play-state: paused !important;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  max-width: 36ch;
+  padding: 6px 0;
 }
 .panel[data-panel="background"] {
   grid-column: 1;
   grid-row: 1;
+  align-self: center;
 }
 .panel[data-panel="motivation"] {
   grid-column: 3;
   grid-row: 1;
-  animation-delay: -3s;
-  margin-top: 24px;
+  align-self: start;
+  padding-top: 16px;
+}
+.panel[data-panel="approach"] {
+  grid-column: 3;
+  grid-row: 2;
+  align-self: start;
 }
 .panel[data-panel="hobbies"] {
   grid-column: 1;
   grid-row: 2;
-  animation-delay: -5s;
-  margin-left: 24px;
+  margin-left: 16px;
 }
 .panel[data-panel="music"] {
-  grid-column: 3;
-  grid-row: 2;
-  animation-delay: -1s;
-  margin-top: -8px;
+  grid-column: 2 / -1;
+  grid-row: 3;
+  margin-left: 70px;
+  max-width: 48ch;
+}
+.nodeAnchor {
+  top: 45px;
+  left: -18px;
+}
+.panel[data-panel="background"] .nodeAnchor,
+.panel[data-panel="hobbies"] .nodeAnchor {
+  left: auto;
+  right: -18px;
+}
+.panel:hover .nodeAnchor {
+  background: #9ae3e8;
 }
 .index {
-  margin: 0 0 10px;
-  color: #6eaae0;
-  font: 0.7rem/1.5 var(--font-mono);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 0 9px;
+  color: #92bcc8;
+  font: 0.75rem/1.5 var(--font-mono);
+}
+.index::after {
+  content: "";
+  width: 24px;
+  height: 1px;
+  background: #48636e;
 }
 .themeHeading {
   display: flex;
-  align-items: center;
-  gap: 12px;
-  color: #86c4ff;
+  align-items: flex-start;
+  gap: 10px;
+  color: #d7ecf0;
+  transition: color 240ms ease;
 }
 .themeHeading svg {
   flex-shrink: 0;
+  color: #8cd8df;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+}
+.panel:hover .themeHeading {
+  color: #9ae3e8;
 }
 .panel h3 {
-  font-size: 1.1rem;
-  margin-bottom: 12px;
-  line-height: 1.4;
+  font-size: 1.125rem;
+  margin-bottom: 10px;
+  line-height: 1.35;
+  letter-spacing: -0.02em;
 }
 .panel > p:last-child {
-  color: #b7c7cf;
+  color: #bdcbd2;
   font-size: 0.9375rem;
-  line-height: 1.8;
+  line-height: 1.7;
 }
 .background {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 36px;
-  margin-top: 32px;
-  padding-top: 28px;
-  border-top: 1px solid #2d3a43;
-  color: #c2cfd5;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+  gap: 32px;
+  padding: 24px 32px;
+  border: 1px solid #2e4650;
+  border-top: 0;
+  background: #0e1a21;
+  color: #c7d5dc;
+  overflow-wrap: anywhere;
 }
 .background h3 {
-  margin-bottom: 12px;
-  font-size: 1rem;
+  margin-bottom: 10px;
+  font-size: 0.875rem;
+  letter-spacing: 0;
+  color: #a3dce1;
 }
 .background p,
 .background li {
-  font-size: 0.9375rem;
-  line-height: 1.8;
+  font-size: 0.875rem;
+  line-height: 1.75;
 }
 .background ul {
   display: flex;
   flex-wrap: wrap;
-  gap: 6px 22px;
+  gap: 5px 20px;
   padding: 0;
+  margin: 0;
   list-style: none;
 }
 .secondary {
-  margin-top: 8px;
-  color: #9db1bc;
+  margin-top: 6px;
+  color: #acbec8;
 }
-@keyframes about-float {
-  from {
-    translate: 0 0;
+@keyframes profile-intro-scan {
+  0% {
+    top: 0;
+    opacity: 0;
   }
-  to {
-    translate: 0 -7px;
+  20% {
+    opacity: 0.65;
+  }
+  80% {
+    opacity: 0.65;
+  }
+  100% {
+    top: calc(100% - 2px);
+    opacity: 0;
   }
 }
-@keyframes analyse-lines {
-  to {
-    stroke-dashoffset: -116;
+@media (prefers-reduced-motion: no-preference) {
+  .map[data-revealed="true"] .photoFrame::after {
+    animation: profile-intro-scan 1000ms ease-in-out both;
   }
 }
-@media (max-width: 900px) {
+@media (max-width: 1050px) {
   .map {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
+    grid-template-rows: auto;
+    gap: 24px 36px;
+    padding: 28px;
   }
-  .connections {
+  .connections,
+  .portraitAnchor,
+  .nodeAnchor {
     display: none;
   }
   .portrait {
     grid-column: 1 / -1;
     grid-row: 1;
-    margin-bottom: 12px;
+    width: 240px;
+    justify-self: center;
+    margin-bottom: 4px;
   }
   .panel[data-panel] {
     grid-column: auto;
     grid-row: auto;
-    animation: none;
     margin: 0;
+    padding: 4px 0;
     max-width: none;
+  }
+  .panel[data-panel="music"] {
+    grid-column: 1 / -1;
+    max-width: 50ch;
+  }
+  .background {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+    padding: 24px 28px;
   }
 }
 @media (max-width: 600px) {
-  .map,
-  .background {
+  .map {
     grid-template-columns: minmax(0, 1fr);
+    gap: 24px;
+    padding: 24px 18px;
   }
-  .panel {
-    padding: 12px 0;
+  .portrait {
+    width: min(224px, 100%);
+    margin-bottom: 6px;
   }
   .background {
-    gap: 24px;
+    padding: 24px 18px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
-  .map .panel,
-  .map .flow {
-    animation: none;
+  .connections path,
+  .themeHeading {
+    transition: none;
   }
 }
