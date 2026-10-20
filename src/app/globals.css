@@ -2366,3 +2366,16 @@ nav a[aria-current="location"] {
 .hero-surface .hero {
   background: none;
 }
+
+/* A little more breathing room around the introduction. */
+@media (min-width: 701px) {
+  .hero {
+    min-height: 740px;
+    padding-block: 116px 100px;
+  }
+}
+@media (max-width: 700px) {
+  .hero {
+    padding-block: 56px;
+  }
+}
