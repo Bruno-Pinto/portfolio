@@ -41,3 +41,5 @@ Respect prefers-reduced-motion for all movement, including when the preference c
 ## Verification
 
 Check English and German at 320, 390, 768 and 1440px. Confirm no horizontal overflow, consistent section heading styles, readable wrapping, focus visibility, control hover/press states, portrait loading, reduced motion and scanner/list journeys. Run production build, lint and relevant Playwright tests. Keep sources and licenses documented for any new external assets.
+
+The hero location includes a local decorative Swiss flag. After the 900ms portrait expansion, two border paths draw from the top-left along opposite edges and meet at the bottom-right over 850ms. Without JavaScript or with reduced motion, the complete frame is visible immediately.

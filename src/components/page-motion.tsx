@@ -28,6 +28,22 @@ export function PageMotion() {
               { clipPath: "inset(0% 0 0% 0)", opacity: 1 },
             ];
             duration = 900;
+            target.querySelectorAll(".portrait-border path").forEach((path) => {
+              const border = path.animate(
+                [
+                  { strokeDasharray: "1", strokeDashoffset: "1" },
+                  { strokeDasharray: "1", strokeDashoffset: "0" },
+                ],
+                {
+                  delay: duration,
+                  duration: 850,
+                  fill: "backwards",
+                  easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+                },
+              );
+              animations.add(border);
+              border.onfinish = () => animations.delete(border);
+            });
           } else if (target.matches(".skill-card")) {
             frames = [
               { opacity: 0.3, scale: "0.96" },

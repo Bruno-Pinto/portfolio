@@ -64,7 +64,17 @@ export function Portfolio({ locale }: { locale: Locale }) {
           <section className="hero container" aria-labelledby="hero-title">
             <div className="hero-copy">
               <p className="eyebrow">
-                <span className="status-dot" />
+                <svg
+                  className="swiss-flag"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 32 32"
+                  aria-hidden="true"
+                  focusable="false"
+                >
+                  <path fill="#d9363e" d="M0 0h32v32H0z" />
+                  <path fill="#fff" d="M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z" />
+                </svg>
                 {t.location}
               </p>
               <h1 id="hero-title">
@@ -96,6 +106,16 @@ export function Portfolio({ locale }: { locale: Locale }) {
                     priority
                     className="portrait-image"
                   />
+                  <svg
+                    className="portrait-border"
+                    viewBox="0 0 400 400"
+                    preserveAspectRatio="none"
+                    aria-hidden="true"
+                    focusable="false"
+                  >
+                    <path d="M1 1H399V399" pathLength="1" />
+                    <path d="M1 1V399H399" pathLength="1" />
+                  </svg>
                 </div>
                 <div className="portrait-caption">
                   <span>BRUNO PINTO DA SILVA</span>
