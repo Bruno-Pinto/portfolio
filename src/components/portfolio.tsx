@@ -73,6 +73,18 @@ export function Portfolio({ locale }: { locale: Locale }) {
               <span className="hero-role">{t.role}</span>
             </h1>
             <p className="student">{t.student}</p>
+            <ul
+              className="hero-focus"
+              aria-label={
+                locale === "en"
+                  ? "Development experience"
+                  : "Entwicklungserfahrung"
+              }
+            >
+              <li>PHP / SQL</li>
+              <li>Java</li>
+              <li>React / TypeScript</li>
+            </ul>
 
             <p className="muted hero-description">{t.description}</p>
             <p className="opportunity">{t.opportunity}</p>
@@ -120,9 +132,6 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 priority
                 className="portrait-image"
               />
-              <span className="portrait-marker" aria-hidden="true">
-                +
-              </span>
             </div>
             <div className="portrait-caption">
               <span>BRUNO PINTO DA SILVA</span>

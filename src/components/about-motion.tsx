@@ -15,6 +15,8 @@ export function AboutMotion({
     if (!element) return;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
     const desktop = window.matchMedia("(min-width: 901px)");
+    const reveals = new Set<Animation>();
+    let nextReveal = 0;
     let visible = false;
     let frame = 0;
     function update() {
@@ -87,6 +89,66 @@ export function AboutMotion({
       { threshold: 0.15 },
     );
     observer.observe(element);
+    const topics = new IntersectionObserver(
+      (entries) => {
+        update();
+        for (const entry of entries) {
+          if (!entry.isIntersecting) continue;
+          topics.unobserve(entry.target);
+          if (reduced.matches) continue;
+          const now = performance.now();
+          const delay = Math.max(0, nextReveal - now);
+          nextReveal = now + delay + 680;
+          const panel = entry.target as HTMLElement;
+          const line = element.querySelector(
+            '[data-connect-to="' + panel.dataset.panel + '"]',
+          );
+          const animate = (
+            target: Element,
+            frames: Keyframe[],
+            wait: number,
+            duration: number,
+          ) => {
+            const animation = target.animate(frames, {
+              delay: wait,
+              duration,
+              fill: "backwards",
+              easing: "cubic-bezier(0.2, 0.7, 0.3, 1)",
+            });
+            reveals.add(animation);
+            animation.onfinish = () => reveals.delete(animation);
+          };
+          if (line && desktop.matches)
+            animate(
+              line,
+              [
+                { strokeDasharray: "1", strokeDashoffset: "1", opacity: 0 },
+                { strokeDasharray: "1", strokeDashoffset: "0", opacity: 1 },
+              ],
+              delay,
+              420,
+            );
+          for (const child of panel.children)
+            animate(
+              child,
+              [
+                { opacity: 0, transform: "translateY(12px)" },
+                { opacity: 1, transform: "translateY(0)" },
+              ],
+              delay + (desktop.matches ? 180 : 0),
+              500,
+            );
+        }
+      },
+      { threshold: 0.08 },
+    );
+    element
+      .querySelectorAll(".about-panel")
+      .forEach((panel) => topics.observe(panel));
+    const stopReveals = () => {
+      if (reduced.matches) reveals.forEach((animation) => animation.cancel());
+    };
+    reduced.addEventListener("change", stopReveals);
     const resize = new ResizeObserver(schedule);
     resize.observe(element);
     element
@@ -95,6 +157,9 @@ export function AboutMotion({
     document.fonts.ready.then(schedule);
     return () => {
       observer.disconnect();
+      topics.disconnect();
+      reveals.forEach((animation) => animation.cancel());
+      reduced.removeEventListener("change", stopReveals);
       resize.disconnect();
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);

@@ -27,6 +27,7 @@ export function AboutMap({ locale }: { locale: Locale }) {
             {t.panels.map((panel) => (
               <path
                 key={panel.id}
+                pathLength="1"
                 data-connect-to={panel.id}
                 fill="none"
                 stroke="currentColor"

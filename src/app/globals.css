@@ -2278,3 +2278,104 @@ nav a[aria-current="location"] {
     gap: 5px;
   }
 }
+
+/* Hero: a clear introduction balanced by a larger portrait. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 64px;
+  padding-block: 76px 60px;
+  background: radial-gradient(ellipse at 88% 36%, #244c703d, transparent 55%);
+}
+.hero h1 {
+  margin-top: 22px;
+}
+.hero-firstname {
+  font-size: clamp(3.5rem, 6.3vw, 6rem);
+  letter-spacing: -0.065em;
+}
+.hero-role {
+  color: #a9d1ff;
+  font-size: clamp(1.75rem, 3vw, 2.7rem);
+  margin-top: 14px;
+}
+.hero .student {
+  margin-top: 20px;
+  color: #d4c6ef;
+}
+.hero-focus {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  padding: 0;
+  margin: 18px 0 0;
+  list-style: none;
+  font: 0.72rem/1.6 var(--font-mono);
+  color: #9fb3c7;
+}
+.hero-focus li + li {
+  border-left: 1px solid #4d6278;
+  padding-left: 18px;
+}
+.hero-description {
+  max-width: 52ch;
+  margin-top: 22px;
+  color: #c4cfd8;
+}
+.hero .portrait-wrap {
+  max-width: 340px;
+}
+.hero .portrait-wrap::before {
+  width: 76%;
+  height: 65%;
+  top: -14px;
+  right: -14px;
+  border-color: #78a8da7a;
+  z-index: 0;
+}
+.hero .portrait {
+  border: 1px solid #6a88a4;
+}
+.hero .portrait-image {
+  filter: saturate(0.92);
+}
+.hero .portrait-caption {
+  margin-top: 16px;
+  color: #a8bed0;
+  gap: 12px;
+}
+.hero .hero-links {
+  gap: 10px 14px;
+}
+.hero .hero-links > span {
+  color: #46586a;
+}
+@media (min-width: 701px) and (max-width: 1100px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr) 280px;
+    gap: 36px;
+  }
+  .hero .portrait-wrap {
+    max-width: 280px;
+  }
+}
+@media (max-width: 700px) {
+  .hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 36px;
+    padding-block: 40px;
+  }
+  .hero-firstname {
+    font-size: clamp(3rem, 12vw, 4rem);
+  }
+  .hero .portrait-wrap {
+    max-width: 240px;
+  }
+  .hero-focus {
+    gap: 6px 12px;
+  }
+  .hero-focus li + li {
+    padding-left: 12px;
+  }
+}

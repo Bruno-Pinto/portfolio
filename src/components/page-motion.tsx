@@ -28,7 +28,7 @@ export function PageMotion() {
     );
     document
       .querySelectorAll(
-        ".hero-copy, .portrait-wrap, .job, #skills .skill-card, #contact > .container, #about .about-panel",
+        ".hero-copy, .portrait-wrap, .job, #skills .skill-card, #contact > .container",
       )
       .forEach((element) => observer.observe(element));
     const stop = () => {
