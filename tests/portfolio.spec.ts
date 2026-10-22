@@ -1396,6 +1396,18 @@ test("deck layers, fixed faces and featured foil survive repeated flights", asyn
   for (const route of ["/", "/de/"]) {
     await page.goto(route);
     const cards = page.locator(".project-deck button");
+    // Complete onboarding without a return-scroll animation before measuring geometry.
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await cards.first().focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator(".scanner-feedback")).toHaveAttribute(
+      "data-phase",
+      "ready",
+    );
+    await page.locator(".docked-token").focus();
+    await page.keyboard.press("Enter");
+    await expect(page.locator(".tray-flight-layer")).toHaveCount(0);
+    await page.emulateMedia({ reducedMotion: "no-preference" });
     const desktop = (page.viewportSize()?.width ?? 0) >= 1200;
     await expect(cards).toHaveCount(7);
     expect(

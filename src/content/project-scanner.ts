@@ -75,7 +75,11 @@ export const scannerText = {
     label: "Project scanner",
     instruction:
       "Select a card from the deck below. Its details appear after the scan.",
-    empty: "Place a project here",
+    empty: "Choose a card below to scan it",
+    hintClick: "Click a card to scan it",
+    hintTap: "Tap a card to scan it",
+    keyboard:
+      "Use Tab to focus a project card, then Enter or Space to scan it.",
     details: "Project details",
     select: "Scan project",
     return: "Return card",
@@ -94,7 +98,11 @@ export const scannerText = {
     label: "Projekt-Scanner",
     instruction:
       "Wähle unten eine Karte aus. Nach dem Scan erscheinen hier die Details.",
-    empty: "Hier ein Projekt platzieren",
+    empty: "Zum Scannen unten eine Karte auswählen",
+    hintClick: "Klicke auf eine Karte, um sie zu scannen",
+    hintTap: "Tippe auf eine Karte, um sie zu scannen",
+    keyboard:
+      "Mit Tab eine Projektkarte fokussieren, dann mit Enter oder Leertaste scannen.",
     details: "Projektdetails",
     select: "Projekt scannen",
     return: "Karte zurücklegen",

@@ -51,6 +51,28 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
   const projects = getProjects(locale),
     t = scannerText[locale];
   const [view, setView] = useState<"scanner" | "list">("scanner");
+  const hint = useRef<HTMLParagraphElement>(null);
+  const hintAnchor = useRef<HTMLDivElement>(null);
+  const completed = useRef(false);
+  const [onboarding, setOnboarding] = useState(false);
+  const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [focusedCard, setFocusedCard] = useState<number | null>(null);
+  const [visibleCard, setVisibleCard] = useState(0);
+  const highlightedCard = focusedCard ?? hoveredCard ?? visibleCard;
+  const completeOnboarding = useCallback(() => {
+    completed.current = true;
+    setOnboarding(false);
+  }, []);
+  useEffect(() => {
+    const section = frame.current?.closest("section");
+    if (!section) return;
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some((entry) => entry.isIntersecting) && !completed.current)
+        setOnboarding(true);
+    });
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
   const listView = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<number | null>(null);
   const [phase, setPhase] = useState<"idle" | "moving" | "scanning" | "ready">(
@@ -70,6 +92,55 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
   } | null>(null);
   const animation = useRef<Animation | null>(null);
   const outgoingAnimation = useRef<Animation | null>(null);
+
+  useLayoutEffect(() => {
+    const rail = deck.current;
+    const anchor = hintAnchor.current;
+    const tooltip = hint.current;
+    if (!onboarding || view !== "scanner" || !rail || !anchor || !tooltip)
+      return;
+    function position() {
+      const card = sources.current[highlightedCard];
+      if (!card) return;
+      const rect = card.getBoundingClientRect();
+      const origin = anchor!.getBoundingClientRect();
+      const center = rect.left + rect.width / 2 - origin.left;
+      const width = tooltip!.getBoundingClientRect().width;
+      const left = Math.max(
+        12,
+        Math.min(center - width / 2, origin.width - width - 12),
+      );
+      tooltip!.style.left = left + "px";
+      tooltip!.style.setProperty(
+        "--hint-pointer",
+        Math.max(12, Math.min(center - left, width - 12)) + "px",
+      );
+    }
+    function trackVisibleCard() {
+      const bounds = rail!.getBoundingClientRect();
+      const index = sources.current.findIndex((card) => {
+        const rect = card?.getBoundingClientRect();
+        return (
+          rect &&
+          rect.left + rect.width / 2 >= bounds.left &&
+          rect.left < bounds.right
+        );
+      });
+      if (index >= 0) setVisibleCard(index);
+      position();
+    }
+    const resize = new ResizeObserver(position);
+    resize.observe(rail);
+    resize.observe(tooltip);
+    position();
+    rail.addEventListener("scroll", trackVisibleCard, { passive: true });
+    window.addEventListener("resize", position);
+    return () => {
+      resize.disconnect();
+      rail.removeEventListener("scroll", trackVisibleCard);
+      window.removeEventListener("resize", position);
+    };
+  }, [onboarding, view, highlightedCard]);
 
   useEffect(() => {
     const element = frame.current;
@@ -706,19 +777,39 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
             </section>
           </div>
         </div>
+        <div className="deck-onboarding" ref={hintAnchor}>
+          <p
+            ref={hint}
+            className="deck-hint"
+            hidden={!onboarding || selected !== null}
+            aria-hidden="true"
+          >
+            <span className="deck-hint-desktop">{t.hintClick}</span>
+            <span className="deck-hint-touch">{t.hintTap}</span>
+          </p>
+        </div>
+        <p id="scanner-keyboard-guidance" className="sr-only">
+          {t.keyboard}
+        </p>
         <div
           className="project-deck"
+          data-onboarding={onboarding && selected === null}
           id="project-deck"
           ref={deck}
           role="group"
           aria-label={t.deck}
-          aria-describedby="scanner-card-guidance"
+          aria-describedby="scanner-card-guidance scanner-keyboard-guidance"
         >
           {projects.map((p, i) => (
             <div
               className="project-slot"
               key={p.id}
               data-featured={p.featured}
+              data-highlighted={onboarding && highlightedCard === i}
+              onPointerEnter={(event) => {
+                if (event.pointerType === "mouse") setHoveredCard(i);
+              }}
+              onPointerLeave={() => setHoveredCard(null)}
               style={{ "--card-layer": i + 1 } as CSSProperties}
             >
               <button
@@ -732,9 +823,23 @@ export function ProjectScanner({ locale }: { locale: Locale }) {
                 data-featured={p.featured}
                 data-project-kind={p.kind}
                 style={projectAccent(p)}
-                onClick={() => choose(i)}
+                onFocus={(event) => {
+                  setFocusedCard(i);
+                  if (onboarding && selected === null)
+                    event.currentTarget.scrollIntoView({
+                      behavior: "instant",
+                      block: "nearest",
+                      inline: "nearest",
+                    });
+                }}
+                onBlur={() => setFocusedCard(null)}
+                onClick={() => {
+                  if (selected !== i) completeOnboarding();
+                  choose(i);
+                }}
                 aria-pressed={selected === i}
                 aria-controls="scanner-details"
+                aria-describedby="scanner-keyboard-guidance"
                 aria-label={
                   (selected === i ? t.return : t.select) + ": " + p.title
                 }
