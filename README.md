@@ -84,6 +84,8 @@ See [DEPLOYMENT.md](DEPLOYMENT.md) for the multi-stage Docker build, Compose com
 Optional Umami tracking reports visit referrers and tagged links for LinkedIn,
 application emails and other sources. See [the analytics guide](docs/analytics.md)
 for configuration and campaign examples. Tracking is disabled until configured.
+Generate a tagged link with `npm run campaign -- --source linkedin --medium social
+--campaign post-01`; use the guide for self-hosting and reading results in Umami.
 
 ## Project views and public evidence
 

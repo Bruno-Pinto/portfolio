@@ -10,5 +10,6 @@
 *.tsbuildinfo
 next-env.d.ts
 *.log
+*.dump
 .DS_Store
 Thumbs.db

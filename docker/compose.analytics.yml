@@ -1,0 +1,53 @@
+# Separate, optional stack: run from the repository root with --env-file .env.
+name: portfolio-analytics
+
+services:
+  umami:
+    image: ghcr.io/umami-software/umami:3.4.1
+    init: true
+    restart: unless-stopped
+    ports:
+      - "${UMAMI_BIND_IP:-127.0.0.1}:${UMAMI_PORT:-3001}:3000"
+    environment:
+      DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD:?Set UMAMI_DB_PASSWORD to a random hex string}@db:5432/umami
+      APP_SECRET: ${UMAMI_APP_SECRET:?Set UMAMI_APP_SECRET to a random hex string}
+      TWO_FACTOR_ENCRYPTION_KEY: ${UMAMI_TWO_FACTOR_KEY:?Set UMAMI_TWO_FACTOR_KEY to a 64-character hex string}
+      PRIVATE_MODE: "1"
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:3000/api/heartbeat"]
+      interval: 30s
+      timeout: 5s
+      start_period: 60s
+      retries: 5
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  db:
+    image: postgres:15-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD:?Set UMAMI_DB_PASSWORD to a random hex string}
+      TZ: UTC
+    volumes:
+      - umami-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U umami -d umami"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  umami-db-data:

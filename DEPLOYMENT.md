@@ -6,6 +6,12 @@ the static `out/` directory. Docker builds with Node.js 24, then copies only the
 export into Nginx. No database, production Node.js process, runtime application
 environment variables or TLS configuration is required.
 
+Optional traffic-source analytics adds a separate Umami/PostgreSQL stack. See
+[docs/analytics.md](docs/analytics.md) for setup, tagged links, public build
+arguments and database backups. The portfolio itself remains static; its default
+build has analytics disabled. The data/volume guidance below applies to the
+portfolio container; the optional analytics database must be backed up separately.
+
 The existing Windows workflow (`npm run dev`, build, tests and preview) is unchanged.
 The Docker image is built for the server's architecture automatically.
 

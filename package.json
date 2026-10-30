@@ -8,6 +8,8 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "playwright test",
+    "campaign": "node scripts/campaign-link.mjs",
+    "test:campaign": "node --test scripts/campaign-link.test.mjs",
     "format": "prettier --write src tests playwright.config.ts next.config.ts eslint.config.mjs",
     "format:check": "prettier --check src tests playwright.config.ts next.config.ts eslint.config.mjs",
     "preview": "node scripts/serve-export.mjs"
