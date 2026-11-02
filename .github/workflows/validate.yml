@@ -10,6 +10,12 @@ on:
 permissions:
   contents: read
 
+# PR validation supersedes an overlapping push run for the same source commit.
+# Push/manual runs cannot cancel a running required PR check. Manual runs are isolated.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.head.repo.full_name || github.repository }}-${{ github.event_name == 'workflow_dispatch' && github.run_id || github.event.pull_request.head.sha || github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   validate:
     # Required branch check: keep this name stable.

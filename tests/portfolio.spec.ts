@@ -1775,24 +1775,34 @@ test("project footer action fills the card and supports row, touch and keyboard 
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
     await expect(trigger.locator(".disclosure-symbol")).toHaveText("+");
     await expect(trigger).toHaveCSS("outline-width", "3px");
-    await page.mouse.move(0, 0);
-    const rest = await trigger.evaluate(
-      (node) => getComputedStyle(node).backgroundColor,
-    );
-    await trigger.hover();
-    const hover = await trigger.evaluate(
-      (node) => getComputedStyle(node).backgroundColor,
-    );
-    expect(hover).not.toBe(rest);
-    await page.mouse.down();
-    expect(
-      await trigger.evaluate((node) => getComputedStyle(node).backgroundColor),
-    ).not.toBe(hover);
-    await page.mouse.up();
+    await expect(trigger).toBeFocused();
+    if (isMobile) {
+      await trigger.tap({ position });
+    } else {
+      // Mouse hover and pressed styling apply to desktop pointer interaction.
+      await page.mouse.move(0, 0);
+      const rest = await trigger.evaluate(
+        (node) => getComputedStyle(node).backgroundColor,
+      );
+      await trigger.hover();
+      const hover = await trigger.evaluate(
+        (node) => getComputedStyle(node).backgroundColor,
+      );
+      expect(hover).not.toBe(rest);
+      await page.mouse.down();
+      expect(
+        await trigger.evaluate(
+          (node) => getComputedStyle(node).backgroundColor,
+        ),
+      ).not.toBe(hover);
+      await page.mouse.up();
+    }
     await expect(trigger).toHaveAttribute("aria-expanded", "true");
     await trigger.focus();
     await trigger.press("Enter");
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    await expect(trigger).toBeFocused();
+    await expect(trigger).toHaveCSS("outline-width", "3px");
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
