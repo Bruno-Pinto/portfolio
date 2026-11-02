@@ -1843,12 +1843,22 @@ nav a[aria-current="location"] {
   .site-header {
     transition: transform 180ms ease-out;
   }
+  .scanner-project-picker {
+    transition: top 180ms ease-out;
+  }
   .site-header[data-scroll-hidden="true"]:not(:has(:focus-visible)) {
     transform: translateY(-100%);
   }
+  :root:has(.site-header[data-scroll-hidden="true"]):not(
+      :has(.site-header :focus-visible)
+    )
+    .scanner-project-picker {
+    top: 12px;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
-  .site-header {
+  .site-header,
+  .scanner-project-picker {
     transition: none;
   }
 }
