@@ -16,25 +16,58 @@ The development server is a local preview only. Production will serve the static
 ## Branches
 
 - `main`: stable, verified versions.
-- `dev`: ongoing development. Merge into `main` after checks pass.
+- `dev`: ongoing development. Pushes run CI validation; open a pull request into `main` and merge after the required `validate` check passes. The existing deployment timer automatically picks up merged `main` commits; GitHub Actions only validates.
 
 Keep commits small. Short-lived feature branches are optional when useful; no additional branching framework is required.
 
 ## Checks
 
 ```sh
-npm run lint
-npm run typecheck
-npm run build
+npm run check
 ```
 
-The build generates static files in `out/`. Browser journey tests will accompany localization and interactive features.
+`npm run check` runs ESLint and TypeScript checks. Use it during development alongside targeted browser tests. `npm run validate` runs those checks, verifies formatting, runs campaign-link unit tests, builds the static `out/` directory once, then runs the complete Playwright suite against it.
+
+GitHub Actions runs `npm run validate` with Node.js 24 and Chromium on pushes to `dev`, pull requests targeting `main`, and manual dispatch. Failed browser runs upload HTML reports and retained traces. Leave comprehensive regression validation primarily to CI; avoid repeated full-suite runs during iteration.
+
+The single CI job is named `validate`; keep that name stable for branch rules.
+See [branch rules](DEPLOYMENT.md#github-branch-rules) for the active
+`main` ruleset and native auto-merge process. No restrictions are needed on `dev`.
+
+## Automatic deployment
+
+On `services`, the enabled `portfolio-deploy.timer` polls every two minutes.
+Its service runs the existing root-owned, untracked
+`/opt/stacks/portfolio/deploy.sh`: fetch `origin/main`, detect a new commit,
+take a flock lock, fast-forward the checkout and rebuild/start Docker Compose.
+No GitHub deployment runner, SSH action, webhook or new infrastructure is needed.
+Merging into `main` therefore authorizes the existing automatic deployment path.
+
+Over SSH on `services`, inspect the revision, last deployment outcome and health:
+
+```sh
+cd /opt/stacks/portfolio
+git rev-parse HEAD
+git rev-parse origin/main
+sudo systemctl list-timers portfolio-deploy.timer
+sudo systemctl status portfolio-deploy.service --no-pager
+sudo journalctl -u portfolio-deploy.service -n 100 --no-pager
+sudo docker compose ps
+sudo docker compose logs --tail=100 portfolio
+```
+
+Compare the full revision with the merged GitHub `main` commit, then confirm the
+deployment for that revision completed successfully and the container is healthy.
+The checkout revision alone does not prove deployment succeeded: a failed build
+can leave the previous container running. An inactive oneshot service after a
+successful run is normal. See [deployment verification and failure recovery](DEPLOYMENT.md#update)
+and the [minimal health-wait improvement](DEPLOYMENT.md#deployment-health-verification).
 
 ## Content and privacy
 
 `_private/` contains local source material and is excluded from Git. Do not copy original CVs into public assets without reviewing them for publication. Everything in `public/` becomes publicly accessible when deployed.
 
-Use verified project facts only. Do not commit secrets, personal addresses, internal infrastructure details or service configurations. Server access and production deployment require separate approval.
+Use verified project facts only. Do not commit secrets, personal addresses, internal infrastructure details or service configurations. Direct server changes require separate approval; merges into `main` are picked up automatically by the existing timer.
 
 ## Current implementation
 
@@ -51,11 +84,13 @@ Approved English and German CV copies are in public/cv and linked for download i
 ```sh
 npx playwright install chromium
 npm run build
-npm test
+npm test -- tests/portfolio.spec.ts --project=desktop --grep "language switch"
 npm run preview
 ```
 
 The local static preview is available at `http://127.0.0.1:4173`. It is a development/testing tool, not the production server. Browser tests start and stop it automatically and check desktop/mobile language navigation, scanner interactions, keyboard navigation, reduced motion and real PDF downloads.
+
+Select the relevant test file, project (`desktop` or `mobile`) and optional `--grep` title for a focused run. Build after source changes before testing the static export. Run `npm test` for all browser tests against an existing build, or `npm run validate` for comprehensive validation including the build. Stop a manually started preview before running browser tests.
 
 `npm run format` formats source files; `npm run format:check` checks formatting. The current dependency audit reports five high-severity findings in the development lint dependency chain; `npm audit --omit=dev` reports none in production dependencies. Do not blindly apply the suggested major tooling downgrade.
 
@@ -69,7 +104,7 @@ The page order is introduction, work experience, projects, education/skills and 
 
 Project data is assembled in src/content/project-scanner.ts and displayed by src/components/project-scanner.tsx. Selecting a card moves it into the scanner using the browser Web Animations API, followed by a red scan line sweeping down and back up over 800 ms. A small progress indicator follows the scan; details appear on the animation-completion event, without an additional timer. Selecting the loaded card returns it to its original slot. A placeholder preserves the lower row layout. Keyboard controls use ordinary buttons, and reduced-motion preferences skip both movement and scanning and reveal details immediately. The mobile layout places details below the selected card. No animation package or backend is required.
 
-The scanner now contains six projects, including Mission-Life and Mission-Chess. When switching projects, the outgoing card animates back to its original slot while the incoming card moves to the scanner with a short stagger. Scanner and deck cards share the same width, height, padding and typography. The empty and loaded scanner use the same taller details-panel height.
+The scanner now contains seven projects, including Mission-Life and Mission-Chess. When switching projects, the outgoing card animates back to its original slot while the incoming card moves to the scanner with a short stagger. Scanner and deck cards share the same width, height, padding and typography. The empty and loaded scanner use the same taller details-panel height.
 
 Project cards now sit in a tray attached to the scanner. Each card includes a decorative SVG graphic drawn in src/components/project-graphic.tsx: a racing track, a code window, application panels, a cell pattern or a chessboard. These are illustrations, not application screenshots or internal architecture diagrams. Card descriptions remain in the scanner details panel, while the card faces emphasize title, graphic and technologies.
 
@@ -78,6 +113,14 @@ Project order emphasizes development roles: PHP intranet, client applications an
 ## Production packaging
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for the multi-stage Docker build, Compose commands and Nginx Proxy Manager setup. The runtime serves static files; local development is unchanged.
+
+## Traffic sources
+
+Optional Umami tracking reports visit referrers and tagged links for LinkedIn,
+application emails and other sources. See [the analytics guide](docs/analytics.md)
+for configuration and campaign examples. Tracking is disabled until configured.
+Generate a tagged link with `npm run campaign -- --source linkedin --medium social
+--campaign post-01`; use the guide for self-hosting and reading results in Umami.
 
 ## Project views and public evidence
 

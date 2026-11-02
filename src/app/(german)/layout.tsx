@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { TrafficAnalytics } from "@/components/traffic-analytics";
 import "../globals.css";
 import "../portfolio.css";
 export const metadata: Metadata = {
@@ -10,7 +11,10 @@ export const metadata: Metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="de">
-      <body>{children}</body>
+      <body>
+        {children}
+        <TrafficAnalytics />
+      </body>
     </html>
   );
 }

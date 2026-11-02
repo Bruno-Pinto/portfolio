@@ -7,7 +7,11 @@
     "build": "next build",
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
+    "check": "npm run lint && npm run typecheck",
+    "validate": "npm run check && npm run format:check && npm run test:campaign && npm run build && npm test",
     "test": "playwright test",
+    "campaign": "node scripts/campaign-link.mjs",
+    "test:campaign": "node --test scripts/campaign-link.test.mjs",
     "format": "prettier --write src tests playwright.config.ts next.config.ts eslint.config.mjs",
     "format:check": "prettier --check src tests playwright.config.ts next.config.ts eslint.config.mjs",
     "preview": "node scripts/serve-export.mjs"

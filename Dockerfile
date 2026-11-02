@@ -10,6 +10,13 @@ RUN npm ci
 COPY next.config.ts tsconfig.json ./
 COPY src ./src
 COPY public ./public
+# Public tracker settings are compiled into the static export, never runtime secrets.
+ARG NEXT_PUBLIC_UMAMI_SCRIPT_URL=""
+ARG NEXT_PUBLIC_UMAMI_WEBSITE_ID=""
+ARG NEXT_PUBLIC_UMAMI_DOMAINS="brunopinto.net,www.brunopinto.net"
+ENV NEXT_PUBLIC_UMAMI_SCRIPT_URL=$NEXT_PUBLIC_UMAMI_SCRIPT_URL \
+    NEXT_PUBLIC_UMAMI_WEBSITE_ID=$NEXT_PUBLIC_UMAMI_WEBSITE_ID \
+    NEXT_PUBLIC_UMAMI_DOMAINS=$NEXT_PUBLIC_UMAMI_DOMAINS
 RUN npm run build
 
 FROM nginx:stable-alpine AS runtime
