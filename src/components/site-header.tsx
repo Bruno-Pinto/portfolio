@@ -15,6 +15,19 @@ export function SiteHeader({ children }: { children: ReactNode }) {
       );
     });
     measure.observe(element);
+    const root = document.documentElement;
+    const viewport = window.visualViewport;
+    function measureViewport() {
+      root.style.setProperty(
+        "--visual-viewport-top",
+        (viewport?.offsetTop ?? 0) + "px",
+      );
+      // Panning a zoomed preview must follow the visible edge without lag.
+      root.dataset.viewportZoomed = String((viewport?.scale ?? 1) > 1);
+    }
+    measureViewport();
+    viewport?.addEventListener("scroll", measureViewport);
+    viewport?.addEventListener("resize", measureViewport);
     const mobile = window.matchMedia("(max-width: 700px)");
     let previous = Math.max(0, window.scrollY);
     let frame = 0;
@@ -60,6 +73,10 @@ export function SiteHeader({ children }: { children: ReactNode }) {
     return () => {
       measure.disconnect();
       document.documentElement.style.removeProperty("--site-header-height");
+      root.style.removeProperty("--visual-viewport-top");
+      delete root.dataset.viewportZoomed;
+      viewport?.removeEventListener("scroll", measureViewport);
+      viewport?.removeEventListener("resize", measureViewport);
       window.removeEventListener("scroll", schedule);
       mobile.removeEventListener("change", show);
       element.removeEventListener("focusin", onFocus);

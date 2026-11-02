@@ -990,7 +990,9 @@ nav a[aria-current="location"] {
   border: 0;
   padding: 0;
   position: sticky;
-  top: calc(var(--site-header-height, 80px) + 12px);
+  top: calc(
+    max(var(--site-header-height, 80px), var(--visual-viewport-top, 0px)) + 12px
+  );
   z-index: 32;
   max-width: 66ch;
   margin-bottom: 24px;
@@ -1843,12 +1845,25 @@ nav a[aria-current="location"] {
   .site-header {
     transition: transform 180ms ease-out;
   }
+  .scanner-project-picker {
+    transition: top 180ms ease-out;
+  }
   .site-header[data-scroll-hidden="true"]:not(:has(:focus-visible)) {
     transform: translateY(-100%);
   }
+  :root:has(.site-header[data-scroll-hidden="true"]):not(
+      :has(.site-header :focus-visible)
+    )
+    .scanner-project-picker {
+    top: calc(var(--visual-viewport-top, 0px) + 12px);
+  }
+}
+:root[data-viewport-zoomed="true"] .scanner-project-picker {
+  transition: none;
 }
 @media (prefers-reduced-motion: reduce) {
-  .site-header {
+  .site-header,
+  .scanner-project-picker {
     transition: none;
   }
 }

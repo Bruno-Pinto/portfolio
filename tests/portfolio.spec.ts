@@ -580,6 +580,7 @@ test("mobile header hides scrolling down and returns scrolling up or using the k
   isMobile,
 }) => {
   await page.goto("/");
+  await expect(page.locator("html")).toHaveCSS("--site-header-height", /\d+px/);
   const header = page.locator(".site-header");
   await page.evaluate(() => window.scrollTo({ top: 900, behavior: "instant" }));
   if (isMobile) {
