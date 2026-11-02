@@ -26,10 +26,14 @@ The repository is `https://github.com/Bruno-Pinto/portfolio.git`; local `origin`
 is already configured. Keep `dev` for development and open a pull request into
 `main` for review. CI validates pushes to `dev`, pull requests targeting `main`
 and manual dispatch with `npm run validate`; it does not deploy or use production
-credentials. After checks pass and approval is given, merge into `main` and push
-before using the existing deployment process. Never put credentials in committed files.
+credentials. An explicit release request authorizes native auto-merge after checks pass.
+The existing systemd timer on `services` detects the new commit within its
+two-minute polling interval and runs the existing deployment script.
+Never put credentials in committed files.
 
-These instructions are manual steps only; no server has been accessed.
+No server has been accessed while preparing these instructions. Initial setup
+and troubleshooting commands below are for execution over SSH when needed;
+normal deployments already run automatically.
 Private VM and proxy addresses intentionally stay out of this public repository.
 
 ## Clone, build and start
@@ -100,25 +104,100 @@ not automatically restart an otherwise running unhealthy container.
 
 Run `npm run check` and targeted Playwright tests during development (see
 [README.md](README.md#browser-tests-and-preview)). Let CI run comprehensive
-validation; merge reviewed changes into `main` and push only with approval.
-Then, in a clean server checkout:
+validation; an explicit release request authorizes auto-merge into `main`.
+`portfolio-deploy.timer` is already enabled on `services` and polls every two
+minutes. `portfolio-deploy.service` invokes the root-owned, untracked
+`/opt/stacks/portfolio/deploy.sh`, which fetches `main`, detects changes, uses
+flock and fast-forwards before rebuilding Docker Compose. Preserve this setup.
+
+To verify an automatic deployment over SSH:
 
 ```sh
 cd /opt/stacks/portfolio
-git rev-parse HEAD  # Save this revision if rollback may be needed.
-git pull --ff-only origin main
-docker compose build --pull
-docker compose up -d --wait
-docker compose ps
+git rev-parse HEAD
+git rev-parse origin/main
+sudo systemctl list-timers portfolio-deploy.timer
+sudo systemctl show portfolio-deploy.service -p Result -p ExecMainStatus -p ExecMainExitTimestamp
+sudo journalctl -u portfolio-deploy.service -n 100 --no-pager
+sudo docker compose ps
+sudo docker compose logs --tail=100 portfolio
 ```
+
+Compare the checkout hash with the merged GitHub `main` revision. The cached
+`origin/main` is refreshed by the script. Confirm the corresponding deployment
+succeeded in the journal and the container is healthy; a checkout hash alone
+cannot identify the running image after a failed rebuild. The current image has
+no embedded Git revision label.
 
 Build failure leaves the running container untouched. Successful updates replace
 the container and can briefly interrupt service. A restart alone does not rebuild
-the site. To roll back, check out a previously verified commit, rebuild and run
-`docker compose up -d --wait`; switch back to `main` before the next normal update.
+the site. A failed build after the checkout advances may not retry automatically
+when the script sees no newer commit. After resolving the cause, inspect the
+script's retry behavior; if necessary, rebuild the checked-out revision manually
+with `sudo docker compose build --pull` followed by
+`sudo docker compose up -d --wait --wait-timeout 120` and verify health.
+For an intentional rollback, stop the timer and wait for any active deployment
+to finish before checking out a verified commit and rebuilding. Restore `main`
+and re-enable the timer when ready to resume automatic updates.
 No volumes or application data need migration. `--pull` refreshes base image
 security updates; base tags intentionally track Node 24 and stable Nginx Alpine.
 For exactly reproducible releases, record the source revision and image digest.
+
+## Deployment health verification
+
+The only recommended script change is to add health waiting to its existing
+Compose startup command. The image already has an HTTP health check (30-second
+interval, 10-second start period, three retries); a 120-second wait allows for it.
+Docker documents [`--wait` and `--wait-timeout`](https://docs.docker.com/reference/cli/docker/compose/up/).
+
+Execute over SSH on `services`:
+
+```sh
+sudo docker compose up --help | grep -E -- '--wait|--wait-timeout'
+sudo cp -an /opt/stacks/portfolio/deploy.sh /opt/stacks/portfolio/deploy.sh.before-health-wait
+sudoedit /opt/stacks/portfolio/deploy.sh
+```
+
+In the existing `docker compose up` command, preserve its current build options,
+Compose arguments and service selection, and add `--wait --wait-timeout 120`.
+For example, `docker compose up -d --build` becomes
+`docker compose up -d --build --wait --wait-timeout 120`.
+Ensure a failed Compose command propagates a nonzero script exit (existing
+`set -e` or explicit error handling), rather than being masked by a later log
+command. Do not replace the script, its locking or commit detection.
+
+```sh
+sudo bash -n /opt/stacks/portfolio/deploy.sh
+sudo diff -u /opt/stacks/portfolio/deploy.sh.before-health-wait /opt/stacks/portfolio/deploy.sh
+sudo systemctl is-enabled portfolio-deploy.timer
+sudo systemctl list-timers portfolio-deploy.timer
+cd /opt/stacks/portfolio
+sudo docker compose ps
+sudo docker inspect --format '{{json .State.Health}}' "$(sudo docker compose ps -q portfolio)"
+sudo journalctl -u portfolio-deploy.service -n 100 --no-pager
+```
+
+`diff` returning 1 means the intended change is present. No daemon reload is
+needed for a script-only edit. The next merged commit exercises the health wait;
+check the service result, journal and health again after that deployment.
+These commands do not force a deployment or add the VM script to Git.
+
+## GitHub branch rules
+
+The active **Protect main** ruleset is recorded in
+[.github/main-ruleset.json](.github/main-ruleset.json). It targets only `main`,
+requires a PR and the GitHub Actions `validate` check, requires the PR branch to
+be up to date, blocks force pushes and deletion, and has no bypass actors.
+Required approving reviews are zero. `dev` remains unrestricted.
+
+Native GitHub Auto-merge is enabled. Only regular merge commits are allowed;
+squash and rebase merging are disabled, and automatic branch deletion is off.
+On an explicit release request, commit and push authorized changes to `dev`,
+create a `dev`-to-`main` PR, and enable auto-merge with `gh pr merge --auto --merge`.
+No separate manual PR approval is required. After CI passes and GitHub merges,
+fast-forward `dev` to the updated `main` and push `dev` without deleting it.
+If `dev` is behind `main` before release, merge `main` into `dev` first.
+The existing timer handles deployment; no merging workflow or server change is needed.
 
 ## Troubleshoot and verify
 

@@ -16,7 +16,7 @@ The development server is a local preview only. Production will serve the static
 ## Branches
 
 - `main`: stable, verified versions.
-- `dev`: ongoing development. Pushes run CI validation; open a pull request into `main` for review and merge after checks pass. Production deployment from `main` remains a separate approved step; validation does not deploy.
+- `dev`: ongoing development. Pushes run CI validation; open a pull request into `main` and merge after the required `validate` check passes. The existing deployment timer automatically picks up merged `main` commits; GitHub Actions only validates.
 
 Keep commits small. Short-lived feature branches are optional when useful; no additional branching framework is required.
 
@@ -30,11 +30,44 @@ npm run check
 
 GitHub Actions runs `npm run validate` with Node.js 24 and Chromium on pushes to `dev`, pull requests targeting `main`, and manual dispatch. Failed browser runs upload HTML reports and retained traces. Leave comprehensive regression validation primarily to CI; avoid repeated full-suite runs during iteration.
 
+The single CI job is named `validate`; keep that name stable for branch rules.
+See [branch rules](DEPLOYMENT.md#github-branch-rules) for the active
+`main` ruleset and native auto-merge process. No restrictions are needed on `dev`.
+
+## Automatic deployment
+
+On `services`, the enabled `portfolio-deploy.timer` polls every two minutes.
+Its service runs the existing root-owned, untracked
+`/opt/stacks/portfolio/deploy.sh`: fetch `origin/main`, detect a new commit,
+take a flock lock, fast-forward the checkout and rebuild/start Docker Compose.
+No GitHub deployment runner, SSH action, webhook or new infrastructure is needed.
+Merging into `main` therefore authorizes the existing automatic deployment path.
+
+Over SSH on `services`, inspect the revision, last deployment outcome and health:
+
+```sh
+cd /opt/stacks/portfolio
+git rev-parse HEAD
+git rev-parse origin/main
+sudo systemctl list-timers portfolio-deploy.timer
+sudo systemctl status portfolio-deploy.service --no-pager
+sudo journalctl -u portfolio-deploy.service -n 100 --no-pager
+sudo docker compose ps
+sudo docker compose logs --tail=100 portfolio
+```
+
+Compare the full revision with the merged GitHub `main` commit, then confirm the
+deployment for that revision completed successfully and the container is healthy.
+The checkout revision alone does not prove deployment succeeded: a failed build
+can leave the previous container running. An inactive oneshot service after a
+successful run is normal. See [deployment verification and failure recovery](DEPLOYMENT.md#update)
+and the [minimal health-wait improvement](DEPLOYMENT.md#deployment-health-verification).
+
 ## Content and privacy
 
 `_private/` contains local source material and is excluded from Git. Do not copy original CVs into public assets without reviewing them for publication. Everything in `public/` becomes publicly accessible when deployed.
 
-Use verified project facts only. Do not commit secrets, personal addresses, internal infrastructure details or service configurations. Server access and production deployment require separate approval.
+Use verified project facts only. Do not commit secrets, personal addresses, internal infrastructure details or service configurations. Direct server changes require separate approval; merges into `main` are picked up automatically by the existing timer.
 
 ## Current implementation
 
