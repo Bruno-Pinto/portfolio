@@ -4,9 +4,8 @@ for (const route of ["/", "/de/"]) {
   for (const reducedMotion of ["no-preference", "reduce"] as const) {
     test(`project picker follows the mobile header on ${route} with ${reducedMotion} motion`, async ({
       page,
-      isMobile,
     }) => {
-      test.skip(!isMobile, "Exercises the mobile sticky project picker.");
+      await page.setViewportSize({ width: 390, height: 844 });
       await page.emulateMedia({ reducedMotion });
       await page.goto(route);
       await page
@@ -96,3 +95,65 @@ for (const route of ["/", "/de/"]) {
     });
   }
 }
+
+test("project picker stays inside a panned mobile visual viewport", async ({
+  page,
+  isMobile,
+}) => {
+  test.skip(!isMobile, "Mobile emulation allows the visual viewport to pan.");
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  await page.locator('.project-deck button[data-project-id="php"]').click();
+  await expect(page.locator(".scanner-feedback")).toHaveAttribute(
+    "data-phase",
+    "ready",
+  );
+  await page.locator(".scanner-details").evaluate((element) =>
+    window.scrollTo({
+      top: element.getBoundingClientRect().top + window.scrollY + 150,
+      behavior: "instant",
+    }),
+  );
+  await expect(page.locator(".site-header")).toHaveAttribute(
+    "data-scroll-hidden",
+    "true",
+  );
+
+  await page.emulateMedia({ reducedMotion: "no-preference" });
+  const session = await page.context().newCDPSession(page);
+  await session.send("Emulation.setPageScaleFactor", { pageScaleFactor: 1.5 });
+  await session.send("Input.synthesizeScrollGesture", {
+    x: 100,
+    y: 200,
+    yDistance: -80,
+    speed: 300,
+    gestureSourceType: "mouse",
+  });
+  await expect
+    .poll(() => page.evaluate(() => window.visualViewport!.offsetTop))
+    .toBeGreaterThan(0);
+  const picker = page.locator(".scanner-project-picker");
+  await expect
+    .poll(() =>
+      picker.evaluate((element) =>
+        Math.round(
+          element.getBoundingClientRect().top -
+            window.visualViewport!.offsetTop,
+        ),
+      ),
+    )
+    .toBe(12);
+  expect(
+    await picker.evaluate(
+      (element) =>
+        element.getBoundingClientRect().bottom -
+          window.visualViewport!.offsetTop <=
+        window.visualViewport!.height,
+    ),
+  ).toBe(true);
+
+  await session.send("Emulation.setPageScaleFactor", { pageScaleFactor: 1 });
+  await expect
+    .poll(async () => Math.round((await picker.boundingBox())!.y))
+    .toBe(12);
+});
