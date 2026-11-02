@@ -20,7 +20,8 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 ## Releases
 
 - Develop on the long-lived `dev` branch; keep `dev` unrestricted and never delete it after a release.
-- An explicit request to release authorizes creating a PR from `dev` into `main` and enabling GitHub native auto-merge with the regular merge commit method (`gh pr merge --auto --merge`). Do not ask for separate PR approval. Commit or push local changes only when authorized by the release request or other explicit instructions.
+- An explicit release request authorizes committing and pushing the finished changes to `dev`, opening a PR into `main`, and enabling native auto-merge with regular merge commits (`gh pr merge --auto --merge`), without separate approval.
+- Once auto-merge is enabled, report the PR URL and release status once, then let GitHub validate and merge. Do not repeatedly poll GitHub Actions; investigate CI failures only when requested. Run focused local checks and affected Playwright tests; avoid repeated complete local suites when CI provides full validation.
 - `main` requires a PR and the GitHub Actions `validate` check (app ID `15368`), with zero required approving reviews. The branch must be up to date before merging. Force pushes and branch deletion are blocked, with no bypass actors. The prepared configuration is `.github/main-ruleset.json`.
 - Use merge commits, never squash or rebase merges. Keep automatic head-branch deletion disabled to preserve `dev`. If a release PR is behind `main`, merge `main` into `dev` and rerun validation; do not rewrite branch history.
 - Use native GitHub auto-merge; do not add a merging workflow. GitHub merges once required checks pass, and the existing services VM systemd timer deploys new `main` commits. Do not change the VM or timer as part of releases unless explicitly requested.

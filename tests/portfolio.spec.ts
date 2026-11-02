@@ -1397,6 +1397,13 @@ test("deck layers, fixed faces and featured foil survive repeated flights", asyn
   for (const route of ["/", "/de/"]) {
     await page.goto(route);
     const cards = page.locator(".project-deck button");
+    // Clearing card focus must not start a smooth page scroll that moves the
+    // deck away from the pointer after Playwright completes its hover action.
+    const clearCardFocus = () =>
+      page
+        .locator(".project-view-controls button")
+        .first()
+        .evaluate((button) => button.focus({ preventScroll: true }));
     // Complete onboarding without a return-scroll animation before measuring geometry.
     await page.emulateMedia({ reducedMotion: "reduce" });
     await cards.first().focus();
@@ -1421,8 +1428,9 @@ test("deck layers, fixed faces and featured foil survive repeated flights", asyn
     for (let i = 0; i < 7; i++) {
       const card = cards.nth(i);
       if (desktop) {
-        await page.locator(".project-view-controls button").first().focus();
+        await clearCardFocus();
         await card.hover({ position: { x: 12, y: 20 } });
+        await expect(card).toHaveCSS("translate", "0px -12px");
         await expect
           .poll(() =>
             card.evaluate((n) => getComputedStyle(n.parentElement!).zIndex),
@@ -1435,7 +1443,9 @@ test("deck layers, fixed faces and featured foil survive repeated flights", asyn
           )
           .toBe(String(i + 1));
       }
-      await card.focus();
+      // Focus styling is measured in place; scrolling is exercised by the
+      // keyboard activation and return journeys below.
+      await card.evaluate((button) => button.focus({ preventScroll: true }));
       await expect
         .poll(() =>
           card.evaluate((n) => getComputedStyle(n.parentElement!).zIndex),
@@ -1451,7 +1461,7 @@ test("deck layers, fixed faces and featured foil survive repeated flights", asyn
         ),
       ).toBe(true);
     }
-    await page.locator(".project-view-controls button").first().focus();
+    await clearCardFocus();
     expect(
       await page
         .locator(".project-slot")
@@ -1489,7 +1499,7 @@ test("deck layers, fixed faces and featured foil survive repeated flights", asyn
     await page.keyboard.press("Enter");
     await expect(page.locator(".tray-flight-layer")).toHaveCount(0);
     await expect(page.locator("[data-tray-flight]")).toHaveCount(0);
-    await page.locator(".project-view-controls button").first().focus();
+    await clearCardFocus();
     expect(
       await page
         .locator(".project-slot")
@@ -1775,24 +1785,34 @@ test("project footer action fills the card and supports row, touch and keyboard 
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
     await expect(trigger.locator(".disclosure-symbol")).toHaveText("+");
     await expect(trigger).toHaveCSS("outline-width", "3px");
-    await page.mouse.move(0, 0);
-    const rest = await trigger.evaluate(
-      (node) => getComputedStyle(node).backgroundColor,
-    );
-    await trigger.hover();
-    const hover = await trigger.evaluate(
-      (node) => getComputedStyle(node).backgroundColor,
-    );
-    expect(hover).not.toBe(rest);
-    await page.mouse.down();
-    expect(
-      await trigger.evaluate((node) => getComputedStyle(node).backgroundColor),
-    ).not.toBe(hover);
-    await page.mouse.up();
+    await expect(trigger).toBeFocused();
+    if (isMobile) {
+      await trigger.tap({ position });
+    } else {
+      // Mouse hover and pressed styling apply to desktop pointer interaction.
+      await page.mouse.move(0, 0);
+      const rest = await trigger.evaluate(
+        (node) => getComputedStyle(node).backgroundColor,
+      );
+      await trigger.hover();
+      const hover = await trigger.evaluate(
+        (node) => getComputedStyle(node).backgroundColor,
+      );
+      expect(hover).not.toBe(rest);
+      await page.mouse.down();
+      expect(
+        await trigger.evaluate(
+          (node) => getComputedStyle(node).backgroundColor,
+        ),
+      ).not.toBe(hover);
+      await page.mouse.up();
+    }
     await expect(trigger).toHaveAttribute("aria-expanded", "true");
     await trigger.focus();
     await trigger.press("Enter");
     await expect(trigger).toHaveAttribute("aria-expanded", "false");
+    await expect(trigger).toBeFocused();
+    await expect(trigger).toHaveCSS("outline-width", "3px");
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
