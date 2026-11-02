@@ -16,19 +16,19 @@ The development server is a local preview only. Production will serve the static
 ## Branches
 
 - `main`: stable, verified versions.
-- `dev`: ongoing development. Merge into `main` after checks pass.
+- `dev`: ongoing development. Pushes run CI validation; open a pull request into `main` for review and merge after checks pass. Production deployment from `main` remains a separate approved step; validation does not deploy.
 
 Keep commits small. Short-lived feature branches are optional when useful; no additional branching framework is required.
 
 ## Checks
 
 ```sh
-npm run lint
-npm run typecheck
-npm run build
+npm run check
 ```
 
-The build generates static files in `out/`. Browser journey tests will accompany localization and interactive features.
+`npm run check` runs ESLint and TypeScript checks. Use it during development alongside targeted browser tests. `npm run validate` runs those checks, verifies formatting, runs campaign-link unit tests, builds the static `out/` directory once, then runs the complete Playwright suite against it.
+
+GitHub Actions runs `npm run validate` with Node.js 24 and Chromium on pushes to `dev`, pull requests targeting `main`, and manual dispatch. Failed browser runs upload HTML reports and retained traces. Leave comprehensive regression validation primarily to CI; avoid repeated full-suite runs during iteration.
 
 ## Content and privacy
 
@@ -51,11 +51,13 @@ Approved English and German CV copies are in public/cv and linked for download i
 ```sh
 npx playwright install chromium
 npm run build
-npm test
+npm test -- tests/portfolio.spec.ts --project=desktop --grep "language switch"
 npm run preview
 ```
 
 The local static preview is available at `http://127.0.0.1:4173`. It is a development/testing tool, not the production server. Browser tests start and stop it automatically and check desktop/mobile language navigation, scanner interactions, keyboard navigation, reduced motion and real PDF downloads.
+
+Select the relevant test file, project (`desktop` or `mobile`) and optional `--grep` title for a focused run. Build after source changes before testing the static export. Run `npm test` for all browser tests against an existing build, or `npm run validate` for comprehensive validation including the build. Stop a manually started preview before running browser tests.
 
 `npm run format` formats source files; `npm run format:check` checks formatting. The current dependency audit reports five high-severity findings in the development lint dependency chain; `npm audit --omit=dev` reports none in production dependencies. Do not blindly apply the suggested major tooling downgrade.
 
@@ -69,7 +71,7 @@ The page order is introduction, work experience, projects, education/skills and 
 
 Project data is assembled in src/content/project-scanner.ts and displayed by src/components/project-scanner.tsx. Selecting a card moves it into the scanner using the browser Web Animations API, followed by a red scan line sweeping down and back up over 800 ms. A small progress indicator follows the scan; details appear on the animation-completion event, without an additional timer. Selecting the loaded card returns it to its original slot. A placeholder preserves the lower row layout. Keyboard controls use ordinary buttons, and reduced-motion preferences skip both movement and scanning and reveal details immediately. The mobile layout places details below the selected card. No animation package or backend is required.
 
-The scanner now contains six projects, including Mission-Life and Mission-Chess. When switching projects, the outgoing card animates back to its original slot while the incoming card moves to the scanner with a short stagger. Scanner and deck cards share the same width, height, padding and typography. The empty and loaded scanner use the same taller details-panel height.
+The scanner now contains seven projects, including Mission-Life and Mission-Chess. When switching projects, the outgoing card animates back to its original slot while the incoming card moves to the scanner with a short stagger. Scanner and deck cards share the same width, height, padding and typography. The empty and loaded scanner use the same taller details-panel height.
 
 Project cards now sit in a tray attached to the scanner. Each card includes a decorative SVG graphic drawn in src/components/project-graphic.tsx: a racing track, a code window, application panels, a cell pattern or a chessboard. These are illustrations, not application screenshots or internal architecture diagrams. Card descriptions remain in the scanner details panel, while the card faces emphasize title, graphic and technologies.
 

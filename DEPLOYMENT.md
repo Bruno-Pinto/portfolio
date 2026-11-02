@@ -22,10 +22,12 @@ Verify `docker version` and `docker compose version`; use `sudo docker` below if
 your account does not have Docker access. No local Docker installation is required
 to continue developing, but one is needed to test the container locally.
 
-Publish the reviewed code to your Git repository first: no Git remote is currently
-configured. Replace `YOUR_REPOSITORY_URL` below with its clone URL. Keep `main`
-stable and `dev` for development; merge the verified deployment changes into
-`main` and push before deploying. Never put credentials in committed files.
+The repository is `https://github.com/Bruno-Pinto/portfolio.git`; local `origin`
+is already configured. Keep `dev` for development and open a pull request into
+`main` for review. CI validates pushes to `dev`, pull requests targeting `main`
+and manual dispatch with `npm run validate`; it does not deploy or use production
+credentials. After checks pass and approval is given, merge into `main` and push
+before using the existing deployment process. Never put credentials in committed files.
 
 These instructions are manual steps only; no server has been accessed.
 Private VM and proxy addresses intentionally stay out of this public repository.
@@ -38,7 +40,7 @@ exists there, use the update procedure instead.
 ```sh
 sudo mkdir -p /opt/stacks/portfolio
 sudo chown "$USER":"$(id -gn)" /opt/stacks/portfolio
-git clone --branch main YOUR_REPOSITORY_URL /opt/stacks/portfolio
+git clone --branch main https://github.com/Bruno-Pinto/portfolio.git /opt/stacks/portfolio
 cd /opt/stacks/portfolio
 
 docker compose config --quiet
@@ -96,7 +98,9 @@ not automatically restart an otherwise running unhealthy container.
 
 ## Update
 
-Run the usual checks locally, merge reviewed changes into `main` and push.
+Run `npm run check` and targeted Playwright tests during development (see
+[README.md](README.md#browser-tests-and-preview)). Let CI run comprehensive
+validation; merge reviewed changes into `main` and push only with approval.
 Then, in a clean server checkout:
 
 ```sh
@@ -148,9 +152,8 @@ The local production build and browser tests can be checked without Docker:
 
 ```sh
 npm ci
-npm run lint
-npm run build
-npm test
+npx playwright install chromium
+npm run validate
 ```
 
 Container build/start, Nginx routing and the health check still require a
